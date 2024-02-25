@@ -25,6 +25,7 @@ void dae::Renderer::Init(SDL_Window* window)
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
+	SDL_RenderSetVSync(m_renderer, 1);
 }
 
 void dae::Renderer::Render() const
