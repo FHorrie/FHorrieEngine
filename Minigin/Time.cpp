@@ -8,10 +8,10 @@ std::chrono::steady_clock::time_point Time::PREVTIME{ std::chrono::steady_clock:
 
 void Time::UpdateTime(const std::chrono::steady_clock::time_point& time)
 {
-	const std::chrono::duration<double, std::milli> deltaNano{(time - PREVTIME)};
+	const std::chrono::duration<double, std::milli> deltaMillis{(time - PREVTIME)};
 	PREVTIME = time;
 
-	DELTATIME = deltaNano.count() / 1000.0;
+	DELTATIME = deltaMillis.count() / 1000.0;
 
 	ELAPSEDTIME += DELTATIME;
 }
