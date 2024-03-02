@@ -27,57 +27,59 @@ void GameObject::Render() const
 	}
 }
 
-//void GameObject::SetTexture(const std::string& filename)
-//{
-//	m_texture = ResourceManager::GetInstance().LoadTexture(filename);
-//}
-
 void GameObject::SetPosition(float x, float y)
 {
-	m_transform.SetPosition(x, y, 0.0f);
+	m_Transform.SetPosition(x, y, 0.0f);
 }
 
-int GameObject::AddComponent(std::shared_ptr<Component> pComponent)
+int GameObject::AddComponent(Component* pComponent)
 {
-	if (m_ComponentAmount >= INT32_MAX)
+	auto uniqueComp{ std::unique_ptr<Component>(pComponent) };
+	return AddComponent(std::move(uniqueComp));
+}
+
+int GameObject::AddComponent(std::unique_ptr<Component> pComponent)
+{
+	if (m_CurrentHash >= INT32_MAX)
 		throw MaxComponentsReachedException();
 
-	m_pComponents.emplace_back(pComponent);
-	m_ComponentAmount++;
+	m_pComponents.emplace_back(std::move(pComponent));
+	m_CurrentHash++;
 
-	return static_cast<int>(m_pComponents.size() - 1);
+	return m_CurrentHash;
 }
 
-bool GameObject::CheckComponent(std::shared_ptr<Component> pComponent)
+bool GameObject::CheckComponent(std::unique_ptr<Component> pComponent)
 {
-	if (std::ranges::find(m_pComponents, pComponent) == m_pComponents.cend())
+	return CheckComponent(pComponent->GetComponentIdx());
+}
+
+bool GameObject::CheckComponent(int idx)
+{
+	if (m_pComponents[idx] == nullptr)
 	{
 		return false;
 	}
 	return true;
 }
 
-std::shared_ptr<Component> GameObject::GetComponentWithIdx(int idx)
+const Component* GameObject::GetComponentWithIdx(int idx)
 {
-	if (idx < m_ComponentAmount)
-		return m_pComponents[idx];
-	else
+	if (!CheckComponent(idx))
 		throw ComponentIdxOutOfRangeException();
+	
+	return m_pComponents[idx].get();
 }
 
 void GameObject::ClearComponentWithIdx(int idx)
 {
-	if (idx >= m_ComponentAmount)
+	if (!CheckComponent(idx))
 		throw ComponentIdxOutOfRangeException();
 
-	const auto componentIt{ m_pComponents.begin() + idx };
-
-	m_pComponents.erase(componentIt);
-	m_ComponentAmount--;
+	m_pComponents.erase(m_pComponents.begin() + idx);
 }
 
 void GameObject::ClearAllComponents()
 {
 	m_pComponents.clear();
-	m_ComponentAmount = 0;
 }

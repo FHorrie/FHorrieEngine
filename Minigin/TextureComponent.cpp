@@ -4,7 +4,13 @@
 
 using namespace dae;
 
-TextureComponent::TextureComponent(const std::string& filename)
+
+TextureComponent::TextureComponent(std::shared_ptr<GameObject> pOwner)
+	: Component(pOwner)
+{}
+
+TextureComponent::TextureComponent(std::shared_ptr<GameObject> pOwner, const std::string& filename)
+	: Component(pOwner)
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
 }

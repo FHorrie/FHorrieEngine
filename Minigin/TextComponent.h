@@ -9,22 +9,18 @@ namespace dae
 {
 	class Font;
 	class Texture2D;
-	class TextComponent : public Component
+	class TextComponent final : public Component
 	{
 	public:
-		virtual void Update() override;
+		void Update() override;
 		void Render() const override;
 
-		void SetText(const std::string& text) 
-		{ 
-			m_Text = text;
-			m_NeedsUpdate = true;
-		}
+		void SetText(const std::string& text);
 		void SetColor(const SDL_Color& color) { m_Color = color; }
 		void SetPosition(float x, float y) { m_Transform.SetPosition(x, y, 0.f); }
 
-		TextComponent(const std::string& text, std::shared_ptr<Font> font, float left = 0.f, float top = 0.f);
-		virtual ~TextComponent() = default;
+		TextComponent(std::shared_ptr<GameObject> pOwner, const std::string& text, float left = 0.f, float top = 0.f);
+		~TextComponent() = default;
 		TextComponent(const TextComponent& other) = delete;
 		TextComponent(TextComponent&& other) = delete;
 		TextComponent& operator=(const TextComponent& other) = delete;

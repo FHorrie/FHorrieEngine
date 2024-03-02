@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include "ResourceManager.h"
 #include "TextComponent.h"
 #include "Renderer.h"
 #include "Font.h"
@@ -6,13 +7,23 @@
 
 using namespace dae;
 
-TextComponent::TextComponent(const std::string& text, std::shared_ptr<Font> font, float left, float top)
-	: m_Text{ text }
+TextComponent::TextComponent(std::shared_ptr<GameObject> pOwner, const std::string& text, float left, float top)
+	: Component(pOwner)
+	, m_Text{ text }
 	, m_Color{ 255,255,255,255 }
-	, m_Font{ std::move(font) }
+	, m_Font{ ResourceManager::GetInstance().LoadFont("Lingua.otf", 28) }
 	, m_TextTexture{ nullptr }
 {
 	m_Transform.SetPosition(left, top, 0.f); //z = 0 for now, 2D view 
+}
+
+void TextComponent::SetText(const std::string& text)
+{
+	if (m_Text != text)
+	{
+		m_Text = text;
+		m_NeedsUpdate = true;
+	}
 }
 
 void TextComponent::Update()

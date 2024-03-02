@@ -8,20 +8,19 @@ namespace dae
 {
 	class Texture2D;
 	class Component;
-
-	// todo: this should become final.
 	class GameObject final
 	{
 	public:
 		void Update();
 		void Render() const;
 
-		//void SetTexture(const std::string& filename);
 		void SetPosition(float x, float y);
 
-		int AddComponent(std::shared_ptr<Component> pComponent);
-		bool CheckComponent(std::shared_ptr<Component> pComponent);
-		std::shared_ptr<Component> GetComponentWithIdx(int idx);
+		int AddComponent(Component* pComponent);
+		int AddComponent(std::unique_ptr<Component> pComponent);
+		bool CheckComponent(std::unique_ptr<Component> pComponent);
+		bool CheckComponent(int idx);
+		const Component* GetComponentWithIdx(int idx);
 		void ClearComponentWithIdx(int idx);
 		void ClearAllComponents();
 
@@ -33,10 +32,10 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
-		Transform m_transform{};
+		Transform m_Transform{};
 
-		std::vector<std::shared_ptr<Component>> m_pComponents;
-		int m_ComponentAmount;
+		std::vector<std::unique_ptr<Component>> m_pComponents;
+		int m_CurrentHash{};
 	};
 }
 

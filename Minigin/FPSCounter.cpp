@@ -9,42 +9,31 @@
 
 using namespace dae;
 
-FPSCounter::FPSCounter(std::shared_ptr<Font> font, float left, float top)
-	: TextComponent("FPS: 0", font, left, top)
-{}
+FPSCounter::FPSCounter(std::shared_ptr<GameObject> pOwner)
+	: Component(pOwner)
+{
+	m_pTextComponent = std::make_unique<dae::TextComponent>(pOwner, "FPS:", 10.f, 10.f);
+}
 
 void FPSCounter::Update()
 {
-	m_FPSStored[m_FPSCount] = (1.f / (float)Time::GetDeltaTime());
-	++m_FPSCount;
+	if (m_pTextComponent == nullptr)
+		return;
 
-	if (m_FPSCount == FPSBUFFER)
+	++m_FrameCalls;
+	m_AccuTime += Time::GetDeltaTime();
+
+	if (m_AccuTime >= MAXTIME)
 	{
-		float average{ std::reduce(m_FPSStored.cbegin(), m_FPSStored.cend()) / FPSBUFFER };
-
+		//TODO: change to std::format
 		std::stringstream stream;
 
-		stream << std::fixed << std::setprecision(FLOATINGPOINTACURRACY) << average;
+		stream << std::fixed << std::setprecision(FLOATINGPOINTACURRACY) << float(m_FrameCalls / m_AccuTime);
 
-		m_Text = "FPS: " + stream.str();
-		m_FPSCount = 0;
-		m_NeedsUpdate = true;
-	}
+		const std::string finalText = "FPS: " + stream.str();
+		m_AccuTime = 0;
+		m_FrameCalls = 0;
 
-	if (m_NeedsUpdate)
-	{
-		const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), m_Color);
-		if (surf == nullptr)
-		{
-			throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
-		}
-		auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
-		if (texture == nullptr)
-		{
-			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
-		}
-		SDL_FreeSurface(surf);
-		m_TextTexture = std::make_shared<Texture2D>(texture);
-		m_NeedsUpdate = false;
+		m_pTextComponent->SetText(finalText);
 	}
 }

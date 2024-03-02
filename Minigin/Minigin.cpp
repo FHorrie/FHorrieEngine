@@ -89,9 +89,10 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	bool doContinue = true;
 	while (doContinue)
 	{
+		Time::UpdateTime(std::chrono::steady_clock::now());
+
 		doContinue = input.ProcessInput();
 		sceneManager.Update();
 		renderer.Render();
-		Time::UpdateTime(std::chrono::steady_clock::now());
 	}
 }
