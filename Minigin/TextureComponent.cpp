@@ -4,7 +4,6 @@
 
 using namespace dae;
 
-
 TextureComponent::TextureComponent(std::shared_ptr<GameObject> pOwner)
 	: Component(pOwner)
 {}
@@ -13,6 +12,13 @@ TextureComponent::TextureComponent(std::shared_ptr<GameObject> pOwner, const std
 	: Component(pOwner)
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
+}
+
+TextureComponent::TextureComponent(std::shared_ptr<GameObject> pOwner, const std::string& filename, float x, float y)
+	: Component(pOwner)
+{
+	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
+	m_Transform.SetPosition(x, y, 0.f);
 }
 
 void TextureComponent::Update() {}

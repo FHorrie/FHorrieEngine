@@ -12,7 +12,8 @@ using namespace dae;
 FPSCounter::FPSCounter(std::shared_ptr<GameObject> pOwner)
 	: Component(pOwner)
 {
-	m_pTextComponent = std::make_unique<dae::TextComponent>(pOwner, "FPS:", 10.f, 10.f);
+	int idx = pOwner->AddComponent(std::make_unique<dae::TextComponent>(pOwner, "FPS:", 10.f, 10.f));
+	m_pTextComponent = dynamic_cast<TextComponent*>(pOwner->GetComponentWithIdx(idx));
 }
 
 void FPSCounter::Update()

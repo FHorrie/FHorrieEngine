@@ -44,9 +44,8 @@ int GameObject::AddComponent(std::unique_ptr<Component> pComponent)
 		throw MaxComponentsReachedException();
 
 	m_pComponents.emplace_back(std::move(pComponent));
-	m_CurrentHash++;
 
-	return m_CurrentHash;
+	return m_CurrentHash++;
 }
 
 bool GameObject::CheckComponent(std::unique_ptr<Component> pComponent)
@@ -63,7 +62,7 @@ bool GameObject::CheckComponent(int idx)
 	return true;
 }
 
-const Component* GameObject::GetComponentWithIdx(int idx)
+Component* GameObject::GetComponentWithIdx(int idx)
 {
 	if (!CheckComponent(idx))
 		throw ComponentIdxOutOfRangeException();

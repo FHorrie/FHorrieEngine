@@ -20,7 +20,7 @@ namespace dae
 		int AddComponent(std::unique_ptr<Component> pComponent);
 		bool CheckComponent(std::unique_ptr<Component> pComponent);
 		bool CheckComponent(int idx);
-		const Component* GetComponentWithIdx(int idx);
+		Component* GetComponentWithIdx(int idx);
 		void ClearComponentWithIdx(int idx);
 		void ClearAllComponents();
 
