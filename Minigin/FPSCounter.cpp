@@ -13,6 +13,9 @@ FPSCounter::FPSCounter(std::shared_ptr<GameObject> pOwner)
 	: Component(pOwner)
 {
 	int idx = pOwner->AddComponent(std::make_unique<dae::TextComponent>(pOwner, "FPS:", 10.f, 10.f));
+
+	//Keep raw ptr to instruct text, this is safe (for now)
+	//We delete both this and the text comp when the object is destroyed
 	m_pTextComponent = dynamic_cast<TextComponent*>(pOwner->GetComponentWithIdx(idx));
 }
 

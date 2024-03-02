@@ -22,7 +22,7 @@ namespace dae
 		int GetComponentIdx() const { return m_ComponentIdx; }
 	protected:
 
-		//std::weak_ptr<GameObject> GetOwner() const { return m_pOwner; }
+		std::weak_ptr<GameObject> GetOwner() const { return m_pOwner; }
 		std::weak_ptr<GameObject> m_pOwner;
 		int m_ComponentIdx{};
 
