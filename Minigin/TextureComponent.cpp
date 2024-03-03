@@ -18,14 +18,14 @@ TextureComponent::TextureComponent(std::shared_ptr<GameObject> pOwner, const std
 	: Component(pOwner)
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
-	m_Transform.SetPosition(x, y, 0.f);
+	m_LocalTransform.SetPosition(x, y, 0.f);
 }
 
 void TextureComponent::Update() {}
 
 void TextureComponent::Render() const
 {
-	const auto& pos = m_Transform.GetPosition();
+	const auto& pos = (m_LocalTransform.GetPosition() + GetParentTransform().GetPosition());
 	Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
 }
 
@@ -36,5 +36,5 @@ void TextureComponent::SetTexture(const std::string& filename)
 
 void TextureComponent::SetPosition(float x, float y)
 {
-	m_Transform.SetPosition(x, y, 0.0f);
+	m_LocalTransform.SetPosition(x, y, 0.0f);
 }

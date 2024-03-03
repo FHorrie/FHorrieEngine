@@ -24,7 +24,7 @@ namespace dae
 		TextureComponent& operator=(TextureComponent&& other) = delete;
 
 	private:
-		Transform m_Transform{};
+		Transform m_LocalTransform{};
 		std::shared_ptr<Texture2D> m_Texture{ nullptr };
 	};
 }

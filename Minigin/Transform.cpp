@@ -1,8 +1,20 @@
 #include "Transform.h"
 
-void dae::Transform::SetPosition(const float x, const float y, const float z)
+using namespace dae;
+
+void Transform::SetPosition(float x, float y, float z)
 {
-	m_position.x = x;
-	m_position.y = y;
-	m_position.z = z;
+	SetPosition(glm::vec3(x, y, z));
+}
+
+void Transform::SetPosition(glm::vec3 pos)
+{
+	m_position = pos;
+}
+
+Transform dae::Transform::operator+(const Transform& lhs)
+{
+	Transform transform{};
+	transform.m_position = m_position + lhs.m_position;
+	return transform;
 }

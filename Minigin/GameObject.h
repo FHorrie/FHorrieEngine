@@ -14,8 +14,10 @@ namespace dae
 		void Update();
 		void Render() const;
 
-		void UpdatePosition();
-		void SetLocalPosition(float x, float y);
+		void SetLocalPosition(glm::vec3 pos);
+		void UpdateTransform();
+		Transform GetTransform() const { return m_Transform; }
+		Transform GetWorldTransform();
 
 		int AddComponent(Component* pComponent);
 		int AddComponent(std::unique_ptr<Component> pComponent);
@@ -30,6 +32,8 @@ namespace dae
 
 		GameObject* GetParent() const { return m_pParent; }
 		int GetChildIdx() const { return m_ChildIdx; }
+
+		void SetTransformDirty() { m_IsTransformDirty = true; }
 
 		void AddChild(std::shared_ptr<GameObject> pObject);
 		bool CheckChild(std::shared_ptr<GameObject> pObject);
@@ -48,13 +52,14 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
-		void SetParent(GameObject* newParent) { m_pParent = newParent; }
+		void SetParent(GameObject* pNewParent);
 		void SetChildIdx(int newIdx) { m_ChildIdx = newIdx; }
 		
-		Transform m_LocalTransform{};
+		Transform m_Transform{};
+		Transform m_ParentTransform{};
+		bool m_IsTransformDirty{};
 
 		Transform m_WorldTransform{};
-		bool m_IsTransformDirty{};
 
 		GameObject* m_pParent{};
 		int m_ChildIdx{ -1 }; //init with -1 because we have no parent object

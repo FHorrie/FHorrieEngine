@@ -10,6 +10,8 @@ using namespace dae;
 
 void GameObject::Update()
 {
+	UpdateTransform();
+
 	for (auto& pComp : m_pComponents)
 	{
 		pComp->Update();
@@ -24,9 +26,34 @@ void GameObject::Render() const
 	}
 }
 
-void GameObject::SetLocalPosition(float x, float y)
+void GameObject::SetLocalPosition(glm::vec3 pos)
 {
-	m_LocalTransform.SetPosition(x, y, 0.0f);
+	m_Transform.SetPosition(pos);
+	m_IsTransformDirty = true;
+
+	for (auto& child : m_pChildren)
+		child->SetTransformDirty();
+}
+
+void GameObject::UpdateTransform()
+{
+	if (m_IsTransformDirty)
+	{
+		if (m_pParent == nullptr)
+			m_ParentTransform = Transform();
+		else
+			m_ParentTransform = m_pParent->GetWorldTransform();
+		m_WorldTransform = m_ParentTransform + m_Transform;
+
+		for (auto& comp : m_pComponents)
+			comp->SetParentTransform(m_WorldTransform);
+	}
+	m_IsTransformDirty = false;
+}
+
+Transform GameObject::GetWorldTransform()
+{
+	return m_WorldTransform;
 }
 
 #pragma region gameObjectComponentFunctions
@@ -90,7 +117,7 @@ void GameObject::ClearAllComponents()
 
 #pragma endregion
 
-#pragma region gameObjectChildFunctions
+#pragma region gameObjectSceneGraphFunctions
 
 void GameObject::AddChild(std::shared_ptr<GameObject> pObject)
 {
@@ -166,6 +193,25 @@ void GameObject::ClearAllChildren()
 		child->SetChildIdx(-1);
 	}
 	m_pChildren.clear();
+}
+
+void GameObject::SetParent(GameObject* pNewParent)
+{
+	if (pNewParent == this)
+	{
+		std::cerr << "\n-- WARNING--\nParent is not valid\n---------------\n";
+		return;
+	}
+
+	if (pNewParent == nullptr)
+	{
+		m_pParent = pNewParent;
+		return;
+	}
+
+	m_pParent = pNewParent;
+	//pNewParent->AddChild(std::shared_ptr<GameObject>(this));
+	m_IsTransformDirty = true;
 }
 
 #pragma endregion

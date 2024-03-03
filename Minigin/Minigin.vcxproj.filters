@@ -63,6 +63,12 @@
     <ClInclude Include="FPSCounter.h">
       <Filter>Game Files</Filter>
     </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RotationComponent.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -111,6 +117,12 @@
       <Filter>Game Files</Filter>
     </ClCompile>
     <ClCompile Include="FPSCounter.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RotationComponent.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
   </ItemGroup>
