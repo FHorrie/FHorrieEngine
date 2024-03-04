@@ -16,7 +16,7 @@ namespace dae
 
 		void SetLocalPosition(glm::vec3 pos);
 		void UpdateTransform();
-		Transform GetTransform() const { return m_Transform; }
+		Transform GetTransform() const { return m_LocalTransform; }
 		Transform GetWorldTransform();
 
 		int AddComponent(Component* pComponent);
@@ -55,7 +55,7 @@ namespace dae
 		void SetParent(GameObject* pNewParent);
 		void SetChildIdx(int newIdx) { m_ChildIdx = newIdx; }
 		
-		Transform m_Transform{};
+		Transform m_LocalTransform{};
 		Transform m_ParentTransform{};
 		bool m_IsTransformDirty{};
 

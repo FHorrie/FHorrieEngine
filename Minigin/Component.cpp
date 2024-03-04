@@ -24,3 +24,8 @@ void Component::AttachToNewObject(std::shared_ptr<GameObject> gameObject)
 	
 	m_ComponentIdx = gameObject->AddComponent(this);
 }
+
+Transform Component::GetParentTransform() const 
+{ 
+	return m_pOwner.lock()->GetWorldTransform();
+}

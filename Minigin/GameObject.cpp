@@ -10,8 +10,6 @@ using namespace dae;
 
 void GameObject::Update()
 {
-	UpdateTransform();
-
 	for (auto& pComp : m_pComponents)
 	{
 		pComp->Update();
@@ -28,7 +26,7 @@ void GameObject::Render() const
 
 void GameObject::SetLocalPosition(glm::vec3 pos)
 {
-	m_Transform.SetPosition(pos);
+	m_LocalTransform.SetPosition(pos);
 	m_IsTransformDirty = true;
 
 	for (auto& child : m_pChildren)
@@ -43,16 +41,17 @@ void GameObject::UpdateTransform()
 			m_ParentTransform = Transform();
 		else
 			m_ParentTransform = m_pParent->GetWorldTransform();
-		m_WorldTransform = m_ParentTransform + m_Transform;
 
-		for (auto& comp : m_pComponents)
-			comp->SetParentTransform(m_WorldTransform);
+		m_WorldTransform = m_ParentTransform + m_LocalTransform;
+
+		m_IsTransformDirty = false;
 	}
-	m_IsTransformDirty = false;
 }
 
 Transform GameObject::GetWorldTransform()
 {
+	if (m_IsTransformDirty)
+		UpdateTransform();
 	return m_WorldTransform;
 }
 
@@ -119,7 +118,7 @@ void GameObject::ClearAllComponents()
 
 #pragma region gameObjectSceneGraphFunctions
 
-void GameObject::AddChild(std::shared_ptr<GameObject> pObject)
+void GameObject::AddChild(std::shared_ptr<GameObject> pObject) //This is the main attach function (scenegraphs)
 {
 	if (pObject->GetChildIdx() != -1)
 	{
@@ -146,9 +145,7 @@ bool GameObject::CheckChild(std::shared_ptr<GameObject> pObject)
 
 bool GameObject::CheckChild(int idx)
 {
-	if (int(m_pChildren.size()) < idx)
-		return false;
-	if (m_pChildren[idx] == nullptr)
+	if (int(m_pChildren.size()) < idx || m_pChildren[idx] == nullptr)
 		return false;
 	return true;
 }
@@ -171,6 +168,8 @@ void GameObject::ClearChild(std::shared_ptr<GameObject> pObject)
 	pObject->SetParent(nullptr);
 	pObject->SetChildIdx(-1);
 
+	pObject->SetTransformDirty();
+
 	m_pChildren.erase(childIt);
 }
 
@@ -182,6 +181,8 @@ void GameObject::ClearChildWithIdx(int idx)
 	m_pChildren[idx]->SetParent(nullptr);
 	m_pChildren[idx]->SetChildIdx(-1);
 
+	m_pChildren[idx]->SetTransformDirty();
+
 	m_pChildren.erase(m_pChildren.begin() + idx);
 }
 
@@ -191,11 +192,12 @@ void GameObject::ClearAllChildren()
 	{
 		child->SetParent(nullptr);
 		child->SetChildIdx(-1);
+		child->SetTransformDirty();
 	}
 	m_pChildren.clear();
 }
 
-void GameObject::SetParent(GameObject* pNewParent)
+void GameObject::SetParent(GameObject* pNewParent) //This is a private method, AddChild is the main method
 {
 	if (pNewParent == this)
 	{

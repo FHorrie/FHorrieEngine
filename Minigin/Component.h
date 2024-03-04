@@ -13,9 +13,6 @@ namespace dae
 		void AttachToNewObject(std::shared_ptr<GameObject>);
 		int GetComponentIdx() const { return m_ComponentIdx; }
 
-		void SetParentTransform(const Transform& parentTransform) 
-		{ m_ParentTransform = parentTransform; }
-
 		Component(std::shared_ptr<GameObject> pOwner);
 		virtual ~Component() = default;
 		Component(const Component& other) = delete;
@@ -25,11 +22,9 @@ namespace dae
 
 	protected:
 		std::weak_ptr<GameObject> GetOwner() const { return m_pOwner; }
-		Transform GetParentTransform() const { return m_ParentTransform; }
+		Transform GetParentTransform() const;
 
 	private:
-		Transform m_ParentTransform{};
-
 		std::weak_ptr<GameObject> m_pOwner;
 		int m_ComponentIdx{};
 	};
