@@ -4,17 +4,17 @@
 
 using namespace dae;
 
-TextureComponent::TextureComponent(std::shared_ptr<GameObject> pOwner)
+TextureComponent::TextureComponent(GameObject* pOwner)
 	: Component(pOwner)
 {}
 
-TextureComponent::TextureComponent(std::shared_ptr<GameObject> pOwner, const std::string& filename)
+TextureComponent::TextureComponent(GameObject* pOwner, const std::string& filename)
 	: Component(pOwner)
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
 }
 
-TextureComponent::TextureComponent(std::shared_ptr<GameObject> pOwner, const std::string& filename, float x, float y)
+TextureComponent::TextureComponent(GameObject* pOwner, const std::string& filename, float x, float y)
 	: Component(pOwner)
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);

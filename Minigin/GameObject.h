@@ -2,12 +2,13 @@
 #include <memory>
 #include <vector>
 #include <string>
-#include "Transform.h"
 
+#include "Transform.h"
+ 
 namespace dae
 {
-	class Texture2D;
 	class Component;
+	class Texture2D;
 	class GameObject final
 	{
 	public:
@@ -35,11 +36,11 @@ namespace dae
 
 		void SetTransformDirty() { m_IsTransformDirty = true; }
 
-		void AddChild(std::shared_ptr<GameObject> pObject);
-		bool CheckChild(std::shared_ptr<GameObject> pObject);
+		void AddChild(GameObject* pObject);
+		bool CheckChild(GameObject* pObject);
 		bool CheckChild(int idx);
 		GameObject* GetChildWithIdx(int idx);
-		void ClearChild(std::shared_ptr<GameObject> pObject);
+		void ClearChild(GameObject* pObject);
 		void ClearChildWithIdx(int idx);
 		void ClearAllChildren();
 
@@ -64,9 +65,9 @@ namespace dae
 		GameObject* m_pParent{};
 		int m_ChildIdx{ -1 }; //init with -1 because we have no parent object
 
-		std::vector<std::shared_ptr<GameObject>> m_pChildren{};
+		std::vector<GameObject*> m_pChildren{};
 
-		std::vector<std::unique_ptr<Component>> m_pComponents;
+		std::vector<std::unique_ptr<Component>> m_pComponents{};
 	};
 }
 

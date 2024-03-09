@@ -19,7 +19,7 @@ namespace dae
 		void SetColor(const SDL_Color& color) { m_Color = color; }
 		void SetPosition(float x, float y) { m_Transform.SetPosition(x, y, 0.f); }
 
-		TextComponent(std::shared_ptr<GameObject> pOwner, const std::string& text, float left = 0.f, float top = 0.f);
+		TextComponent(GameObject* pOwner, const std::string& text, float left = 0.f, float top = 0.f);
 		~TextComponent() = default;
 		TextComponent(const TextComponent& other) = delete;
 		TextComponent(TextComponent&& other) = delete;
@@ -33,7 +33,7 @@ namespace dae
 		SDL_Color m_Color;
 		Transform m_Transform{};
 		std::shared_ptr<Font> m_Font;
-		std::shared_ptr<Texture2D> m_TextTexture;
+		std::unique_ptr<Texture2D> m_TextTexture;
 	};
 }
 

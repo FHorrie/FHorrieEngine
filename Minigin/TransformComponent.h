@@ -11,8 +11,8 @@ namespace dae
 
 		void SetPosValsToIncrease(glm::vec3 posToInc) { m_PosValsToIncrease = posToInc; }
 
-		TransformComponent(std::shared_ptr<GameObject> pOwner);
-		TransformComponent(std::shared_ptr<GameObject> pOwner, glm::vec3 posToInc);
+		TransformComponent(GameObject* pOwner);
+		TransformComponent(GameObject* pOwner, glm::vec3 posToInc);
 		virtual ~TransformComponent() = default;
 		TransformComponent(const TransformComponent& other) = delete;
 		TransformComponent(TransformComponent&& other) = default;

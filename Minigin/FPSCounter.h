@@ -11,7 +11,7 @@ namespace dae
 		void Update() override;
 		void Render() const override {};
 
-		FPSCounter(std::shared_ptr<GameObject> pOwner);
+		FPSCounter(GameObject* pOwner);
 		virtual ~FPSCounter() = default;
 		FPSCounter(const FPSCounter& other) = delete;
 		FPSCounter(FPSCounter&& other) = delete;

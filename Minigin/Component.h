@@ -10,10 +10,10 @@ namespace dae
 		virtual void Update() = 0;
 		virtual void Render() const = 0;
 		
-		void AttachToNewObject(std::shared_ptr<GameObject>);
+		void AttachToNewObject(GameObject* gameObject);
 		int GetComponentIdx() const { return m_ComponentIdx; }
 
-		Component(std::shared_ptr<GameObject> pOwner);
+		Component(GameObject* pOwner);
 		virtual ~Component() = default;
 		Component(const Component& other) = delete;
 		Component(Component&& other) = default;
@@ -21,11 +21,11 @@ namespace dae
 		Component& operator=(Component&& other) = default;
 
 	protected:
-		std::weak_ptr<GameObject> GetOwner() const { return m_pOwner; }
+		GameObject* GetOwner() const { return m_pOwner; }
 		Transform GetParentTransform() const;
 
 	private:
-		std::weak_ptr<GameObject> m_pOwner;
+		GameObject* m_pOwner;
 		int m_ComponentIdx{};
 	};
 }

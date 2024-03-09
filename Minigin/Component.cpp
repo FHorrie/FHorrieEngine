@@ -3,11 +3,11 @@
 
 using namespace dae;
 
-Component::Component(std::shared_ptr<GameObject> pOwner)
+Component::Component(GameObject* pOwner)
 	: m_pOwner{ pOwner }
 {}
 
-void Component::AttachToNewObject(std::shared_ptr<GameObject> gameObject)
+void Component::AttachToNewObject(GameObject* gameObject)
 {
 	if (gameObject == nullptr) 
 	{
@@ -15,11 +15,9 @@ void Component::AttachToNewObject(std::shared_ptr<GameObject> gameObject)
 		return;
 	}
 	
-	auto owner = m_pOwner.lock();
-	
-	if (owner != nullptr)
+	if (m_pOwner != nullptr)
 	{
-		owner->ClearComponentWithIdx(m_ComponentIdx);
+		m_pOwner->ClearComponentWithIdx(m_ComponentIdx);
 	}
 	
 	m_ComponentIdx = gameObject->AddComponent(this);
@@ -27,5 +25,5 @@ void Component::AttachToNewObject(std::shared_ptr<GameObject> gameObject)
 
 Transform Component::GetParentTransform() const 
 { 
-	return m_pOwner.lock()->GetWorldTransform();
+	return m_pOwner->GetWorldTransform();
 }

@@ -1,4 +1,12 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <stdexcept>
+#include <imgui.h>
+#include <imgui_plot.h>
+#include "backends/imgui_impl_opengl3.h"
+#include "backends/imgui_impl_opengl3.cpp"
+#include "backends/imgui_impl_sdl2.h"
+#include "backends/imgui_impl_sdl2.cpp"
 #include "Renderer.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
@@ -26,6 +34,8 @@ void dae::Renderer::Init(SDL_Window* window)
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
 	SDL_RenderSetVSync(m_renderer, 1);
+
+	ImGuiSetup(window);
 }
 
 void dae::Renderer::Render() const
@@ -33,14 +43,17 @@ void dae::Renderer::Render() const
 	const auto& color = GetBackgroundColor();
 	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderClear(m_renderer);
-
 	SceneManager::GetInstance().Render();
-	
+
+	ImGuiRender();
+
 	SDL_RenderPresent(m_renderer);
 }
 
 void dae::Renderer::Destroy()
 {
+	ImGuiDelete();
+
 	if (m_renderer != nullptr)
 	{
 		SDL_DestroyRenderer(m_renderer);
@@ -67,4 +80,57 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-SDL_Renderer* dae::Renderer::GetSDLRenderer() const { return m_renderer; }
+void dae::Renderer::ImGuiSetup(SDL_Window* window)
+{
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGui_ImplSDL2_InitForOpenGL(window, SDL_GL_GetCurrentContext());
+	ImGui_ImplOpenGL3_Init();
+}
+
+void dae::Renderer::ImGuiRender() const
+{
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
+	//ImGui::ShowDemoWindow();
+	ShowTrashCacheWindow();
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void dae::Renderer::ImGuiDelete()
+{
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
+}
+
+void dae::Renderer::ShowTrashCacheWindow(bool* p_open) const
+{
+	IM_ASSERT(ImGui::GetCurrentContext() != NULL && "Missing Dear ImGui context. Refer to examples app!");
+	
+	ImGuiWindowFlags window_flags{};
+
+	const ImGuiViewport* main_viewport{ ImGui::GetMainViewport() };
+	ImGui::SetNextWindowPos(ImVec2(main_viewport->WorkPos.x + 20, main_viewport->WorkPos.y + 20), ImGuiCond_FirstUseEver);
+	ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
+
+	if (!ImGui::Begin("Trash the Cache", p_open, window_flags))
+	{
+		// Early out if the window is collapsed, as an optimization.
+		ImGui::End();
+		return;
+	}
+
+	ImGui::PushItemWidth(ImGui::GetFontSize() * -12);
+
+	static int sampleCount = 100;
+	ImGui::InputInt("nr of samples", &sampleCount);
+	ImGui::Spacing();
+	ImGui::Button("Trash the cache with GameObject3D");
+	ImGui::Button("Trash the cache with GameObject3DAlt");
+
+	ImGui::PopItemWidth();
+	ImGui::End();
+}

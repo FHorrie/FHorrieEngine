@@ -3,14 +3,14 @@
 
 using namespace dae;
 
-TransformComponent::TransformComponent(std::shared_ptr<GameObject> pOwner)
+TransformComponent::TransformComponent(GameObject* pOwner)
 	: Component(pOwner)
 	, m_PosValsToIncrease{}
 {
 	m_OwnerPos = pOwner->GetTransform().GetPosition();
 }
 
-TransformComponent::TransformComponent(std::shared_ptr<GameObject> pOwner, glm::vec3 posToInc)
+TransformComponent::TransformComponent(GameObject* pOwner, glm::vec3 posToInc)
 	: Component(pOwner)
 	, m_PosValsToIncrease{ posToInc }
 {
@@ -27,5 +27,5 @@ void TransformComponent::Update()
 
 	m_OwnerPos = pos;
 
-	GetOwner().lock()->SetLocalPosition(pos);
+	GetOwner()->SetLocalPosition(pos);
 }

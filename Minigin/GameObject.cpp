@@ -118,7 +118,7 @@ void GameObject::ClearAllComponents()
 
 #pragma region gameObjectSceneGraphFunctions
 
-void GameObject::AddChild(std::shared_ptr<GameObject> pObject) //This is the main attach function (scenegraphs)
+void GameObject::AddChild(GameObject* pObject) //This is the main attach function (scenegraphs)
 {
 	if (pObject->GetChildIdx() != -1)
 	{
@@ -136,7 +136,7 @@ void GameObject::AddChild(std::shared_ptr<GameObject> pObject) //This is the mai
 	pObject->SetChildIdx(currentChildIdx);
 }
 
-bool GameObject::CheckChild(std::shared_ptr<GameObject> pObject)
+bool GameObject::CheckChild(GameObject* pObject)
 {
 	if (std::ranges::find(m_pChildren, pObject) != m_pChildren.cend())
 		return CheckChild(pObject->GetChildIdx());
@@ -155,10 +155,10 @@ GameObject* GameObject::GetChildWithIdx(int idx)
 	if (!CheckChild(idx))
 		throw ChildOutOfRangeException();
 
-	return m_pChildren[idx].get();
+	return m_pChildren[idx];
 }
 
-void GameObject::ClearChild(std::shared_ptr<GameObject> pObject)
+void GameObject::ClearChild(GameObject* pObject)
 {
 	const auto childIt = std::ranges::find(m_pChildren, pObject);
 
@@ -212,7 +212,7 @@ void GameObject::SetParent(GameObject* pNewParent) //This is a private method, A
 	}
 
 	m_pParent = pNewParent;
-	//pNewParent->AddChild(std::shared_ptr<GameObject>(this));
+	//pNewParent->AddChild(this);
 	m_IsTransformDirty = true;
 }
 

@@ -7,7 +7,7 @@
 
 using namespace dae;
 
-TextComponent::TextComponent(std::shared_ptr<GameObject> pOwner, const std::string& text, float left, float top)
+TextComponent::TextComponent(GameObject* pOwner, const std::string& text, float left, float top)
 	: Component(pOwner)
 	, m_Text{ text }
 	, m_Color{ 255,255,255,255 }
@@ -41,7 +41,7 @@ void TextComponent::Update()
 			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 		}
 		SDL_FreeSurface(surf);
-		m_TextTexture = std::make_shared<Texture2D>(texture);
+		m_TextTexture = std::make_unique<Texture2D>(texture);
 		m_NeedsUpdate = false;
 	}
 }
@@ -50,7 +50,7 @@ void TextComponent::Render() const
 {
 	if (m_TextTexture != nullptr && m_IsVisible == true)
 	{
-		const auto& pos = m_Transform.GetPosition();
+		const auto& pos = m_Transform.GetPosition() + GetParentTransform().GetPosition();
 		Renderer::GetInstance().RenderTexture(*m_TextTexture, pos.x, pos.y);
 	}
 }
