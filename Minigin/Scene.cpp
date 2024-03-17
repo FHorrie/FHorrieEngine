@@ -42,3 +42,10 @@ void Scene::Render() const
 	}
 }
 
+void Scene::RenderUI()
+{
+	for (const auto& object : m_pObjects)
+	{
+		object->RenderUI();
+	}
+}

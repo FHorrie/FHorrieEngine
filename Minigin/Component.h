@@ -7,8 +7,9 @@ namespace dae
 	class Component
 	{
 	public:
-		virtual void Update() = 0;
-		virtual void Render() const = 0;
+		virtual void Update() {};
+		virtual void Render() const {};
+		virtual void RenderUI() {};
 		
 		void AttachToNewObject(GameObject* gameObject);
 		int GetComponentIdx() const { return m_ComponentIdx; }

@@ -16,6 +16,9 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{d95f9fe2-5e5f-4234-8bac-9f0799622429}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\Input">
+      <UniqueIdentifier>{7f7013d8-d2be-4f19-bdba-aa8a8cc7b096}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.h">
@@ -25,9 +28,6 @@
       <Filter>Game Files</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Game Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
       <Filter>Game Files</Filter>
     </ClInclude>
     <ClInclude Include="Minigin.h">
@@ -93,6 +93,30 @@
     <ClInclude Include="..\3rdParty\imgui\imgui_plot.h">
       <Filter>imgui</Filter>
     </ClInclude>
+    <ClInclude Include="CacheTestComponent.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Game Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Game Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Action.h">
+      <Filter>Game Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>Game Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="InputMapping.h">
+      <Filter>Game Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseInputDevice.h">
+      <Filter>Game Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="XController.h">
+      <Filter>Game Files\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -102,12 +126,6 @@
       <Filter>Game Files</Filter>
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
@@ -166,6 +184,27 @@
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui\imgui_plot.cpp">
       <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="CacheTestComponent.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Game Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Game Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>Game Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="InputMapping.cpp">
+      <Filter>Game Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="XController.cpp">
+      <Filter>Game Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Game Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

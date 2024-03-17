@@ -21,8 +21,6 @@ TextureComponent::TextureComponent(GameObject* pOwner, const std::string& filena
 	m_LocalTransform.SetPosition(x, y, 0.f);
 }
 
-void TextureComponent::Update() {}
-
 void TextureComponent::Render() const
 {
 	const auto& pos = (m_LocalTransform.GetPosition() + GetParentTransform().GetPosition());

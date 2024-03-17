@@ -1,6 +1,6 @@
-#include <stdexcept>
 #define WIN32_LEAN_AND_MEAN 
 #include <windows.h>
+#include <stdexcept>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -46,13 +46,13 @@ dae::Minigin::Minigin(const std::string &dataPath)
 {
 	PrintSDLVersion();
 	
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) != 0) 
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
 
 	g_window = SDL_CreateWindow(
-		"Programming 4 assignment",
+		"Programming 4 Engine - Finian Horrie - 2DAE09",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		640,

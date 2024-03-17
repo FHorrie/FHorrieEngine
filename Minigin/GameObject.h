@@ -14,6 +14,7 @@ namespace dae
 	public:
 		void Update();
 		void Render() const;
+		void RenderUI() const;
 
 		void SetLocalPosition(glm::vec3 pos);
 		void UpdateTransform();
@@ -26,6 +27,7 @@ namespace dae
 		bool CheckComponent(std::unique_ptr<Component> pComponent);
 		bool CheckComponent(int idx);
 		Component* GetComponentWithIdx(int idx);
+		Component* GetComponentOfType(std::unique_ptr<Component> pComponent);
 
 		void ClearComponentWithIdx(int idx);
 		void ClearAllComponents();
@@ -40,6 +42,7 @@ namespace dae
 		bool CheckChild(GameObject* pObject);
 		bool CheckChild(int idx);
 		GameObject* GetChildWithIdx(int idx);
+
 		void ClearChild(GameObject* pObject);
 		void ClearChildWithIdx(int idx);
 		void ClearAllChildren();
@@ -68,6 +71,7 @@ namespace dae
 		std::vector<GameObject*> m_pChildren{};
 
 		std::vector<std::unique_ptr<Component>> m_pComponents{};
+
 	};
 }
 

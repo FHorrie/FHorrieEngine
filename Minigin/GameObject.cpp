@@ -24,6 +24,14 @@ void GameObject::Render() const
 	}
 }
 
+void GameObject::RenderUI() const
+{
+	for (auto& pComp : m_pComponents)
+	{
+		pComp->RenderUI();
+	}
+}
+
 void GameObject::SetLocalPosition(glm::vec3 pos)
 {
 	m_LocalTransform.SetPosition(pos);
@@ -98,8 +106,6 @@ Component* GameObject::GetComponentWithIdx(int idx)
 	
 	return m_pComponents[idx].get();
 }
-
-
 
 void GameObject::ClearComponentWithIdx(int idx)
 {

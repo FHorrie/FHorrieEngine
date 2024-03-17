@@ -1,15 +1,18 @@
 #define _CRT_SECURE_NO_WARNINGS
 
+#include <iostream>
 #include <stdexcept>
+#include <chrono>
 #include <imgui.h>
 #include <imgui_plot.h>
+
 #include "backends/imgui_impl_opengl3.h"
-#include "backends/imgui_impl_opengl3.cpp"
 #include "backends/imgui_impl_sdl2.h"
-#include "backends/imgui_impl_sdl2.cpp"
 #include "Renderer.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
+
+using std::chrono::high_resolution_clock;
 
 int GetOpenGLDriverIndex()
 {
@@ -43,9 +46,10 @@ void dae::Renderer::Render() const
 	const auto& color = GetBackgroundColor();
 	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderClear(m_renderer);
+
 	SceneManager::GetInstance().Render();
 
-	ImGuiRender();
+	RenderUI();
 
 	SDL_RenderPresent(m_renderer);
 }
@@ -80,6 +84,8 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
+#pragma region IMGUI_Functions
+
 void dae::Renderer::ImGuiSetup(SDL_Window* window)
 {
 	IMGUI_CHECKVERSION();
@@ -88,13 +94,14 @@ void dae::Renderer::ImGuiSetup(SDL_Window* window)
 	ImGui_ImplOpenGL3_Init();
 }
 
-void dae::Renderer::ImGuiRender() const
+void dae::Renderer::RenderUI() const
 {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
-	//ImGui::ShowDemoWindow();
-	ShowTrashCacheWindow();
+	
+	SceneManager::GetInstance().RenderUI();
+
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
@@ -105,32 +112,4 @@ void dae::Renderer::ImGuiDelete()
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 }
-
-void dae::Renderer::ShowTrashCacheWindow(bool* p_open) const
-{
-	IM_ASSERT(ImGui::GetCurrentContext() != NULL && "Missing Dear ImGui context. Refer to examples app!");
-	
-	ImGuiWindowFlags window_flags{};
-
-	const ImGuiViewport* main_viewport{ ImGui::GetMainViewport() };
-	ImGui::SetNextWindowPos(ImVec2(main_viewport->WorkPos.x + 20, main_viewport->WorkPos.y + 20), ImGuiCond_FirstUseEver);
-	ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
-
-	if (!ImGui::Begin("Trash the Cache", p_open, window_flags))
-	{
-		// Early out if the window is collapsed, as an optimization.
-		ImGui::End();
-		return;
-	}
-
-	ImGui::PushItemWidth(ImGui::GetFontSize() * -12);
-
-	static int sampleCount = 100;
-	ImGui::InputInt("nr of samples", &sampleCount);
-	ImGui::Spacing();
-	ImGui::Button("Trash the cache with GameObject3D");
-	ImGui::Button("Trash the cache with GameObject3DAlt");
-
-	ImGui::PopItemWidth();
-	ImGui::End();
-}
+#pragma endregion

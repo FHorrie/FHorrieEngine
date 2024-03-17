@@ -8,7 +8,6 @@ namespace dae
 	class TextureComponent final : public Component
 	{
 	public:
-		void Update() override;
 		void Render() const override;
 
 		void SetTexture(const std::string& filename);

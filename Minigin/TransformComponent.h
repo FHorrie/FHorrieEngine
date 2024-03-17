@@ -11,8 +11,8 @@ namespace dae
 
 		void SetPosValsToIncrease(glm::vec3 posToInc) { m_PosValsToIncrease = posToInc; }
 
-		TransformComponent(GameObject* pOwner);
-		TransformComponent(GameObject* pOwner, glm::vec3 posToInc);
+		TransformComponent(GameObject* pOwner, float movementSpeed = 1.f);
+		TransformComponent(GameObject* pOwner, glm::vec3 posToInc, float movementSpeed = 1.f);
 		virtual ~TransformComponent() = default;
 		TransformComponent(const TransformComponent& other) = delete;
 		TransformComponent(TransformComponent&& other) = default;
@@ -21,6 +21,7 @@ namespace dae
 	protected:
 		glm::vec3 m_OwnerPos{};
 		glm::vec3 m_PosValsToIncrease;
+		float m_MovementSpeed;
 	};
 }
 

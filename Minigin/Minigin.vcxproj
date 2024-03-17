@@ -184,11 +184,17 @@
     <ClInclude Include="..\3rdParty\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\3rdParty\imgui\imstb_textedit.h" />
     <ClInclude Include="..\3rdParty\imgui\imstb_truetype.h" />
+    <ClInclude Include="Action.h" />
+    <ClInclude Include="BaseInputDevice.h" />
+    <ClInclude Include="CacheTestComponent.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="Controller.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSCounter.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Command.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="InputMapping.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -202,6 +208,7 @@
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="XController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp" />
@@ -210,11 +217,15 @@
     <ClCompile Include="..\3rdParty\imgui\imgui_plot.cpp" />
     <ClCompile Include="..\3rdParty\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\3rdParty\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="CacheTestComponent.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSCounter.cpp" />
+    <ClCompile Include="Command.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="InputMapping.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -228,6 +239,7 @@
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
+    <ClCompile Include="XController.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
