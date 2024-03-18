@@ -25,8 +25,8 @@ namespace dae
 		void BindAction(std::unique_ptr<Action>& pAction, const inputTypeDesc& inputDesc);
 		void BindAction(std::unique_ptr<Action>& pAction, const inputTypeDesc& inputDesc, const std::vector<SDL_Scancode>& keyboardInput);
 
-		void HandleControllerInput(GameObject* pGameObject, XController* controller);
-		void HandleKeyboardInput(GameObject* pGameObject, SDL_Event& sdlEvent);
+		void HandleControllerInput(XController* controller);
+		void HandleKeyboardInput(SDL_Event& sdlEvent);
 
 	private:
 		//Not optimal, but works for both keyboard and controller

@@ -12,7 +12,6 @@ namespace dae
 	{
 	public:
 		Controller() = default;
-		Controller(GameObject* gameObject);
 		~Controller() = default;
 		Controller(const Controller& other) = delete;
 		Controller(Controller&& other) = delete;
@@ -26,7 +25,5 @@ namespace dae
 	private:
 		std::unique_ptr<InputMapping> m_pInputMap{};
 		std::unique_ptr<XController> m_pController{};
-		GameObject* m_pControlledObject{};
-
 	};
 }

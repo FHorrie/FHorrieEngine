@@ -4,10 +4,6 @@
 
 using namespace dae;
 
-Controller::Controller(GameObject* gameObject)
-	: m_pControlledObject{ gameObject }
-{}
-
 void Controller::StoreInputMapping(std::unique_ptr<InputMapping>& inputMapping)
 {
 	if (m_pInputMap)
@@ -26,10 +22,10 @@ void Controller::ProcessControllerInput()
 	if (!m_pController)
 		return;
 
-	m_pInputMap->HandleControllerInput(m_pControlledObject, m_pController.get());
+	m_pInputMap->HandleControllerInput(m_pController.get());
 }
 
 void Controller::ProcessKeyboardInput(SDL_Event& sdlEvent)
 {
-	m_pInputMap->HandleKeyboardInput(m_pControlledObject, sdlEvent);
+	m_pInputMap->HandleKeyboardInput(sdlEvent);
 }

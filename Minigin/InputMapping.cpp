@@ -22,7 +22,7 @@ void InputMapping::BindAction(std::unique_ptr<Action>& pAction, const inputTypeD
 	m_InputMapVec.push_back(std::make_tuple(std::move(pAction), inputDesc, keyboardInput));
 }
 
-void InputMapping::HandleControllerInput(GameObject* pGameObject, XController* controller)
+void InputMapping::HandleControllerInput(XController* controller)
 {
 	controller->PollInput();
 
@@ -32,14 +32,14 @@ void InputMapping::HandleControllerInput(GameObject* pGameObject, XController* c
 		{
 			if (controller->ValidateInput(controllerInput.first, controllerInput.second))
 			{
-				std::get<0>(inputMap)->GetCommandPtr()->Execute(pGameObject);
+				std::get<0>(inputMap)->GetCommandPtr()->Execute();
 				break;
 			}
 		}
 	}
 }
 
-void InputMapping::HandleKeyboardInput(GameObject* pGameObject, SDL_Event& sdlEvent)
+void InputMapping::HandleKeyboardInput(SDL_Event& sdlEvent)
 {
 	for (const auto& inputMap : m_InputMapVec)
 	{
@@ -47,7 +47,7 @@ void InputMapping::HandleKeyboardInput(GameObject* pGameObject, SDL_Event& sdlEv
 		{
 			if (keyboardInput == sdlEvent.key.keysym.scancode)
 			{
-				std::get<0>(inputMap)->GetCommandPtr()->Execute(pGameObject);
+				std::get<0>(inputMap)->GetCommandPtr()->Execute();
 			}
 		}
 	}

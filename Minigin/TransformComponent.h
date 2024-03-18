@@ -3,7 +3,7 @@
 
 namespace dae
 {
-	class TransformComponent final : public Component
+	class TransformComponent : public Component
 	{
 	public:
 		void Update() override;
