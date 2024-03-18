@@ -3,7 +3,7 @@
 
 namespace dae
 {
-	class CacheTestComponent : public Component
+	class CacheTestComponent final : public Component
 	{
 	public:
 		void RenderUI() override;

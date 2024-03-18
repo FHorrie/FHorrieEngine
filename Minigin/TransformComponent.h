@@ -3,10 +3,10 @@
 
 namespace dae
 {
-	class TransformComponent : public Component
+	class TransformComponent final : public Component
 	{
 	public:
-		virtual void Update() override;
+		void Update() override;
 		void Render() const override {};
 
 		void SetPosValsToIncrease(glm::vec3 posToInc) { m_PosValsToIncrease = posToInc; }
