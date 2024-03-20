@@ -48,6 +48,7 @@ void InputMapping::HandleKeyboardInput(SDL_Event& sdlEvent)
 			if (keyboardInput == sdlEvent.key.keysym.scancode)
 			{
 				std::get<0>(inputMap)->GetCommandPtr()->Execute();
+				break;
 			}
 		}
 	}

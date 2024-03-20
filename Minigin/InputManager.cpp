@@ -25,7 +25,6 @@ bool dae::InputManager::ProcessInput()
 		//GUI
 		//ImGui_ImplSDL2_ProcessEvent(&e);
 	}
-
 	for (auto& controller : m_Controllers)
 		controller->ProcessControllerInput();
 

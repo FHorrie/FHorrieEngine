@@ -95,6 +95,10 @@ unsigned int XController::XControllerImpl::RemapInput(Inputs input)
 	}
 }
 
+///
+///Pimpl end
+///
+
 XController::XController(unsigned int playerIdx)
 	: m_pImpl{ new XControllerImpl(playerIdx) }
 {}
