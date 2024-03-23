@@ -1,7 +1,7 @@
 #pragma once
 #include <chrono>
 
-namespace dae
+namespace FH
 {
 	class Time final
 	{

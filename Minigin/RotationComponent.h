@@ -1,7 +1,7 @@
 #pragma once
 #include "TransformComponent.h"
 
-namespace dae
+namespace FH
 {
 	class RotationComponent final : public TransformComponent
 	{

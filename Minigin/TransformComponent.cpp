@@ -1,7 +1,7 @@
 #include "TransformComponent.h"
 #include "Time.h"
 
-using namespace dae;
+using namespace FH;
 
 TransformComponent::TransformComponent(GameObject* pOwner, float movementSpeed)
 	: Component(pOwner)

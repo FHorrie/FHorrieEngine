@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "TransformComponent.h"
 
-namespace dae
+namespace FH
 {
 	class Command abstract
 	{
@@ -12,6 +12,7 @@ namespace dae
 		{}
 		virtual ~Command() = default;
 		virtual void Execute() = 0;
+	protected:
 		GameObject* GetGameObjectPtr() { return m_pGameObject; }
 	private:
 		GameObject* m_pGameObject;
@@ -31,30 +32,14 @@ namespace dae
 		float m_MovementSpeed;
 	};
 
+	class AttackCommand final : public Command
+	{
+	public:
+		AttackCommand(GameObject* pGameObject);
+		~AttackCommand() = default;
 
-	//class MoveUp final : public Command
-	//{
-	//public:
-	//	void Execute(GameObject* pGameObject) override;
-	//};
-	//
-	//class MoveDown final : public Command
-	//{
-	//public:
-	//	void Execute(GameObject* pGameObject) override;
-	//};
-	//
-	//class MoveLeft final : public Command
-	//{
-	//public:
-	//	void Execute(GameObject* pGameObject) override;
-	//};
-	//
-	//class MoveRight final : public Command
-	//{
-	//public:
-	//	void Execute(GameObject* pGameObject) override;
-	//};
+		void Execute() override;
+	};
 }
 
 

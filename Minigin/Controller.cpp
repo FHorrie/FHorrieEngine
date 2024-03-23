@@ -2,7 +2,7 @@
 #include "GameObject.h"
 
 
-using namespace dae;
+using namespace FH;
 
 void Controller::StoreInputMapping(std::unique_ptr<InputMapping>& inputMapping)
 {

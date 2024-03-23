@@ -3,7 +3,7 @@
 #include "Texture2D.h"
 #include "Transform.h"
 
-namespace dae 
+namespace FH 
 {
 	class TextureComponent final : public Component
 	{

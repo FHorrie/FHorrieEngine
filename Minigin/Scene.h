@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "Component.h"
 
-namespace dae
+namespace FH
 {
 	class Scene final
 	{

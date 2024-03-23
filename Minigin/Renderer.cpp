@@ -28,7 +28,7 @@ int GetOpenGLDriverIndex()
 	return openglIndex;
 }
 
-void dae::Renderer::Init(SDL_Window* window)
+void FH::Renderer::Init(SDL_Window* window)
 {
 	m_window = window;
 	m_renderer = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED);
@@ -41,7 +41,7 @@ void dae::Renderer::Init(SDL_Window* window)
 	ImGuiSetup(window);
 }
 
-void dae::Renderer::Render() const
+void FH::Renderer::Render() const
 {
 	const auto& color = GetBackgroundColor();
 	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
@@ -54,7 +54,7 @@ void dae::Renderer::Render() const
 	SDL_RenderPresent(m_renderer);
 }
 
-void dae::Renderer::Destroy()
+void FH::Renderer::Destroy()
 {
 	ImGuiDelete();
 
@@ -65,7 +65,7 @@ void dae::Renderer::Destroy()
 	}
 }
 
-void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
+void FH::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
 {
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(x);
@@ -74,7 +74,7 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
+void FH::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
 {
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(x);
@@ -86,7 +86,7 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 
 #pragma region IMGUI_Functions
 
-void dae::Renderer::ImGuiSetup(SDL_Window* window)
+void FH::Renderer::ImGuiSetup(SDL_Window* window)
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -94,7 +94,7 @@ void dae::Renderer::ImGuiSetup(SDL_Window* window)
 	ImGui_ImplOpenGL3_Init();
 }
 
-void dae::Renderer::RenderUI() const
+void FH::Renderer::RenderUI() const
 {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
@@ -106,7 +106,7 @@ void dae::Renderer::RenderUI() const
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-void dae::Renderer::ImGuiDelete()
+void FH::Renderer::ImGuiDelete()
 {
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();

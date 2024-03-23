@@ -1,6 +1,6 @@
 #include "Transform.h"
 
-using namespace dae;
+using namespace FH;
 
 void Transform::SetPosition(float x, float y, float z)
 {
@@ -12,7 +12,7 @@ void Transform::SetPosition(glm::vec3 pos)
 	m_position = pos;
 }
 
-Transform dae::Transform::operator+(const Transform& lhs)
+Transform FH::Transform::operator+(const Transform& lhs)
 {
 	Transform transform{};
 	transform.m_position = m_position + lhs.m_position;

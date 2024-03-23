@@ -6,7 +6,7 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
-using namespace dae;
+using namespace FH;
 
 void GameObject::Update()
 {

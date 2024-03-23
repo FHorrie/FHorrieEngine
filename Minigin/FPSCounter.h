@@ -1,9 +1,8 @@
 #pragma once
 #include "Component.h"
 #include "TextComponent.h"
-#include <array>
 
-namespace dae
+namespace FH
 {
 	class FPSCounter final : public Component
 	{

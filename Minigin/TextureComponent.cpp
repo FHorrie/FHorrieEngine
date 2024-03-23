@@ -2,7 +2,7 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
-using namespace dae;
+using namespace FH;
 
 TextureComponent::TextureComponent(GameObject* pOwner)
 	: Component(pOwner)

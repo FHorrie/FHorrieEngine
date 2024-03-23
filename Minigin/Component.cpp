@@ -1,7 +1,7 @@
 #include "Component.h"
 #include <iostream>
 
-using namespace dae;
+using namespace FH;
 
 Component::Component(GameObject* pOwner)
 	: m_pOwner{ pOwner }

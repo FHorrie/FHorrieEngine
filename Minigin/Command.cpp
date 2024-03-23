@@ -1,13 +1,14 @@
 #include "Command.h"
 #include "Time.h"
+#include "AttackComponent.h"
 
-dae::MoveCommand::MoveCommand(GameObject* pGameObject, const glm::vec3& direction, float movementSpeed)
-	: dae::Command(pGameObject)
+FH::MoveCommand::MoveCommand(GameObject* pGameObject, const glm::vec3& direction, float movementSpeed)
+	: Command(pGameObject)
 	, m_Direction{ direction }
 	, m_MovementSpeed{ movementSpeed }
 {}
 
-void dae::MoveCommand::Execute()
+void FH::MoveCommand::Execute()
 {
 	auto objectPos{ GetGameObjectPtr()->GetTransform().GetPosition() };
 
@@ -20,33 +21,16 @@ void dae::MoveCommand::Execute()
 	GetGameObjectPtr()->SetLocalPosition(pos);
 }
 
-//void MoveUp::Execute(dae::GameObject* gameObject)
-//{
-//	auto TransformComp = dynamic_cast<TransformComponent*>(gameObject->GetComponentWithIdx(0));
-//	if (TransformComp)
-//		TransformComp->SetPosValsToIncrease(glm::vec3(0.f, -1.f, 0.f));
-//}
-//
-//void MoveDown::Execute(dae::GameObject* gameObject)
-//{
-//	auto TransformComp = dynamic_cast<TransformComponent*>(gameObject->GetComponentWithIdx(0));
-//	if (TransformComp)
-//		TransformComp->SetPosValsToIncrease(glm::vec3(0.f, 1.f, 0.f));
-//}
-//
-//void MoveLeft::Execute(dae::GameObject* gameObject)
-//{
-//	auto TransformComp = dynamic_cast<TransformComponent*>(gameObject->GetComponentWithIdx(0));
-//	if (TransformComp)
-//		TransformComp->SetPosValsToIncrease(glm::vec3(-1.f, 0.f, 0.f));
-//}
-//
-//void MoveRight::Execute(dae::GameObject* gameObject)
-//{
-//	auto TransformComp = dynamic_cast<TransformComponent*>(gameObject->GetComponentWithIdx(0));
-//	if (TransformComp)
-//		TransformComp->SetPosValsToIncrease(glm::vec3(1.f, 0.f, 0.f));
-//}
+FH::AttackCommand::AttackCommand(GameObject* pGameObject)
+	: Command(pGameObject)
+{}
 
-//Make 1 move component with Direction
-//Dont use the component, set position directly with "SetLocalPos"
+void FH::AttackCommand::Execute()
+{
+	AttackComponent* atkComp{ GetGameObjectPtr()->GetComponentOfType<AttackComponent*>()};
+
+	if (atkComp == nullptr)
+		throw std::runtime_error("No attack component was found!");
+
+	atkComp->DefaultAttack();
+}

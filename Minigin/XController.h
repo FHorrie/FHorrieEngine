@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseInputDevice.h"
 
-namespace dae
+namespace FH
 {
 	class XController final : public BaseInputDevice
 	{

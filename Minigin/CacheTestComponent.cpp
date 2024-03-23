@@ -11,7 +11,7 @@
 #include "backends/imgui_impl_opengl3.cpp"
 
 using std::chrono::high_resolution_clock;
-using namespace dae;
+using namespace FH;
 
 CacheTestComponent::CacheTestComponent(GameObject* pOwner)
 	: Component(pOwner)

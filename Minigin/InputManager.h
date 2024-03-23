@@ -4,7 +4,7 @@
 #include "Controller.h"
 #include "XController.h"
 
-namespace dae
+namespace FH
 {
 	class InputManager final : public Singleton<InputManager>
 	{

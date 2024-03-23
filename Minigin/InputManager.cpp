@@ -5,7 +5,7 @@
 #include "InputManager.h"
 #include "backends/imgui_impl_sdl2.h"
 
-bool dae::InputManager::ProcessInput()
+bool FH::InputManager::ProcessInput()
 {
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
@@ -31,7 +31,7 @@ bool dae::InputManager::ProcessInput()
 	return true;
 }
 
-void dae::InputManager::AddController(std::unique_ptr<Controller>& controller)
+void FH::InputManager::AddController(std::unique_ptr<Controller>& controller)
 {
 	m_Controllers.push_back(std::move(controller));
 }

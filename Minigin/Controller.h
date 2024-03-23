@@ -5,7 +5,7 @@
 #include "XController.h"
 #include "InputMapping.h"
 
-namespace dae
+namespace FH
 {
 	class GameObject;
 	class Controller final

@@ -1,6 +1,6 @@
 #include "Time.h"
 
-using namespace dae;
+using namespace FH;
 
 double Time::DELTATIME{0.01};
 double Time::ELAPSEDTIME{0.01};

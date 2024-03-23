@@ -1,6 +1,6 @@
 #pragma once
 
-namespace dae
+namespace FH
 {
 	enum class Inputs
 	{

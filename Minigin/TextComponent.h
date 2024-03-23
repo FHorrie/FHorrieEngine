@@ -5,7 +5,7 @@
 #include "Component.h"
 #include "Transform.h"
 
-namespace dae
+namespace FH
 {
 	class Font;
 	class Texture2D;

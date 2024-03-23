@@ -2,7 +2,7 @@
 #include <memory>
 #include "GameObject.h"
 
-namespace dae
+namespace FH
 {
 	class Component
 	{

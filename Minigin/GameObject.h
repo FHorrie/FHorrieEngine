@@ -2,13 +2,22 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <concepts>
+#include <algorithm>
 
 #include "Transform.h"
+#include "Component.h"
  
-namespace dae
+namespace FH
 {
-	class Component;
 	class Texture2D;
+
+	template <typename T>
+	concept BaseComp = requires(T)
+	{
+		std::is_base_of_v<Component, T>;
+	};
+
 	class GameObject final
 	{
 	public:
@@ -27,7 +36,6 @@ namespace dae
 		bool CheckComponent(std::unique_ptr<Component> pComponent);
 		bool CheckComponent(int idx);
 		Component* GetComponentWithIdx(int idx);
-		Component* GetComponentOfType(std::unique_ptr<Component> pComponent);
 
 		void ClearComponentWithIdx(int idx);
 		void ClearAllComponents();
@@ -54,6 +62,17 @@ namespace dae
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
+
+		template<BaseComp T>
+		T const GetComponentOfType()
+		{
+			for (auto& comp : m_pComponents)
+			{
+				if (decltype(comp) == decltype(T))
+					return comp;
+			}
+			return nullptr;
+		}
 
 	private:
 		void SetParent(GameObject* pNewParent);

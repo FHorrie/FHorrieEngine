@@ -1,11 +1,6 @@
 #include "InputMapping.h"
 
-using namespace dae;
-
-void InputMapping::BindAction(std::unique_ptr<Action>& pAction, SDL_Scancode input)
-{
-	BindAction(pAction, inputTypeDesc{}, std::vector<SDL_Scancode>(input));
-}
+using namespace FH;
 
 void InputMapping::BindAction(std::unique_ptr<Action>& pAction, const std::vector<SDL_Scancode>& input)
 {

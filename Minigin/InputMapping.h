@@ -5,7 +5,7 @@
 #include "Action.h"
 #include "XController.h"
 
-namespace dae
+namespace FH
 {
 	class InputMapping final
 	{
@@ -19,8 +19,6 @@ namespace dae
 		InputMapping& operator=(const InputMapping& other) = delete;
 		InputMapping& operator=(InputMapping&& other) = delete;
 
-		//void BindAction(std::unique_ptr<Action> pAction, Inputs input);
-		void BindAction(std::unique_ptr<Action>& pAction, SDL_Scancode input);
 		void BindAction(std::unique_ptr<Action>& pAction, const std::vector<SDL_Scancode>& input);
 		void BindAction(std::unique_ptr<Action>& pAction, const inputTypeDesc& inputDesc);
 		void BindAction(std::unique_ptr<Action>& pAction, const inputTypeDesc& inputDesc, const std::vector<SDL_Scancode>& keyboardInput);

@@ -3,7 +3,7 @@
 #include <Xinput.h>
 #include "XController.h"
 
-using namespace dae;
+using namespace FH;
 
 class XController::XControllerImpl
 {
@@ -15,13 +15,13 @@ public:
 	XControllerImpl& operator=(const XControllerImpl& other) = delete;
 	XControllerImpl& operator=(XControllerImpl&& other) = delete;
 
-	void PollInput();
+	void CheckForInput();
 
 	//This will go into ValidateInput
 	bool ButtonDownThisFrame(unsigned int input) const;
 	bool ButtonUpThisFrame(unsigned int input) const;
 	bool ButtonPressed(unsigned int input) const;
-	unsigned int RemapInput(Inputs input);
+	int GetXInput(Inputs input);
 
 private:
 	XINPUT_STATE m_CurrentState{};
@@ -36,7 +36,7 @@ XController::XControllerImpl::XControllerImpl(unsigned int playerIdx)
 	: m_PlayerIdx{ playerIdx }
 {}
 
-void XController::XControllerImpl::PollInput()
+void XController::XControllerImpl::CheckForInput()
 {
 	CopyMemory(&m_PrevState, & m_CurrentState, sizeof(XINPUT_STATE));
 	ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
@@ -62,7 +62,7 @@ bool XController::XControllerImpl::ButtonPressed(unsigned int inputInt) const
 	return m_CurrentState.Gamepad.wButtons & inputInt;
 }
 
-unsigned int XController::XControllerImpl::RemapInput(Inputs input)
+int XController::XControllerImpl::GetXInput(Inputs input)
 {
 	switch (input)
 	{
@@ -91,7 +91,7 @@ unsigned int XController::XControllerImpl::RemapInput(Inputs input)
 	case Inputs::rightBumper:
 		return XINPUT_GAMEPAD_RIGHT_SHOULDER;
 	default:
-		return unsigned int(-1);
+		return -1;
 	}
 }
 
@@ -105,13 +105,13 @@ XController::XController(unsigned int playerIdx)
 
 XController::~XController() 
 { 
-	delete m_pImpl; 
+	delete m_pImpl;
 	m_pImpl = nullptr; 
 }
 
 void XController::PollInput()
 {
-	m_pImpl->PollInput();
+	m_pImpl->CheckForInput();
 }
 
 bool XController::ValidateInput(Inputs input, InputType inputType)
@@ -119,11 +119,11 @@ bool XController::ValidateInput(Inputs input, InputType inputType)
 	switch (inputType)
 	{
 	case InputType::buttonPressed:
-		return m_pImpl->ButtonPressed(m_pImpl->RemapInput(input));
+		return m_pImpl->ButtonPressed(m_pImpl->GetXInput(input));
 	case InputType::buttonDown:
-		return m_pImpl->ButtonDownThisFrame(m_pImpl->RemapInput(input));
+		return m_pImpl->ButtonDownThisFrame(m_pImpl->GetXInput(input));
 	case InputType::buttonReleased:
-		return m_pImpl->ButtonUpThisFrame(m_pImpl->RemapInput(input));
+		return m_pImpl->ButtonUpThisFrame(m_pImpl->GetXInput(input));
 	default:
 		return false;
 	}

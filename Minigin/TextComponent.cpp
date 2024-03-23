@@ -5,7 +5,7 @@
 #include "Font.h"
 #include "Texture2D.h"
 
-using namespace dae;
+using namespace FH;
 
 TextComponent::TextComponent(GameObject* pOwner, const std::string& text, float left, float top)
 	: Component(pOwner)

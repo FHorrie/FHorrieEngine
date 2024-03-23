@@ -7,12 +7,12 @@
 #include "Texture2D.h"
 #include "Time.h"
 
-using namespace dae;
+using namespace FH;
 
 FPSCounter::FPSCounter(GameObject* pOwner)
 	: Component(pOwner)
 {
-	int idx = pOwner->AddComponent(std::make_unique<dae::TextComponent>(pOwner, "FPS:", 10.f, 10.f));
+	int idx = pOwner->AddComponent(std::make_unique<FH::TextComponent>(pOwner, "FPS:", 10.f, 10.f));
 
 	//Keep raw ptr to instruct text, this is safe (for now)
 	//We delete both this and the text comp when the object is destroyed

@@ -3,7 +3,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-using namespace dae;
+using namespace FH;
 
 void RotationComponent::Update()
 {
