@@ -30,19 +30,15 @@ void PlayerHUD::OnNotify(GameObject* go, GameEvent e)
 {
 	switch (e)
 	{
-	case FH::GameEvent::EVENT_INCREASE_SCORE_SMALL:
-		m_Score += 10;
-		m_NeedsUpdate = true;
-		break;
-	case FH::GameEvent::EVENT_INCREASE_SCORE_BIG:
-		m_Score += 100;
+	case FH::GameEvent::EVENT_INCREASE_SCORE:
+		m_Score = go->GetComponentOfType<AttackComponent>()->GetScore();
 		m_NeedsUpdate = true;
 		break;
 	case FH::GameEvent::EVENT_ACTOR_HIT:
 		m_Lives = go->GetComponentOfType<AttackComponent>()->GetLives();
 		m_NeedsUpdate = true;
 		break;
-	case FH::GameEvent::EVENT_ACTOR_DIED:
+	case FH::GameEvent::EVENT_ACTOR_KILLED:
 		break;
 	default:
 		break;

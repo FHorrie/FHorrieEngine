@@ -1,4 +1,6 @@
-#define WIN32_LEAN_AND_MEAN 
+#define WIN32_LEAN_AND_MEAN
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <windows.h>
 #include <stdexcept>
 #include <SDL.h>
@@ -11,6 +13,7 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "Time.h"
+#include <steam_api.h>
 
 SDL_Window* g_window{};
 
@@ -94,5 +97,7 @@ void FH::Minigin::Run(const std::function<void()>& load)
 		doContinue = input.ProcessInput();
 		sceneManager.Update();
 		renderer.Render();
+
+		SteamAPI_RunCallbacks();
 	}
 }

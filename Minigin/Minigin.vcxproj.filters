@@ -141,9 +141,6 @@
     <ClInclude Include="EventQueue.h">
       <Filter>Game Files\Singletons</Filter>
     </ClInclude>
-    <ClInclude Include="Achievements.h">
-      <Filter>Game Files\Event Handling</Filter>
-    </ClInclude>
     <ClInclude Include="AttackComponent.h">
       <Filter>Game Files\Components</Filter>
     </ClInclude>
@@ -158,6 +155,18 @@
     </ClInclude>
     <ClInclude Include="PlayerHUD.h">
       <Filter>Game Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SteamAchievements.h">
+      <Filter>Game Files\Event Handling</Filter>
+    </ClInclude>
+    <ClInclude Include="SteamAchievementComponent.h">
+      <Filter>Engine Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalSteamVar.h">
+      <Filter>Game Files\Event Handling</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalSteamAch.h">
+      <Filter>Game Files\Event Handling</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -262,6 +271,12 @@
     </ClCompile>
     <ClCompile Include="PlayerHUD.cpp">
       <Filter>Game Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="SteamAchievements.cpp">
+      <Filter>Game Files\Event Handling</Filter>
+    </ClCompile>
+    <ClCompile Include="SteamAchievementComponent.cpp">
+      <Filter>Game Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

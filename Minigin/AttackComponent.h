@@ -14,9 +14,10 @@ namespace FH
 
 		void GainPoints(bool bigReward);
 		
-		Rect GetHitBox() { return m_HitBox; }
-		int GetLives() { return m_Lives; }
-		bool GetIsDead() { return m_IsDead; }
+		Rect GetHitBox() const { return m_HitBox; }
+		int GetScore() const { return m_Score; }
+		int GetLives() const { return m_Lives; }
+		bool GetIsDead() const { return m_IsDead; }
 
 		AttackComponent(GameObject* pOwner, Rect hitBox);
 		AttackComponent(GameObject* pOwner, Rect hitBox, int lives);
@@ -28,6 +29,7 @@ namespace FH
 
 	private:
 		Rect m_HitBox{};
+		int m_Score{};
 		int m_Lives{ 3 };
 		bool m_IsDead{};
 	};

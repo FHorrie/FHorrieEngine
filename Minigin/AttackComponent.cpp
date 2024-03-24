@@ -19,9 +19,13 @@ AttackComponent::AttackComponent(GameObject* pOwner, Rect hitBox, int lives)
 void AttackComponent::GainPoints(bool bigReward)
 {
 	if (bigReward)
-		Notify(GetOwner(), GameEvent::EVENT_INCREASE_SCORE_BIG);
+		m_Score += 100;
 	else
-		Notify(GetOwner(), GameEvent::EVENT_INCREASE_SCORE_SMALL);
+		m_Score += 10;
+	Notify(GetOwner(), GameEvent::EVENT_INCREASE_SCORE);
+
+	if (m_Score >= 500)
+		Notify(GetOwner(), GameEvent::EVENT_SCORE_500);
 }
 
 void AttackComponent::DefaultAttack(GameObject* Target)
