@@ -25,7 +25,7 @@ void Controller::ProcessControllerInput()
 	m_pInputMap->HandleControllerInput(m_pController.get());
 }
 
-void Controller::ProcessKeyboardInput(SDL_Event& sdlEvent)
+void Controller::ProcessKeyboardInput()
 {
-	m_pInputMap->HandleKeyboardInput(sdlEvent);
+	m_pInputMap->HandleKeyboardInput();
 }

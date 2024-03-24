@@ -7,9 +7,3 @@ namespace FH
 
 	};
 }
-
-// Devious friend proggies
-//finian = gay
-//
-//if finian == gay:
-//	print('finian is gay')

@@ -18,13 +18,13 @@ bool FH::InputManager::ProcessInput()
 		if (e.type == SDL_MOUSEBUTTONDOWN) {
 			
 		}
-
-		for (auto& controller : m_Controllers)
-			controller->ProcessKeyboardInput(e);
-
 		//GUI
 		//ImGui_ImplSDL2_ProcessEvent(&e);
 	}
+
+	for (auto& controller : m_Controllers)
+		controller->ProcessKeyboardInput();
+
 	for (auto& controller : m_Controllers)
 		controller->ProcessControllerInput();
 

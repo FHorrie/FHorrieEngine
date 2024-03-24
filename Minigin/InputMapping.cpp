@@ -2,16 +2,6 @@
 
 using namespace FH;
 
-void InputMapping::BindAction(std::unique_ptr<Action>& pAction, const std::vector<SDL_Scancode>& input)
-{
-	BindAction(pAction, inputTypeDesc{}, input);
-}
-
-void InputMapping::BindAction(std::unique_ptr<Action>& pAction, const inputTypeDesc& inputDesc)
-{
-	BindAction(pAction, inputDesc, std::vector<SDL_Scancode>());
-}
-
 void InputMapping::BindAction(std::unique_ptr<Action>& pAction, const inputTypeDesc& inputDesc, const std::vector<SDL_Scancode>& keyboardInput)
 {
 	m_InputMapVec.push_back(std::make_tuple(std::move(pAction), inputDesc, keyboardInput));
@@ -34,13 +24,15 @@ void InputMapping::HandleControllerInput(XController* controller)
 	}
 }
 
-void InputMapping::HandleKeyboardInput(SDL_Event& sdlEvent)
+void InputMapping::HandleKeyboardInput()
 {
+	const uint8_t* keyboardState{ SDL_GetKeyboardState(nullptr) };
+
 	for (const auto& inputMap : m_InputMapVec)
 	{
 		for (const auto& keyboardInput : std::get<2>(inputMap))
 		{
-			if (keyboardInput == sdlEvent.key.keysym.scancode)
+			if (keyboardState[keyboardInput])
 			{
 				std::get<0>(inputMap)->GetCommandPtr()->Execute();
 				break;

@@ -1,9 +1,10 @@
 #pragma once
 #include <memory>
-#include "GameObject.h"
+#include "Transform.h"
 
 namespace FH
 {
+	class GameObject;
 	class Component
 	{
 	public:

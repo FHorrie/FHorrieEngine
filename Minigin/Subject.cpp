@@ -1,19 +1,7 @@
 #include "Observer.h"
-#include "SubjectComponent.h"
+#include "Subject.h"
 
 using namespace FH;
-
-///
-/// Subject Component
-///
-
-SubjectComponent::SubjectComponent(GameObject* pOwner)
-	: Component(pOwner)
-{}
-
-///
-/// Subject
-///
 
 void Subject::AddObserver(Observer* pObserver)
 {
@@ -30,8 +18,8 @@ void Subject::RemoveObserver(Observer* pObserver)
 	m_pObservers.erase(componentIt);
 }
 
-void Subject::Notify(Event e)
+void Subject::Notify(GameObject* go, GameEvent e)
 {
 	for (auto& obs : m_pObservers)
-		obs->OnNotify(this, e);
+		obs->OnNotify(go, e);
 }

@@ -40,6 +40,18 @@ namespace FH
 
 		void Execute() override;
 	};
+
+	class GainScoreCommand final : public Command
+	{
+	public:
+		GainScoreCommand(GameObject* pGameObject, bool IsBig);
+		~GainScoreCommand() = default;
+
+		void Execute() override;
+
+	private:
+		bool m_BigReward{};
+	};
 }
 
 

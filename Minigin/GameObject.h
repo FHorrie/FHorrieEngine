@@ -15,7 +15,7 @@ namespace FH
 	template <typename T>
 	concept BaseComp = requires(T)
 	{
-		std::is_base_of_v<Component, T>;
+		std::derived_from<T, Component>;
 	};
 
 	class GameObject final
@@ -64,13 +64,17 @@ namespace FH
 		GameObject& operator=(GameObject&& other) = delete;
 
 		template<BaseComp T>
-		T const GetComponentOfType()
+		T* GetComponentOfType()
 		{
-			for (auto& comp : m_pComponents)
-			{
-				if (decltype(comp) == decltype(T))
-					return comp;
-			}
+			auto compIt = std::ranges::find_if(m_pComponents, [](const std::unique_ptr<Component>& comp)->bool
+				{
+					return dynamic_cast<T*>(comp.get()) != nullptr;
+				}
+			);
+
+			if (compIt != std::end(m_pComponents))
+				return dynamic_cast<T*>(compIt->get());
+			
 			return nullptr;
 		}
 

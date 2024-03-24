@@ -1,4 +1,5 @@
 #include "TransformComponent.h"
+#include "GameObject.h"
 #include "Time.h"
 
 using namespace FH;

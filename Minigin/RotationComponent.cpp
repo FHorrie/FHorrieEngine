@@ -1,4 +1,5 @@
 #include "RotationComponent.h"
+#include "GameObject.h"
 #include "Time.h"
 #define _USE_MATH_DEFINES
 #include <math.h>

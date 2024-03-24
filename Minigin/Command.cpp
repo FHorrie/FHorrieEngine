@@ -11,13 +11,7 @@ FH::MoveCommand::MoveCommand(GameObject* pGameObject, const glm::vec3& direction
 void FH::MoveCommand::Execute()
 {
 	auto objectPos{ GetGameObjectPtr()->GetTransform().GetPosition() };
-
-	const float x{ objectPos.x + m_Direction.x * float(Time::GetDeltaTime()) * m_MovementSpeed };
-	const float y{ objectPos.y + m_Direction.y * float(Time::GetDeltaTime()) * m_MovementSpeed };
-	const float z{ objectPos.z + m_Direction.z * float(Time::GetDeltaTime()) * m_MovementSpeed };
-
-	const glm::vec3 pos{ x,y,z };
-
+	const glm::vec3 pos{ objectPos + m_Direction * float(Time::GetDeltaTime()) * m_MovementSpeed };
 	GetGameObjectPtr()->SetLocalPosition(pos);
 }
 
@@ -27,10 +21,25 @@ FH::AttackCommand::AttackCommand(GameObject* pGameObject)
 
 void FH::AttackCommand::Execute()
 {
-	AttackComponent* atkComp{ GetGameObjectPtr()->GetComponentOfType<AttackComponent*>()};
+	AttackComponent* atkComp{ GetGameObjectPtr()->GetComponentOfType<AttackComponent>()};
 
 	if (atkComp == nullptr)
 		throw std::runtime_error("No attack component was found!");
 
-	atkComp->DefaultAttack();
+	atkComp->DefaultAttack(GetGameObjectPtr());
+}
+
+FH::GainScoreCommand::GainScoreCommand(GameObject* pGameObject, bool bigReward)
+	: Command(pGameObject)
+	, m_BigReward{ bigReward }
+{}
+
+void FH::GainScoreCommand::Execute()
+{
+	AttackComponent* atkComp{ GetGameObjectPtr()->GetComponentOfType<AttackComponent>() };
+
+	if (atkComp == nullptr)
+		throw std::runtime_error("No attack component was found!");
+
+	atkComp->GainPoints(m_BigReward);
 }

@@ -32,7 +32,7 @@
       <UniqueIdentifier>{cc7600c7-e5e3-4485-be2b-c56958c8c794}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine Files\Math">
-      <UniqueIdentifier>{870ea856-8012-41d8-aa0b-9e8117835d9e}</UniqueIdentifier>
+      <UniqueIdentifier>{3ee53423-6485-45d1-920f-c22721374501}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -138,9 +138,6 @@
     <ClInclude Include="Event.h">
       <Filter>Game Files\Event Handling</Filter>
     </ClInclude>
-    <ClInclude Include="SubjectComponent.h">
-      <Filter>Game Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="EventQueue.h">
       <Filter>Game Files\Singletons</Filter>
     </ClInclude>
@@ -148,6 +145,18 @@
       <Filter>Game Files\Event Handling</Filter>
     </ClInclude>
     <ClInclude Include="AttackComponent.h">
+      <Filter>Game Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoStructs.h">
+      <Filter>Engine Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoUtils.h">
+      <Filter>Engine Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Game Files\Event Handling</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerHUD.h">
       <Filter>Game Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
@@ -239,17 +248,20 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>Game Files\Singletons</Filter>
     </ClCompile>
-    <ClCompile Include="SubjectComponent.cpp">
-      <Filter>Game Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Achievements.cpp">
-      <Filter>Game Files\Event Handling</Filter>
-    </ClCompile>
     <ClCompile Include="AttackComponent.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="EventQueue.cpp">
       <Filter>Game Files\Singletons</Filter>
+    </ClCompile>
+    <ClCompile Include="GeoUtils.cpp">
+      <Filter>Engine Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>Game Files\Event Handling</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerHUD.cpp">
+      <Filter>Game Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

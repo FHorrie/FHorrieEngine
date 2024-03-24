@@ -1,20 +1,19 @@
 #include <stdexcept>
 #include "ResourceManager.h"
 #include "TextComponent.h"
+#include "GameObject.h"
 #include "Renderer.h"
 #include "Font.h"
-#include "Texture2D.h"
-
 using namespace FH;
 
-TextComponent::TextComponent(GameObject* pOwner, const std::string& text, float left, float top)
+TextComponent::TextComponent(GameObject* pOwner, const std::string& text, float left, float top, int fontSize)
 	: Component(pOwner)
 	, m_Text{ text }
 	, m_Color{ 255,255,255,255 }
-	, m_Font{ ResourceManager::GetInstance().LoadFont("Lingua.otf", 28) }
+	, m_Font{ ResourceManager::GetInstance().LoadFont("Lingua.otf", fontSize) }
 	, m_TextTexture{ nullptr }
 {
-	m_Transform.SetPosition(left, top, 0.f); //z = 0 for now, 2D view 
+	m_Translate = glm::vec3(left, top, 0.f); //z = 0 for now, 2D view 
 }
 
 void TextComponent::SetText(const std::string& text)
@@ -50,7 +49,7 @@ void TextComponent::Render() const
 {
 	if (m_TextTexture != nullptr && m_IsVisible == true)
 	{
-		const auto& pos = m_Transform.GetPosition() + GetParentTransform().GetPosition();
+		const auto& pos = m_Translate + GetParentTransform().GetPosition();
 		Renderer::GetInstance().RenderTexture(*m_TextTexture, pos.x, pos.y);
 	}
 }

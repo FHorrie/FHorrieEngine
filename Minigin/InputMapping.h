@@ -19,12 +19,10 @@ namespace FH
 		InputMapping& operator=(const InputMapping& other) = delete;
 		InputMapping& operator=(InputMapping&& other) = delete;
 
-		void BindAction(std::unique_ptr<Action>& pAction, const std::vector<SDL_Scancode>& input);
-		void BindAction(std::unique_ptr<Action>& pAction, const inputTypeDesc& inputDesc);
 		void BindAction(std::unique_ptr<Action>& pAction, const inputTypeDesc& inputDesc, const std::vector<SDL_Scancode>& keyboardInput);
 
 		void HandleControllerInput(XController* controller);
-		void HandleKeyboardInput(SDL_Event& sdlEvent);
+		void HandleKeyboardInput();
 
 	private:
 		//Not optimal, but works for both keyboard and controller

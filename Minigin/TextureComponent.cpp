@@ -1,5 +1,6 @@
 #include "TextureComponent.h"
 #include "ResourceManager.h"
+#include "GameObject.h"
 #include "Renderer.h"
 
 using namespace FH;
@@ -18,12 +19,12 @@ TextureComponent::TextureComponent(GameObject* pOwner, const std::string& filena
 	: Component(pOwner)
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
-	m_LocalTransform.SetPosition(x, y, 0.f);
+	m_Translate = glm::vec3(x, y, 0.f);
 }
 
 void TextureComponent::Render() const
 {
-	const auto& pos = (m_LocalTransform.GetPosition() + GetParentTransform().GetPosition());
+	const auto& pos = m_Translate + GetParentTransform().GetPosition();
 	Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
 }
 
@@ -34,5 +35,5 @@ void TextureComponent::SetTexture(const std::string& filename)
 
 void TextureComponent::SetPosition(float x, float y)
 {
-	m_LocalTransform.SetPosition(x, y, 0.0f);
+	m_Translate = glm::vec3(x, y, 0.0f);
 }

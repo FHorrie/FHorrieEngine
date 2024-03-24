@@ -1,4 +1,7 @@
 #pragma once
+#include <vector>
+
+#include "GameObject.h"
 #include "Component.h"
 #include "Event.h"
 
@@ -11,19 +14,13 @@ namespace FH
 		void AddObserver(Observer* pObserver);
 		void RemoveObserver(Observer* pObserver);
 
+		Subject() = default;
+		~Subject() = default;
+
 	protected:
-		void Notify(Event e);
+		void Notify(GameObject* go, GameEvent e);
 
 	private:
 		std::vector<Observer*> m_pObservers{};
-	};
-
-	class SubjectComponent : public Component, Subject
-	{
-	public:
-		SubjectComponent(GameObject* pOwner);
-		~SubjectComponent() = default;
-
-		GameObject* GetSubjectOwner() { return GetOwner(); }
 	};
 }

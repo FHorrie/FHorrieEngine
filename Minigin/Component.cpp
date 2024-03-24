@@ -1,4 +1,5 @@
 #include "Component.h"
+#include "GameObject.h"
 #include <iostream>
 
 using namespace FH;

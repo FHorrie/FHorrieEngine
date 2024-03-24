@@ -3,6 +3,8 @@
 #include "Texture2D.h"
 #include "Transform.h"
 
+#include <string>
+
 namespace FH 
 {
 	class TextureComponent final : public Component
@@ -23,7 +25,7 @@ namespace FH
 		TextureComponent& operator=(TextureComponent&& other) = delete;
 
 	private:
-		Transform m_LocalTransform{};
+		glm::vec3 m_Translate{};
 		std::shared_ptr<Texture2D> m_Texture{ nullptr };
 	};
 }

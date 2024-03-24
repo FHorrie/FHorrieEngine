@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include <numeric>
 #include <sstream>
+#include "GameObject.h"
 #include "FPSCounter.h"
 #include "Renderer.h"
 #include "Font.h"
