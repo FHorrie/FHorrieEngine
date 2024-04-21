@@ -1,13 +1,11 @@
 #include "InputMapping.h"
 
-using namespace FH;
-
-void InputMapping::BindAction(std::unique_ptr<Action>& pAction, const inputTypeDesc& inputDesc, const std::vector<SDL_Scancode>& keyboardInput)
+void FH::InputMapping::BindAction(std::unique_ptr<Action>& pAction, const ControllerInputVec& inputDesc, const std::vector<SDL_Scancode>& keyboardInput)
 {
 	m_InputMapVec.push_back(std::make_tuple(std::move(pAction), inputDesc, keyboardInput));
 }
 
-void InputMapping::HandleControllerInput(XController* controller)
+void FH::InputMapping::HandleControllerInput(XInputController* controller)
 {
 	controller->PollInput();
 
@@ -24,8 +22,9 @@ void InputMapping::HandleControllerInput(XController* controller)
 	}
 }
 
-void InputMapping::HandleKeyboardInput()
+void FH::InputMapping::HandleKeyboardInput()
 {
+	//Make keyboard input fast as duck
 	const uint8_t* keyboardState{ SDL_GetKeyboardState(nullptr) };
 
 	for (const auto& inputMap : m_InputMapVec)

@@ -4,9 +4,8 @@
 #include "GameObject.h"
 #include "Renderer.h"
 #include "Font.h"
-using namespace FH;
 
-TextComponent::TextComponent(GameObject* pOwner, const std::string& text, float left, float top, int fontSize)
+FH::TextComponent::TextComponent(GameObject* pOwner, const std::string& text, float left, float top, int fontSize)
 	: Component(pOwner)
 	, m_Text{ text }
 	, m_Color{ 255,255,255,255 }
@@ -16,7 +15,7 @@ TextComponent::TextComponent(GameObject* pOwner, const std::string& text, float 
 	m_Translate = glm::vec3(left, top, 0.f); //z = 0 for now, 2D view 
 }
 
-void TextComponent::SetText(const std::string& text)
+void FH::TextComponent::SetText(const std::string& text)
 {
 	if (m_Text != text)
 	{
@@ -25,7 +24,7 @@ void TextComponent::SetText(const std::string& text)
 	}
 }
 
-void TextComponent::Update()
+void FH::TextComponent::Update()
 {
 	if (m_NeedsUpdate)
 	{
@@ -45,7 +44,7 @@ void TextComponent::Update()
 	}
 }
 
-void TextComponent::Render() const
+void FH::TextComponent::Render() const
 {
 	if (m_TextTexture != nullptr && m_IsVisible == true)
 	{

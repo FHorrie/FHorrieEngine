@@ -3,30 +3,28 @@
 
 #include <algorithm>
 
-using namespace FH;
+unsigned int FH::Scene::m_idCounter = 0;
 
-unsigned int Scene::m_idCounter = 0;
+FH::Scene::Scene(const std::string& name) : m_name(name) {}
 
-Scene::Scene(const std::string& name) : m_name(name) {}
+FH::Scene::~Scene() = default;
 
-Scene::~Scene() = default;
-
-void Scene::Add(std::unique_ptr<GameObject> pObject)
+void FH::Scene::Add(std::unique_ptr<GameObject> pObject)
 {
 	m_pObjects.emplace_back(std::move(pObject));
 }
 
-void Scene::Remove(std::unique_ptr<GameObject> pObject)
+void FH::Scene::Remove(std::unique_ptr<GameObject> pObject)
 {
 	m_pObjects.erase(std::remove(m_pObjects.begin(), m_pObjects.end(), pObject), m_pObjects.end());
 }
 
-void Scene::RemoveAll()
+void FH::Scene::RemoveAll()
 {
 	m_pObjects.clear();
 }
 
-void Scene::Update()
+void FH::Scene::Update()
 {
 	for(auto& object : m_pObjects)
 	{
@@ -34,7 +32,7 @@ void Scene::Update()
 	}
 }
 
-void Scene::Render() const
+void FH::Scene::Render() const
 {
 	for (const auto& object : m_pObjects)
 	{
@@ -42,7 +40,7 @@ void Scene::Render() const
 	}
 }
 
-void Scene::RenderUI()
+void FH::Scene::RenderUI()
 {
 	for (const auto& object : m_pObjects)
 	{

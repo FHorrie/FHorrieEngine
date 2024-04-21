@@ -2,13 +2,11 @@
 #include "GameObject.h"
 #include <iostream>
 
-using namespace FH;
-
-Component::Component(GameObject* pOwner)
+FH::Component::Component(GameObject* pOwner)
 	: m_pOwner{ pOwner }
 {}
 
-void Component::AttachToNewObject(GameObject* gameObject)
+void FH::Component::AttachToNewObject(GameObject* gameObject)
 {
 	if (gameObject == nullptr) 
 	{
@@ -24,7 +22,7 @@ void Component::AttachToNewObject(GameObject* gameObject)
 	m_ComponentIdx = gameObject->AddComponent(this);
 }
 
-Transform Component::GetParentTransform() const 
+FH::Transform FH::Component::GetParentTransform() const
 { 
 	return m_pOwner->GetWorldTransform();
 }

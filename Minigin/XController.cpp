@@ -3,17 +3,15 @@
 #include <Xinput.h>
 #include "XController.h"
 
-using namespace FH;
-
-class XController::XControllerImpl
+class FH::XInputController::XInputControllerImpl
 {
 public:
-	XControllerImpl(unsigned int playerIdx);
-	~XControllerImpl() = default;
-	XControllerImpl(const XControllerImpl& other) = delete;
-	XControllerImpl(XControllerImpl&& other) = delete;
-	XControllerImpl& operator=(const XControllerImpl& other) = delete;
-	XControllerImpl& operator=(XControllerImpl&& other) = delete;
+	XInputControllerImpl(int playerIdx);
+	~XInputControllerImpl() = default;
+	XInputControllerImpl(const XInputControllerImpl&) = delete;
+	XInputControllerImpl(XInputControllerImpl&&) = default;
+	XInputControllerImpl& operator=(const XInputControllerImpl&) = delete;
+	XInputControllerImpl& operator=(XInputControllerImpl&&) = default;
 
 	void CheckForInput();
 
@@ -29,16 +27,16 @@ private:
 
 	unsigned int m_ButtonsPressedThisFrame{};
 	unsigned int m_ButtonsReleasedThisFrame{};
-	unsigned int m_PlayerIdx;
+	int m_PlayerIdx;
 };
 
-XController::XControllerImpl::XControllerImpl(unsigned int playerIdx)
+FH::XInputController::XInputControllerImpl::XInputControllerImpl(int playerIdx)
 	: m_PlayerIdx{ playerIdx }
 {}
 
-void XController::XControllerImpl::CheckForInput()
+void FH::XInputController::XInputControllerImpl::CheckForInput()
 {
-	CopyMemory(&m_PrevState, & m_CurrentState, sizeof(XINPUT_STATE));
+	CopyMemory(&m_PrevState, &m_CurrentState, sizeof(XINPUT_STATE));
 	ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
 	XInputGetState(m_PlayerIdx, &m_CurrentState);
 
@@ -47,22 +45,22 @@ void XController::XControllerImpl::CheckForInput()
 	m_ButtonsReleasedThisFrame = buttonChanges& (~m_CurrentState.Gamepad.wButtons);
 }
 
-bool XController::XControllerImpl::ButtonDownThisFrame(unsigned int inputInt) const
+bool FH::XInputController::XInputControllerImpl::ButtonDownThisFrame(unsigned int inputInt) const
 {
 	return m_ButtonsPressedThisFrame & inputInt;
 }
 
-bool XController::XControllerImpl::ButtonUpThisFrame(unsigned int inputInt) const
+bool FH::XInputController::XInputControllerImpl::ButtonUpThisFrame(unsigned int inputInt) const
 {
 	return m_ButtonsReleasedThisFrame & inputInt;
 }
 
-bool XController::XControllerImpl::ButtonPressed(unsigned int inputInt) const
+bool FH::XInputController::XInputControllerImpl::ButtonPressed(unsigned int inputInt) const
 {
 	return m_CurrentState.Gamepad.wButtons & inputInt;
 }
 
-int XController::XControllerImpl::GetXInput(Inputs input)
+int FH::XInputController::XInputControllerImpl::GetXInput(Inputs input)
 {
 	switch (input)
 	{
@@ -95,26 +93,22 @@ int XController::XControllerImpl::GetXInput(Inputs input)
 	}
 }
 
-///
-///Pimpl end
-///
-
-XController::XController(unsigned int playerIdx)
-	: m_pImpl{ new XControllerImpl(playerIdx) }
+FH::XInputController::XInputController(unsigned int playerIdx)
+	: m_pImpl{ new XInputControllerImpl(playerIdx) }
 {}
 
-XController::~XController() 
+FH::XInputController::~XInputController()
 { 
 	delete m_pImpl;
 	m_pImpl = nullptr; 
 }
 
-void XController::PollInput()
+void FH::XInputController::PollInput()
 {
 	m_pImpl->CheckForInput();
 }
 
-bool XController::ValidateInput(Inputs input, InputType inputType)
+bool FH::XInputController::ValidateInput(Inputs input, InputType inputType)
 {
 	switch (inputType)
 	{

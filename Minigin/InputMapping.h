@@ -10,7 +10,7 @@ namespace FH
 	class InputMapping final
 	{
 	public:
-		using inputTypeDesc = std::vector<std::pair<Inputs, InputType>>;
+		using ControllerInputVec = std::vector<std::pair<Inputs, InputType>>;
 
 		InputMapping() = default;
 		~InputMapping() = default;
@@ -19,13 +19,13 @@ namespace FH
 		InputMapping& operator=(const InputMapping& other) = delete;
 		InputMapping& operator=(InputMapping&& other) = delete;
 
-		void BindAction(std::unique_ptr<Action>& pAction, const inputTypeDesc& inputDesc, const std::vector<SDL_Scancode>& keyboardInput);
+		void BindAction(std::unique_ptr<Action>& pAction, const ControllerInputVec& inputDesc, const std::vector<SDL_Scancode>& keyboardInput);
 
-		void HandleControllerInput(XController* controller);
+		void HandleControllerInput(XInputController* controller);
 		void HandleKeyboardInput();
 
 	private:
 		//Not optimal, but works for both keyboard and controller
-		std::vector<std::tuple<std::unique_ptr<Action>,inputTypeDesc, std::vector<SDL_Scancode>>> m_InputMapVec{};
+		std::vector<std::tuple<std::unique_ptr<Action>, ControllerInputVec, std::vector<SDL_Scancode>>> m_InputMapVec{};
 	};
 }

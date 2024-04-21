@@ -13,7 +13,7 @@ namespace FH
 		void AddController(std::unique_ptr<Controller>& controller);
 	private:
 		std::vector<std::unique_ptr<Controller>> m_Controllers{};
-		XController m_Controller{ 0 };
+		XInputController m_Controller{ 0 };
 	};
 
 }

@@ -4,9 +4,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-using namespace FH;
-
-void RotationComponent::Update()
+void FH::RotationComponent::Update()
 {
 	m_Angle += m_Speed * float(Time::GetDeltaTime());
 

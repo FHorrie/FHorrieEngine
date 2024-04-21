@@ -8,9 +8,7 @@
 #include "Texture2D.h"
 #include "Time.h"
 
-using namespace FH;
-
-FPSCounter::FPSCounter(GameObject* pOwner)
+FH::FPSCounter::FPSCounter(GameObject* pOwner)
 	: Component(pOwner)
 {
 	int idx = pOwner->AddComponent(std::make_unique<FH::TextComponent>(pOwner, "FPS:", 10.f, 10.f));
@@ -20,7 +18,7 @@ FPSCounter::FPSCounter(GameObject* pOwner)
 	m_pTextComponent = dynamic_cast<TextComponent*>(pOwner->GetComponentWithIdx(idx));
 }
 
-void FPSCounter::Update()
+void FH::FPSCounter::Update()
 {
 	if (m_pTextComponent == nullptr)
 		return;

@@ -24,6 +24,6 @@ namespace FH
 		void ProcessKeyboardInput();
 	private:
 		std::unique_ptr<InputMapping> m_pInputMap{};
-		std::unique_ptr<XController> m_pController{};
+		std::unique_ptr<XInputController> m_pController{};
 	};
 }

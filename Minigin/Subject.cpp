@@ -1,14 +1,12 @@
 #include "Observer.h"
 #include "Subject.h"
 
-using namespace FH;
-
-void Subject::AddObserver(Observer* pObserver)
+void FH::Subject::AddObserver(Observer* pObserver)
 {
 	m_pObservers.push_back(pObserver);
 }
 
-void Subject::RemoveObserver(Observer* pObserver)
+void FH::Subject::RemoveObserver(Observer* pObserver)
 {
 	auto componentIt = std::ranges::find(m_pObservers, pObserver);
 
@@ -18,7 +16,7 @@ void Subject::RemoveObserver(Observer* pObserver)
 	m_pObservers.erase(componentIt);
 }
 
-void Subject::Notify(GameObject* go, GameEvent e)
+void FH::Subject::Notify(GameObject* go, GameEvent e)
 {
 	for (auto& obs : m_pObservers)
 		obs->OnNotify(go, e);

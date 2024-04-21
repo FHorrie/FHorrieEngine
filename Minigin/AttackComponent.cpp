@@ -3,20 +3,18 @@
 #include "AttackComponent.h"
 #include "Subject.h"
 
-using namespace FH;
-
-AttackComponent::AttackComponent(GameObject* pOwner, Rect hitBox)
+FH::AttackComponent::AttackComponent(GameObject* pOwner, Rect hitBox)
 	: Component(pOwner)
 	, m_HitBox(hitBox)
 {}
 
-AttackComponent::AttackComponent(GameObject* pOwner, Rect hitBox, int lives)
+FH::AttackComponent::AttackComponent(GameObject* pOwner, Rect hitBox, int lives)
 	: Component(pOwner)
 	, m_HitBox(hitBox)
 	, m_Lives(lives)
 {}
 
-void AttackComponent::GainPoints(bool bigReward)
+void FH::AttackComponent::GainPoints(bool bigReward)
 {
 	if (bigReward)
 		m_Score += 100;
@@ -28,7 +26,7 @@ void AttackComponent::GainPoints(bool bigReward)
 		Notify(GetOwner(), GameEvent::EVENT_SCORE_500);
 }
 
-void AttackComponent::DefaultAttack(GameObject* Target)
+void FH::AttackComponent::DefaultAttack(GameObject* Target)
 {
 	if (!m_IsDead)
 	{
@@ -41,7 +39,7 @@ void AttackComponent::DefaultAttack(GameObject* Target)
 	}
 }
 
-void AttackComponent::TakeDamage(int damage)
+void FH::AttackComponent::TakeDamage(int damage)
 {
 	if (!m_IsDead)
 	{

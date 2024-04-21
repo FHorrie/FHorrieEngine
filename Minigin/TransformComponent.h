@@ -18,6 +18,7 @@ namespace FH
 		TransformComponent(TransformComponent&& other) = default;
 		TransformComponent& operator=(const TransformComponent& other) = delete;
 		TransformComponent& operator=(TransformComponent&& other) = default;
+
 	protected:
 		glm::vec3 m_OwnerPos{};
 		glm::vec3 m_PosValsToIncrease;

@@ -1,10 +1,7 @@
 #include "Controller.h"
 #include "GameObject.h"
 
-
-using namespace FH;
-
-void Controller::StoreInputMapping(std::unique_ptr<InputMapping>& inputMapping)
+void FH::Controller::StoreInputMapping(std::unique_ptr<InputMapping>& inputMapping)
 {
 	if (m_pInputMap)
 		m_pInputMap.reset();
@@ -12,12 +9,12 @@ void Controller::StoreInputMapping(std::unique_ptr<InputMapping>& inputMapping)
 	m_pInputMap = std::move(inputMapping);
 }
 
-void Controller::BindToControllerDevice(unsigned int controllerIdx)
+void FH::Controller::BindToControllerDevice(unsigned int controllerIdx)
 {
-	m_pController = std::make_unique<XController>(controllerIdx);
+	m_pController = std::make_unique<XInputController>(controllerIdx);
 }
 
-void Controller::ProcessControllerInput()
+void FH::Controller::ProcessControllerInput()
 {
 	if (!m_pController)
 		return;
@@ -25,7 +22,7 @@ void Controller::ProcessControllerInput()
 	m_pInputMap->HandleControllerInput(m_pController.get());
 }
 
-void Controller::ProcessKeyboardInput()
+void FH::Controller::ProcessKeyboardInput()
 {
 	m_pInputMap->HandleKeyboardInput();
 }

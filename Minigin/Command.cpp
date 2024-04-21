@@ -15,31 +15,11 @@ void FH::MoveCommand::Execute()
 	GetGameObjectPtr()->SetLocalPosition(pos);
 }
 
-FH::AttackCommand::AttackCommand(GameObject* pGameObject)
+FH::AcceptCommand::AcceptCommand(GameObject* pGameObject)
 	: Command(pGameObject)
 {}
 
-void FH::AttackCommand::Execute()
+void FH::AcceptCommand::Execute()
 {
-	AttackComponent* atkComp{ GetGameObjectPtr()->GetComponentOfType<AttackComponent>()};
-
-	if (atkComp == nullptr)
-		throw std::runtime_error("No attack component was found!");
-
-	atkComp->DefaultAttack(GetGameObjectPtr());
-}
-
-FH::GainScoreCommand::GainScoreCommand(GameObject* pGameObject, bool bigReward)
-	: Command(pGameObject)
-	, m_BigReward{ bigReward }
-{}
-
-void FH::GainScoreCommand::Execute()
-{
-	AttackComponent* atkComp{ GetGameObjectPtr()->GetComponentOfType<AttackComponent>() };
-
-	if (atkComp == nullptr)
-		throw std::runtime_error("No attack component was found!");
-
-	atkComp->GainPoints(m_BigReward);
+	
 }

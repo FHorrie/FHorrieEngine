@@ -4,9 +4,7 @@
 #include "TextComponent.h"
 #include "AttackComponent.h"
 
-using namespace FH;
-
-PlayerHUD::PlayerHUD(GameObject* pOwner)
+FH::PlayerHUD::PlayerHUD(GameObject* pOwner)
 	: Component(pOwner)
 {
 	int t1Idx = pOwner->AddComponent(std::make_unique<FH::TextComponent>(pOwner, "Lives: ", 0.f, 0.f, 20));
@@ -16,7 +14,7 @@ PlayerHUD::PlayerHUD(GameObject* pOwner)
 	m_pTextComponent[1] = dynamic_cast<TextComponent*>(pOwner->GetComponentWithIdx(t2Idx));
 }
 
-void PlayerHUD::Update()
+void FH::PlayerHUD::Update()
 {
 	if (m_NeedsUpdate)
 	{
@@ -26,7 +24,7 @@ void PlayerHUD::Update()
 	}
 }
 
-void PlayerHUD::OnNotify(GameObject* go, GameEvent e)
+void FH::PlayerHUD::OnNotify(GameObject* go, GameEvent e)
 {
 	switch (e)
 	{

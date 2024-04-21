@@ -3,21 +3,21 @@
 
 namespace FH
 {
-	class XController final : public BaseInputDevice
+	class XInputController final : public BaseInputDevice
 	{
 	public:
-		XController(unsigned int playerIdx);
-		~XController();
-		XController(const XController& other) = delete;
-		XController(XController&& other) = delete;
-		XController& operator=(const XController& other) = delete;
-		XController& operator=(XController&& other) = delete;
+		XInputController(unsigned int playerIdx);
+		~XInputController();
+		XInputController(const XInputController&) = delete;
+		XInputController(XInputController&&) = default;
+		XInputController& operator=(const XInputController&) = delete;
+		XInputController& operator=(XInputController&&) = default;
 
 		void PollInput() override;
 		bool ValidateInput(Inputs input, InputType inputType) override;
 
 	private:
-		class XControllerImpl;
-		XControllerImpl* m_pImpl;
+		class XInputControllerImpl;
+		XInputControllerImpl* m_pImpl;
 	};
 }

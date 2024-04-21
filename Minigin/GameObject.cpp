@@ -6,9 +6,7 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
-using namespace FH;
-
-void GameObject::Update()
+void FH::GameObject::Update()
 {
 	for (auto& pComp : m_pComponents)
 	{
@@ -16,7 +14,7 @@ void GameObject::Update()
 	}
 }
 
-void GameObject::Render() const
+void FH::GameObject::Render() const
 {
 	for (auto& pComp : m_pComponents)
 	{
@@ -24,7 +22,7 @@ void GameObject::Render() const
 	}
 }
 
-void GameObject::RenderUI() const
+void FH::GameObject::RenderUI() const
 {
 	for (auto& pComp : m_pComponents)
 	{
@@ -32,7 +30,7 @@ void GameObject::RenderUI() const
 	}
 }
 
-void GameObject::SetLocalPosition(glm::vec3 pos)
+void FH::GameObject::SetLocalPosition(glm::vec3 pos)
 {
 	m_LocalTransform.SetPosition(pos);
 	m_IsTransformDirty = true;
@@ -41,7 +39,7 @@ void GameObject::SetLocalPosition(glm::vec3 pos)
 		child->SetTransformDirty();
 }
 
-void GameObject::UpdateTransform()
+void FH::GameObject::UpdateTransform()
 {
 	if (m_IsTransformDirty)
 	{
@@ -56,7 +54,7 @@ void GameObject::UpdateTransform()
 	}
 }
 
-Transform GameObject::GetWorldTransform()
+FH::Transform FH::GameObject::GetWorldTransform()
 {
 	if (m_IsTransformDirty)
 		UpdateTransform();
@@ -65,13 +63,13 @@ Transform GameObject::GetWorldTransform()
 
 #pragma region gameObjectComponentFunctions
 
-int GameObject::AddComponent(Component* pComponent)
+int FH::GameObject::AddComponent(Component* pComponent)
 {
 	auto uniqueComp{ std::unique_ptr<Component>(pComponent) };
 	return AddComponent(std::move(uniqueComp));
 }
 
-int GameObject::AddComponent(std::unique_ptr<Component> pComponent)
+int FH::GameObject::AddComponent(std::unique_ptr<Component> pComponent)
 {
 	const int currentIdx{ int(m_pComponents.size()) };
 
@@ -83,14 +81,14 @@ int GameObject::AddComponent(std::unique_ptr<Component> pComponent)
 	return currentIdx;
 }
 
-bool GameObject::CheckComponent(std::unique_ptr<Component> pComponent)
+bool FH::GameObject::CheckComponent(std::unique_ptr<Component> pComponent)
 {
 	if (std::ranges::find(m_pComponents, pComponent) != m_pComponents.cend())
 		return CheckComponent(pComponent->GetComponentIdx());
 	else return false;
 }
 
-bool GameObject::CheckComponent(int idx)
+bool FH::GameObject::CheckComponent(int idx)
 {
 	if (int(m_pComponents.size()) < idx)
 		return false;
@@ -99,7 +97,7 @@ bool GameObject::CheckComponent(int idx)
 	return true;
 }
 
-Component* GameObject::GetComponentWithIdx(int idx)
+FH::Component* FH::GameObject::GetComponentWithIdx(int idx)
 {
 	if (!CheckComponent(idx))
 		throw ComponentOutOfRangeException();
@@ -107,7 +105,7 @@ Component* GameObject::GetComponentWithIdx(int idx)
 	return m_pComponents[idx].get();
 }
 
-void GameObject::ClearComponentWithIdx(int idx)
+void FH::GameObject::ClearComponentWithIdx(int idx)
 {
 	if (!CheckComponent(idx))
 		throw ComponentOutOfRangeException();
@@ -115,7 +113,7 @@ void GameObject::ClearComponentWithIdx(int idx)
 	m_pComponents.erase(m_pComponents.begin() + idx);
 }
 
-void GameObject::ClearAllComponents()
+void FH::GameObject::ClearAllComponents()
 {
 	m_pComponents.clear();
 }
@@ -124,7 +122,7 @@ void GameObject::ClearAllComponents()
 
 #pragma region gameObjectSceneGraphFunctions
 
-void GameObject::AddChild(GameObject* pObject) //This is the main attach function (scenegraphs)
+void FH::GameObject::AddChild(GameObject* pObject) //This is the main attach function (scenegraphs)
 {
 	if (pObject->GetChildIdx() != -1)
 	{
@@ -142,21 +140,21 @@ void GameObject::AddChild(GameObject* pObject) //This is the main attach functio
 	pObject->SetChildIdx(currentChildIdx);
 }
 
-bool GameObject::CheckChild(GameObject* pObject)
+bool FH::GameObject::CheckChild(GameObject* pObject)
 {
 	if (std::ranges::find(m_pChildren, pObject) != m_pChildren.cend())
 		return CheckChild(pObject->GetChildIdx());
 	else return false;
 }
 
-bool GameObject::CheckChild(int idx)
+bool FH::GameObject::CheckChild(int idx)
 {
 	if (int(m_pChildren.size()) < idx || m_pChildren[idx] == nullptr)
 		return false;
 	return true;
 }
 
-GameObject* GameObject::GetChildWithIdx(int idx)
+FH::GameObject* FH::GameObject::GetChildWithIdx(int idx)
 {
 	if (!CheckChild(idx))
 		throw ChildOutOfRangeException();
@@ -164,7 +162,7 @@ GameObject* GameObject::GetChildWithIdx(int idx)
 	return m_pChildren[idx];
 }
 
-void GameObject::ClearChild(GameObject* pObject)
+void FH::GameObject::ClearChild(GameObject* pObject)
 {
 	const auto childIt = std::ranges::find(m_pChildren, pObject);
 
@@ -179,7 +177,7 @@ void GameObject::ClearChild(GameObject* pObject)
 	m_pChildren.erase(childIt);
 }
 
-void GameObject::ClearChildWithIdx(int idx)
+void FH::GameObject::ClearChildWithIdx(int idx)
 {
 	if (!CheckChild(idx))
 		throw ChildOutOfRangeException();
@@ -192,7 +190,7 @@ void GameObject::ClearChildWithIdx(int idx)
 	m_pChildren.erase(m_pChildren.begin() + idx);
 }
 
-void GameObject::ClearAllChildren()
+void FH::GameObject::ClearAllChildren()
 {
 	for (const auto& child : m_pChildren)
 	{
@@ -203,7 +201,7 @@ void GameObject::ClearAllChildren()
 	m_pChildren.clear();
 }
 
-void GameObject::SetParent(GameObject* pNewParent) //This is a private method, AddChild is the main method
+void FH::GameObject::SetParent(GameObject* pNewParent) //This is a private method, AddChild is the main method
 {
 	if (pNewParent == this)
 	{

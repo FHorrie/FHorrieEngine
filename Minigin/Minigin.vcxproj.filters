@@ -159,14 +159,17 @@
     <ClInclude Include="SteamAchievements.h">
       <Filter>Game Files\Event Handling</Filter>
     </ClInclude>
-    <ClInclude Include="SteamAchievementComponent.h">
-      <Filter>Engine Files</Filter>
-    </ClInclude>
     <ClInclude Include="GlobalSteamVar.h">
       <Filter>Game Files\Event Handling</Filter>
     </ClInclude>
     <ClInclude Include="GlobalSteamAch.h">
       <Filter>Game Files\Event Handling</Filter>
+    </ClInclude>
+    <ClInclude Include="SteamAchievementComponent.h">
+      <Filter>Game Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DiggerMovement.h">
+      <Filter>Game Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -276,7 +279,10 @@
       <Filter>Game Files\Event Handling</Filter>
     </ClCompile>
     <ClCompile Include="SteamAchievementComponent.cpp">
-      <Filter>Game Files</Filter>
+      <Filter>Game Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DiggerMovement.cpp">
+      <Filter>Game Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

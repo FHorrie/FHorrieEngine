@@ -19,9 +19,10 @@ namespace FH
 		Time& operator=(Time&& other) = delete;
 
 	private:
-		static double DELTATIME;
-		static double ELAPSEDTIME;
+		inline static double DELTATIME{ 0.01 };
+		inline static double ELAPSEDTIME{ 0.01 };
 
-		static std::chrono::steady_clock::time_point PREVTIME;
+		inline static std::chrono::steady_clock::time_point 
+			PREVTIME{ std::chrono::steady_clock::now() };
 	};
 }

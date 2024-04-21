@@ -32,26 +32,16 @@ namespace FH
 		float m_MovementSpeed;
 	};
 
-	class AttackCommand final : public Command
+	class AcceptCommand final : public Command
 	{
 	public:
-		AttackCommand(GameObject* pGameObject);
-		~AttackCommand() = default;
+		AcceptCommand(GameObject* pGameObject);
+		~AcceptCommand() = default;
 
 		void Execute() override;
 	};
 
-	class GainScoreCommand final : public Command
-	{
-	public:
-		GainScoreCommand(GameObject* pGameObject, bool IsBig);
-		~GainScoreCommand() = default;
-
-		void Execute() override;
-
-	private:
-		bool m_BigReward{};
-	};
+	
 }
 
 
