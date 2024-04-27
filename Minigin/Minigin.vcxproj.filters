@@ -54,7 +54,7 @@
     <ClInclude Include="Texture2D.h">
       <Filter>Game Files</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h">
+    <ClInclude Include="FHTime.h">
       <Filter>Game Files</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h">
@@ -168,9 +168,6 @@
     <ClInclude Include="SteamAchievementComponent.h">
       <Filter>Game Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="DiggerMovement.h">
-      <Filter>Game Files\Components</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Texture2D.cpp">
@@ -188,10 +185,7 @@
     <ClCompile Include="Minigin.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Engine Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Time.cpp">
+    <ClCompile Include="FHTime.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
@@ -279,9 +273,6 @@
       <Filter>Game Files\Event Handling</Filter>
     </ClCompile>
     <ClCompile Include="SteamAchievementComponent.cpp">
-      <Filter>Game Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="DiggerMovement.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
   </ItemGroup>

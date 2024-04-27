@@ -1,6 +1,6 @@
 #include "RotationComponent.h"
 #include "GameObject.h"
-#include "Time.h"
+#include "FHTime.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
 

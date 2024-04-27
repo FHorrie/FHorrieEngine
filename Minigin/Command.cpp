@@ -1,5 +1,5 @@
 #include "Command.h"
-#include "Time.h"
+#include "FHTime.h"
 #include "AttackComponent.h"
 
 FH::MoveCommand::MoveCommand(GameObject* pGameObject, const glm::vec3& direction, float movementSpeed)

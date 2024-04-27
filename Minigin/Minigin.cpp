@@ -12,8 +12,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-#include "Time.h"
-#include <steam_api.h>
+#include "FHTime.h"
 
 SDL_Window* g_window{};
 
@@ -97,7 +96,5 @@ void FH::Minigin::Run(const std::function<void()>& load)
 		doContinue = input.ProcessInput();
 		sceneManager.Update();
 		renderer.Render();
-
-		SteamAPI_RunCallbacks();
 	}
 }

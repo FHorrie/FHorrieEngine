@@ -6,7 +6,7 @@
 #include "Renderer.h"
 #include "Font.h"
 #include "Texture2D.h"
-#include "Time.h"
+#include "FHTime.h"
 
 FH::FPSCounter::FPSCounter(GameObject* pOwner)
 	: Component(pOwner)

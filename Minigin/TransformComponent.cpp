@@ -1,6 +1,6 @@
 #include "TransformComponent.h"
 #include "GameObject.h"
-#include "Time.h"
+#include "FHTime.h"
 
 FH::TransformComponent::TransformComponent(GameObject* pOwner, float movementSpeed)
 	: Component(pOwner)
