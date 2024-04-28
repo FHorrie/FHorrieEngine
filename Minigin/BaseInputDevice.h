@@ -15,9 +15,8 @@ namespace FH
 		dPadDown,
 		dPadRight,
 		dPadLeft,
-		dPadUp
-		//leftTrigger,
-		//rightTrigger,
+		dPadUp,
+		startButton
 	};
 
 	enum class InputType

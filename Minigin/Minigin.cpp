@@ -6,6 +6,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include <chrono>
 #include "Minigin.h"
 #include "InputManager.h"
@@ -51,6 +52,11 @@ FH::Minigin::Minigin(const std::string &dataPath)
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) != 0) 
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
+	}
+
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	{
+		throw std::runtime_error(std::string("Error when calling Mix_OpenAudio ") + Mix_GetError());
 	}
 
 	g_window = SDL_CreateWindow(

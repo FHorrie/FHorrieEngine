@@ -241,10 +241,14 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClInclude Include="GlobalSteamVar.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="InputMapping.h" />
+    <ClInclude Include="LoggedSoundSystem.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="GeoStructs.h" />
     <ClInclude Include="PlayerHUD.h" />
+    <ClInclude Include="SoundBase.h" />
+    <ClInclude Include="SoundLocator.h" />
+    <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="SteamAchievementComponent.h" />
     <ClInclude Include="SteamAchievements.h" />
     <ClInclude Include="Subject.h" />
@@ -281,8 +285,11 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClCompile Include="GeoUtils.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InputMapping.cpp" />
+    <ClCompile Include="LoggedSoundSystem.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="PlayerHUD.cpp" />
+    <ClCompile Include="SoundLocator.cpp" />
+    <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="SteamAchievementComponent.cpp" />
     <ClCompile Include="SteamAchievements.cpp" />
     <ClCompile Include="Subject.cpp" />

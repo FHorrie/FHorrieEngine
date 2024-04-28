@@ -88,6 +88,8 @@ int FH::XInputController::XInputControllerImpl::GetXInput(Inputs input)
 		return XINPUT_GAMEPAD_LEFT_SHOULDER;
 	case Inputs::rightBumper:
 		return XINPUT_GAMEPAD_RIGHT_SHOULDER;
+	case Inputs::startButton:
+		return XINPUT_GAMEPAD_START;
 	default:
 		return -1;
 	}

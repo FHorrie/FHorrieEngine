@@ -34,6 +34,9 @@
     <Filter Include="Engine Files\Math">
       <UniqueIdentifier>{3ee53423-6485-45d1-920f-c22721374501}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\Sound">
+      <UniqueIdentifier>{e9e8b07a-c598-45a1-84d3-7173217dda4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.h">
@@ -168,6 +171,18 @@
     <ClInclude Include="SteamAchievementComponent.h">
       <Filter>Game Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="SoundBase.h">
+      <Filter>Game Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundSystem.h">
+      <Filter>Game Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundLocator.h">
+      <Filter>Game Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="LoggedSoundSystem.h">
+      <Filter>Game Files\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Texture2D.cpp">
@@ -274,6 +289,15 @@
     </ClCompile>
     <ClCompile Include="SteamAchievementComponent.cpp">
       <Filter>Game Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSystem.cpp">
+      <Filter>Game Files\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundLocator.cpp">
+      <Filter>Game Files\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="LoggedSoundSystem.cpp">
+      <Filter>Game Files\Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

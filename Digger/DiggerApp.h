@@ -17,7 +17,7 @@ namespace FH
 
 	private:
 		void LoadAll();
-
+		void LoadSounds();
 		void LoadBackground(Scene& scene);
 		void AddPlayerInput(Scene& scene);
 	};
