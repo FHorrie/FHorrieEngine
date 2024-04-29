@@ -19,7 +19,7 @@ public:
 	SoundSystemImpl& operator=(SoundSystemImpl&&) = default;
 
 	void LoadSound(soundId newId, const std::string& path);
-	void PlaySound(soundId id, int volume = 128);
+	void PlaySound(soundId id, float volume = 128);
 
 private:
 	static inline std::mutex m_SoundMutex{};
@@ -51,26 +51,27 @@ void FH::SoundSystem::SoundSystemImpl::LoadSound(soundId newId, const std::strin
 	}
 
 	auto soundFuture{ std::async(std::launch::async, Mix_LoadWAV, path.c_str()) };
-	auto sound{ soundFuture.get() };
 
-	if (sound == nullptr)
+	if (soundFuture.valid())
 	{
 		const std::string errorMsg = "Sound failed to load " + path + "\n";
 		std::cerr << errorMsg;
 		return;
 	}
 
-	m_SoundBible.insert(std::pair(newId, sound));
+	m_SoundBible.insert(std::pair(newId, soundFuture.get()));
 }
 
-void FH::SoundSystem::SoundSystemImpl::PlaySound(soundId id, int volume)
+void FH::SoundSystem::SoundSystemImpl::PlaySound(soundId id, float volume)
 {
 	auto sound{ m_SoundBible.find(id) };
 
 	if (sound == m_SoundBible.cend())
 		return;
 
-	Mix_VolumeChunk(sound->second, volume);
+	int mixVolume{ volume * MIX_MAX_VOLUME };
+
+	Mix_VolumeChunk(sound->second, mixVolume);
 	auto channel{ std::async(std::launch::async, Mix_PlayChannel, -1, sound->second, 0) };
 }
 
@@ -86,7 +87,7 @@ FH::SoundSystem::~SoundSystem()
 	m_pImpl = nullptr;
 }
 
-void FH::SoundSystem::Play(soundId id, int volume)
+void FH::SoundSystem::Play(soundId id, float volume)
 {
 	m_pImpl->PlaySound(id, volume);
 }

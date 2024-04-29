@@ -227,7 +227,6 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClInclude Include="Action.h" />
     <ClInclude Include="AttackComponent.h" />
     <ClInclude Include="BaseInputDevice.h" />
-    <ClInclude Include="CacheTestComponent.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Event.h" />
@@ -274,7 +273,6 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClCompile Include="..\3rdParty\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\3rdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="AttackComponent.cpp" />
-    <ClCompile Include="CacheTestComponent.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="EventQueue.cpp" />
