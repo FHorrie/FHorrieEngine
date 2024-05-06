@@ -6,7 +6,7 @@ FH::LoggedSoundSystem::LoggedSoundSystem(SoundBase& wrappedSystem)
 	: m_WrappedSystem{ wrappedSystem }
 {}
 
-void FH::LoggedSoundSystem::Play(soundId id, int volume)
+void FH::LoggedSoundSystem::Play(soundId id, float volume)
 {
 	LogConsole(std::format("Playing single sound with id {} at {} volume", id, volume));
 	m_WrappedSystem.Play(id, volume);

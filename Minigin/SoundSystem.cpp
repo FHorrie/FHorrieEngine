@@ -22,8 +22,14 @@ public:
 	void PlaySound(soundId id, float volume = 128);
 
 private:
+	void PlaySoundQueue();
+
 	static inline std::mutex m_SoundMutex{};
 	std::unordered_map<soundId, Mix_Chunk*> m_SoundBible{};
+	std::list<std::pair<soundId, float /*volume*/>> m_SoundEventQueue{};
+
+	std::jthread m_SoundThread{};
+	bool m_CleanUpThread{};
 };
 
 FH::SoundSystem::SoundSystemImpl::SoundSystemImpl()
@@ -31,6 +37,8 @@ FH::SoundSystem::SoundSystemImpl::SoundSystemImpl()
 	LoadSound("Teleport", "../Data/Sounds/PlayerTeleported.ogg");
 	//LoadSound("HFB", "../Data/Sounds/HundredFortyBillion.mp3");
 	//LoadSound("Ligma", "../Data/Sounds/SteveJobs.mp3");
+
+	m_SoundThread = std::jthread(&SoundSystemImpl::PlaySoundQueue, this);
 }
 
 FH::SoundSystem::SoundSystemImpl::~SoundSystemImpl()
@@ -40,6 +48,8 @@ FH::SoundSystem::SoundSystemImpl::~SoundSystemImpl()
 		Mix_FreeChunk(sound.second);
 		sound.second = nullptr;
 	}
+
+	m_CleanUpThread = true;
 }
 
 void FH::SoundSystem::SoundSystemImpl::LoadSound(soundId newId, const std::string& path)
@@ -69,10 +79,28 @@ void FH::SoundSystem::SoundSystemImpl::PlaySound(soundId id, float volume)
 	if (sound == m_SoundBible.cend())
 		return;
 
-	int mixVolume{ volume * MIX_MAX_VOLUME };
+	m_SoundEventQueue.push_back({id, volume});
+}
 
-	Mix_VolumeChunk(sound->second, mixVolume);
-	auto channel{ std::async(std::launch::async, Mix_PlayChannel, -1, sound->second, 0) };
+void FH::SoundSystem::SoundSystemImpl::PlaySoundQueue()
+{
+	do
+	{
+		if (m_SoundEventQueue.size() == 0)
+			std::this_thread::yield();
+		else
+		{
+			auto soundInfo{ m_SoundEventQueue.front() };
+			m_SoundEventQueue.pop_front();
+
+			const int mixVolume{ static_cast<int>(soundInfo.second * MIX_MAX_VOLUME) };
+
+			const auto sound{ m_SoundBible.find(soundInfo.first) };
+
+			Mix_VolumeChunk(sound->second, mixVolume);
+			Mix_PlayChannel(-1, sound->second, 0);
+		}
+	} while (!m_CleanUpThread);
 }
 
 //pImpl end

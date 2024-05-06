@@ -9,9 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="imgui">
-      <UniqueIdentifier>{d95f9fe2-5e5f-4234-8bac-9f0799622429}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine Files\Math">
       <UniqueIdentifier>{3ee53423-6485-45d1-920f-c22721374501}</UniqueIdentifier>
     </Filter>
@@ -56,27 +53,6 @@
     </ClInclude>
     <ClInclude Include="FHTime.h">
       <Filter>Lib Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui\imconfig.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui\imgui.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui\imgui_internal.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui\imstb_rectpack.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui\imstb_textedit.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui\imstb_truetype.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui\imgui_plot.h">
-      <Filter>imgui</Filter>
     </ClInclude>
     <ClInclude Include="Command.h">
       <Filter>Lib Files\Input</Filter>
@@ -150,18 +126,6 @@
     <ClInclude Include="PlayerHUD.h">
       <Filter>Lib Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="SteamAchievements.h">
-      <Filter>Lib Files\Event Handling</Filter>
-    </ClInclude>
-    <ClInclude Include="GlobalSteamVar.h">
-      <Filter>Lib Files\Event Handling</Filter>
-    </ClInclude>
-    <ClInclude Include="GlobalSteamAch.h">
-      <Filter>Lib Files\Event Handling</Filter>
-    </ClInclude>
-    <ClInclude Include="SteamAchievementComponent.h">
-      <Filter>Lib Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="SoundBase.h">
       <Filter>Lib Files\Sound</Filter>
     </ClInclude>
@@ -196,24 +160,6 @@
     </ClCompile>
     <ClCompile Include="FHTime.cpp">
       <Filter>Lib Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui\imgui_demo.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui\imgui_draw.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui\imgui_tables.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui\imgui_widgets.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui\imgui_plot.cpp">
-      <Filter>imgui</Filter>
     </ClCompile>
     <ClCompile Include="Command.cpp">
       <Filter>Lib Files\Input</Filter>
@@ -273,12 +219,6 @@
       <Filter>Lib Files\Event Handling</Filter>
     </ClCompile>
     <ClCompile Include="PlayerHUD.cpp">
-      <Filter>Lib Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="SteamAchievements.cpp">
-      <Filter>Lib Files\Event Handling</Filter>
-    </ClCompile>
-    <ClCompile Include="SteamAchievementComponent.cpp">
       <Filter>Lib Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="SoundSystem.cpp">

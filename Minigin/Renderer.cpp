@@ -3,11 +3,6 @@
 #include <iostream>
 #include <stdexcept>
 #include <chrono>
-#include <imgui.h>
-#include <imgui_plot.h>
-
-#include "backends/imgui_impl_opengl3.h"
-#include "backends/imgui_impl_sdl2.h"
 #include "Renderer.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
@@ -37,8 +32,6 @@ void FH::Renderer::Init(SDL_Window* window)
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
 	SDL_RenderSetVSync(m_renderer, 1);
-
-	ImGuiSetup(window);
 }
 
 void FH::Renderer::Render() const
@@ -49,15 +42,11 @@ void FH::Renderer::Render() const
 
 	SceneManager::GetInstance().Render();
 
-	RenderUI();
-
 	SDL_RenderPresent(m_renderer);
 }
 
 void FH::Renderer::Destroy()
 {
-	ImGuiDelete();
-
 	if (m_renderer != nullptr)
 	{
 		SDL_DestroyRenderer(m_renderer);
@@ -84,32 +73,7 @@ void FH::Renderer::RenderTexture(const Texture2D& texture, const float x, const 
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-#pragma region IMGUI_Functions
-
-void FH::Renderer::ImGuiSetup(SDL_Window* window)
-{
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGui_ImplSDL2_InitForOpenGL(window, SDL_GL_GetCurrentContext());
-	ImGui_ImplOpenGL3_Init();
-}
-
 void FH::Renderer::RenderUI() const
 {
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame();
-	ImGui::NewFrame();
-	
 	SceneManager::GetInstance().RenderUI();
-
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
-
-void FH::Renderer::ImGuiDelete()
-{
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplSDL2_Shutdown();
-	ImGui::DestroyContext();
-}
-#pragma endregion
