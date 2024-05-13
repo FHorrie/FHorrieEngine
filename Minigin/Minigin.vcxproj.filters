@@ -108,12 +108,6 @@
     <ClInclude Include="Event.h">
       <Filter>Lib Files\Event Handling</Filter>
     </ClInclude>
-    <ClInclude Include="EventQueue.h">
-      <Filter>Lib Files\Singletons</Filter>
-    </ClInclude>
-    <ClInclude Include="AttackComponent.h">
-      <Filter>Lib Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="GeoStructs.h">
       <Filter>Engine Files\Math</Filter>
     </ClInclude>
@@ -122,9 +116,6 @@
     </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Lib Files\Event Handling</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerHUD.h">
-      <Filter>Lib Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="SoundBase.h">
       <Filter>Lib Files\Sound</Filter>
@@ -160,9 +151,6 @@
     </ClCompile>
     <ClCompile Include="FHTime.cpp">
       <Filter>Lib Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Command.cpp">
-      <Filter>Lib Files\Input</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>Lib Files\Input</Filter>
@@ -206,20 +194,11 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>Lib Files\Singletons</Filter>
     </ClCompile>
-    <ClCompile Include="AttackComponent.cpp">
-      <Filter>Lib Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="EventQueue.cpp">
-      <Filter>Lib Files\Singletons</Filter>
-    </ClCompile>
     <ClCompile Include="GeoUtils.cpp">
       <Filter>Engine Files\Math</Filter>
     </ClCompile>
     <ClCompile Include="Subject.cpp">
       <Filter>Lib Files\Event Handling</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerHUD.cpp">
-      <Filter>Lib Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="SoundSystem.cpp">
       <Filter>Lib Files\Sound</Filter>

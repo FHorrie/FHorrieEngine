@@ -2,6 +2,8 @@
 #include <string>
 #include <functional>
 
+#include "Renderer.h"
+
 namespace FH
 {
 	class Minigin
@@ -16,5 +18,10 @@ namespace FH
 		Minigin& operator=(const Minigin& other) = delete;
 		Minigin& operator=(Minigin&& other) = delete;
 
+	private:
+		static constexpr int SCREENSIZEMULTIPLIER{ 3 };
+
+		static constexpr int WINDOWWIDTH{ Renderer::GetLogicalWidth() * SCREENSIZEMULTIPLIER };
+		static constexpr int WINDOWHEIGHT{ Renderer::GetLogicalHeight() * SCREENSIZEMULTIPLIER };
 	};
 }

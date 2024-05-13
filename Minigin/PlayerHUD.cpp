@@ -2,7 +2,7 @@
 #include "PlayerHUD.h"
 #include "GameObject.h"
 #include "TextComponent.h"
-#include "AttackComponent.h"
+#include "PlayerComponent.h"
 
 FH::PlayerHUD::PlayerHUD(GameObject* pOwner)
 	: Component(pOwner)
@@ -29,11 +29,11 @@ void FH::PlayerHUD::OnNotify(GameObject* go, GameEvent e)
 	switch (e)
 	{
 	case FH::GameEvent::EVENT_INCREASE_SCORE:
-		m_Score = go->GetComponentOfType<AttackComponent>()->GetScore();
+		m_Score = go->GetComponentOfType<PlayerComponent>()->GetScore();
 		m_NeedsUpdate = true;
 		break;
 	case FH::GameEvent::EVENT_ACTOR_HIT:
-		m_Lives = go->GetComponentOfType<AttackComponent>()->GetLives();
+		m_Lives = go->GetComponentOfType<PlayerComponent>()->GetLives();
 		m_NeedsUpdate = true;
 		break;
 	case FH::GameEvent::EVENT_ACTOR_KILLED:

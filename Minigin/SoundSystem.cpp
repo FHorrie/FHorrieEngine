@@ -28,6 +28,7 @@ private:
 	std::unordered_map<soundId, Mix_Chunk*> m_SoundBible{};
 	std::list<std::pair<soundId, float /*volume*/>> m_SoundEventQueue{};
 
+	std::mutex m_PlayMutex{};
 	std::jthread m_SoundThread{};
 	bool m_CleanUpThread{};
 };
@@ -60,16 +61,16 @@ void FH::SoundSystem::SoundSystemImpl::LoadSound(soundId newId, const std::strin
 		return;
 	}
 
-	auto soundFuture{ std::async(std::launch::async, Mix_LoadWAV, path.c_str()) };
+	auto chunk{ Mix_LoadWAV(path.c_str()) };
 
-	if (soundFuture.valid())
+	if (chunk == nullptr)
 	{
 		const std::string errorMsg = "Sound failed to load " + path + "\n";
 		std::cerr << errorMsg;
 		return;
 	}
 
-	m_SoundBible.insert(std::pair(newId, soundFuture.get()));
+	m_SoundBible.insert(std::pair(newId, chunk));
 }
 
 void FH::SoundSystem::SoundSystemImpl::PlaySound(soundId id, float volume)
@@ -90,6 +91,7 @@ void FH::SoundSystem::SoundSystemImpl::PlaySoundQueue()
 			std::this_thread::yield();
 		else
 		{
+			std::lock_guard<std::mutex> lock{m_PlayMutex};
 			auto soundInfo{ m_SoundEventQueue.front() };
 			m_SoundEventQueue.pop_front();
 

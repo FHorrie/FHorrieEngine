@@ -63,8 +63,8 @@ FH::Minigin::Minigin(const std::string &dataPath)
 		"Programming 4 Engine - Finian Horrie - 2DAE09",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		640,
-		480,
+		WINDOWWIDTH,
+		WINDOWHEIGHT,
 		SDL_WINDOW_OPENGL
 	);
 	if (g_window == nullptr) 
