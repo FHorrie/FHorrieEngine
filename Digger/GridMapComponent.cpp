@@ -31,18 +31,22 @@ FH::GridMapComponent::GridMapComponent(GameObject* pOwner, int rows, int cols,
 
 			utils::Rect cellRect{ left, bottom, m_CellWidth, m_CellHeight };
 			glm::vec2 cellCenter{ left + m_CellWidth / 2, bottom + m_CellHeight / 2 };
-			m_Cells.emplace_back(Cell{ cellRect, cellCenter });
+			m_Cells.emplace_back(std::make_unique<Cell>(cellRect, cellCenter));
 		}
+}
+
+FH::GridMapComponent::GridMapComponent(GameObject* pOwner, int rows, int cols, utils::Color4f gridColor,
+	float leftGrace, float rightGrace, float topGrace, float bottomGrace)
+	: GridMapComponent(pOwner, rows, cols, leftGrace, rightGrace, topGrace, bottomGrace)
+{
+	m_GridColor = gridColor;
 }
 
 void FH::GridMapComponent::Render() const
 {
 	for (const auto& cell : m_Cells)
 	{
-		if(cell.m_IsVisited)
-			utils::RectFunctions::DrawFillRect(m_Renderer, cell.m_Rect, BLACK);
-		else
-			utils::RectFunctions::DrawFillRect(m_Renderer, cell.m_Rect, ORANGE);
-
+		if(!cell->m_IsVisited)
+			utils::RectFunctions::DrawFillRect(m_Renderer, cell->m_Rect, m_GridColor);
 	}
 }

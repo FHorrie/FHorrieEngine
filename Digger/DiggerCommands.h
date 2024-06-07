@@ -4,10 +4,12 @@
 
 namespace FH
 {
+	class GridMapComponent;
 	class MoveCommand final : public Command
 	{
 	public:
-		MoveCommand(GameObject* pGameObject, const glm::vec2& direction, float movementSpeed);
+		MoveCommand(GameObject* pGameObject, const glm::vec2& direction,
+			GridMapComponent* map);
 		~MoveCommand() = default;
 
 		void Execute() override;
@@ -16,7 +18,9 @@ namespace FH
 		glm::vec2 m_Direction{};
 		
 		PlayerComponent* m_pPlayer{};
-		float m_MovementSpeed{};
+
+		const int m_MaxCol{};
+		const int m_MaxRow{};
 	};
 
 	class AcceptCommand final : public Command

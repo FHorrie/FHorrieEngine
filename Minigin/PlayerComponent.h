@@ -8,7 +8,15 @@
 
 namespace FH
 {
+	enum class PointType
+	{
+		GemType,
+		CoinType,
+		EnemyKillType
+	};
+
 	class GridMapComponent;
+	struct Cell;
 	class PlayerComponent : public Component, public Subject
 	{
 	public:
@@ -26,7 +34,9 @@ namespace FH
 		void UpdatePos();
 		void SetNewCellTarget(int col, int row);
 
-		void GainPoints(bool bigReward);
+		void GainPoints(PointType type);
+		void GainGemReward();
+		void UpdateGemReward();
 		void DefaultAttack(GameObject* Target);
 		void TakeDamage(int damage);
 
@@ -35,6 +45,7 @@ namespace FH
 		int GetCurrentRow() const { return m_CurrentRow; }
 		int GetPreviousCol() const { return m_PreviousCol; }
 		int GetPreviousRow() const { return m_PreviousRow; }
+		Cell* GetCurrentCell();
 
 		int GetScore() const { return m_Score; }
 		int GetLives() const { return m_Lives; }
@@ -47,7 +58,7 @@ namespace FH
 		glm::vec2 m_CurrentPos{};
 		glm::vec2 m_DesiredPos{};
 		float m_LerpFactor{};
-		float m_LerpSpeed{ 1.f };
+		float m_LerpSpeed{1.f};
 		bool m_IsMoving{};
 
 		utils::Rect m_HitBox{ 0,0,16,16 };
@@ -58,6 +69,10 @@ namespace FH
 		int m_CurrentRow{};
 
 		int m_Score{};
+		int m_GemStreak{};
+		float m_GemTime{ 2.f };
+		float m_AccuGemTime{};
+
 		int m_Lives{ 3 };
 		bool m_IsDead{};
 	

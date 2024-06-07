@@ -63,22 +63,24 @@ FH::Transform FH::GameObject::GetWorldTransform()
 
 #pragma region gameObjectComponentFunctions
 
-int FH::GameObject::AddComponent(Component* pComponent)
+FH::ComponentData FH::GameObject::AddComponent(Component* pComponent)
 {
 	auto uniqueComp{ std::unique_ptr<Component>(pComponent) };
 	return AddComponent(std::move(uniqueComp));
 }
 
-int FH::GameObject::AddComponent(std::unique_ptr<Component> pComponent)
+FH::ComponentData FH::GameObject::AddComponent(std::unique_ptr<Component> pComponent)
 {
-	const int currentIdx{ int(m_pComponents.size()) };
+	const int idx{ static_cast<int>(m_pComponents.size()) };
 
-	if (currentIdx >= INT32_MAX)
+	if (idx >= INT32_MAX)
 		throw MaxComponentsReachedException();
+
+	auto* rawPtr{ pComponent.get() };
 
 	m_pComponents.emplace_back(std::move(pComponent));
 
-	return currentIdx;
+	return { rawPtr, idx };
 }
 
 bool FH::GameObject::CheckComponent(std::unique_ptr<Component> pComponent)

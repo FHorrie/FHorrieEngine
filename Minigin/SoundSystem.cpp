@@ -19,14 +19,21 @@ public:
 	SoundSystemImpl& operator=(SoundSystemImpl&&) = default;
 
 	void LoadSound(soundId newId, const std::string& path);
-	void PlaySound(soundId id, float volume = 128);
+	void LoadSong(soundId newId, const std::string& path);
+
+	void PlaySound(soundId id, float volume);
+	void PlaySong(soundId id, float volume, bool loop);
+	void PauseSong() const { Mix_PauseMusic(); }
+	void ResumeSong() const { Mix_ResumeMusic(); }
+	void StopSong() const { Mix_HaltMusic(); }
 
 private:
 	void PlaySoundQueue();
 
 	static inline std::mutex m_SoundMutex{};
 	std::unordered_map<soundId, Mix_Chunk*> m_SoundBible{};
-	std::list<std::pair<soundId, float /*volume*/>> m_SoundEventQueue{};
+	std::unordered_map<soundId, Mix_Music*> m_MusicBible{};
+	std::list<std::pair<soundId, int /*volume*/>> m_SoundEventQueue{};
 
 	std::mutex m_PlayMutex{};
 	std::jthread m_SoundThread{};
@@ -35,9 +42,24 @@ private:
 
 FH::SoundSystem::SoundSystemImpl::SoundSystemImpl()
 {
-	LoadSound("Teleport", "../Data/Sounds/PlayerTeleported.ogg");
-	//LoadSound("HFB", "../Data/Sounds/HundredFortyBillion.mp3");
-	//LoadSound("Ligma", "../Data/Sounds/SteveJobs.mp3");
+	const std::string data{ "../Data/" };
+
+	LoadSong("MainBGM", data + "Songs/Popcorn.mp3");
+
+	LoadSound("BagWiggle", data + "Sounds/BagWiggle.ogg");
+	LoadSound("BagBreak", data + "Sounds/BagBreak.ogg");
+	LoadSound("BagFall", data + "Sounds/BagFall.ogg");
+	LoadSound("CoinGrab", data + "Sounds/CoinGrab.ogg");
+
+	LoadSound("GemGrabBase", data + "Sounds/GemGrabBase.ogg");
+	LoadSound("GemGrab1", data + "Sounds/GemGrab1.ogg");
+	LoadSound("GemGrab2", data + "Sounds/GemGrab2.ogg");
+	LoadSound("GemGrab3", data + "Sounds/GemGrab3.ogg");
+	LoadSound("GemGrab4", data + "Sounds/GemGrab4.ogg");
+	LoadSound("GemGrab5", data + "Sounds/GemGrab5.ogg");
+	LoadSound("GemGrab6", data + "Sounds/GemGrab6.ogg");
+	LoadSound("GemGrab7", data + "Sounds/GemGrab7.ogg");
+	LoadSound("GemGrab8", data + "Sounds/GemGrab8.ogg");
 
 	m_SoundThread = std::jthread(&SoundSystemImpl::PlaySoundQueue, this);
 }
@@ -48,6 +70,12 @@ FH::SoundSystem::SoundSystemImpl::~SoundSystemImpl()
 	{
 		Mix_FreeChunk(sound.second);
 		sound.second = nullptr;
+	}
+
+	for (auto& song : m_MusicBible)
+	{
+		Mix_FreeMusic(song.second);
+		song.second = nullptr;
 	}
 
 	m_CleanUpThread = true;
@@ -65,12 +93,30 @@ void FH::SoundSystem::SoundSystemImpl::LoadSound(soundId newId, const std::strin
 
 	if (chunk == nullptr)
 	{
-		const std::string errorMsg = "Sound failed to load " + path + "\n";
-		std::cerr << errorMsg;
+		std::cerr << "Sound failed to load " + path + "\n";
 		return;
 	}
 
-	m_SoundBible.insert(std::pair(newId, chunk));
+	m_SoundBible.insert({ newId, chunk });
+}
+
+void FH::SoundSystem::SoundSystemImpl::LoadSong(soundId newId, const std::string& path)
+{
+	if (m_MusicBible.contains(newId))
+	{
+		std::cerr << "Error!: sound id is already in use, " + path + " was not loaded\n";
+		return;
+	}
+
+	auto chunk{ Mix_LoadMUS(path.c_str()) };
+
+	if (chunk == nullptr)
+	{
+		std::cerr << "Song failed to load: " + path + "\n";
+		return;
+	}
+
+	m_MusicBible.insert({ newId, chunk });
 }
 
 void FH::SoundSystem::SoundSystemImpl::PlaySound(soundId id, float volume)
@@ -80,7 +126,17 @@ void FH::SoundSystem::SoundSystemImpl::PlaySound(soundId id, float volume)
 	if (sound == m_SoundBible.cend())
 		return;
 
-	m_SoundEventQueue.push_back({id, volume});
+	m_SoundEventQueue.push_back({id, int(volume * 128)});
+}
+
+void FH::SoundSystem::SoundSystemImpl::PlaySong(soundId id, float volume, bool loop)
+{
+	auto song{ m_MusicBible.find(id) };
+
+	if (song == m_MusicBible.cend())
+		return;
+	Mix_VolumeMusic(int(volume * 128));
+	Mix_PlayMusic(song->second, loop ? -1 : 1);
 }
 
 void FH::SoundSystem::SoundSystemImpl::PlaySoundQueue()
@@ -95,11 +151,9 @@ void FH::SoundSystem::SoundSystemImpl::PlaySoundQueue()
 			auto soundInfo{ m_SoundEventQueue.front() };
 			m_SoundEventQueue.pop_front();
 
-			const int mixVolume{ static_cast<int>(soundInfo.second * MIX_MAX_VOLUME) };
-
 			const auto sound{ m_SoundBible.find(soundInfo.first) };
 
-			Mix_VolumeChunk(sound->second, mixVolume);
+			Mix_VolumeChunk(sound->second, soundInfo.second);
 			Mix_PlayChannel(-1, sound->second, 0);
 		}
 	} while (!m_CleanUpThread);
@@ -122,12 +176,24 @@ void FH::SoundSystem::Play(soundId id, float volume)
 	m_pImpl->PlaySound(id, volume);
 }
 
-void FH::SoundSystem::TryStop(soundId id)
+void FH::SoundSystem::PlaySong(soundId id, float volume, bool loop)
 {
-	//Stops all sounds too
-	//TODO: Figure out how to isolate the requested sound (channel indexes)
-	id;
-	Mix_HaltChannel(-1);
+	m_pImpl->PlaySong(id, volume, loop);
+}
+
+void FH::SoundSystem::StopSong()
+{
+	m_pImpl->StopSong();
+}
+
+void FH::SoundSystem::PauseSong()
+{
+	m_pImpl->PauseSong();
+}
+
+void FH::SoundSystem::ResumeSong()
+{
+	m_pImpl->ResumeSong();
 }
 
 void FH::SoundSystem::StopAll()

@@ -32,7 +32,7 @@ namespace FH
 		std::string m_Text;
 		SDL_Color m_Color;
 		glm::vec3 m_Translate{};
-		std::shared_ptr<Font> m_Font;
+		Font* m_Font;
 		std::unique_ptr<Texture2D> m_TextTexture;
 	};
 }

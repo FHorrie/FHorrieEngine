@@ -27,7 +27,7 @@ namespace FH
 		Transform GetParentTransform() const;
 
 	private:
-		GameObject* m_pOwner;
+		GameObject* m_pOwner{};
 		int m_ComponentIdx{};
 	};
 }

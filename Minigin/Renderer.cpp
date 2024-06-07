@@ -5,6 +5,7 @@
 #include <chrono>
 #include "Renderer.h"
 #include "SceneManager.h"
+#include "GameObject.h"
 #include "Texture2D.h"
 
 using std::chrono::high_resolution_clock;
@@ -72,9 +73,4 @@ void FH::Renderer::RenderTexture(const Texture2D& texture, const float x, const 
 	dst.w = static_cast<int>(width);
 	dst.h = static_cast<int>(height);
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
-}
-
-void FH::Renderer::RenderUI() const
-{
-	SceneManager::GetInstance().RenderUI();
 }

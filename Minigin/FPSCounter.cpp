@@ -11,11 +11,18 @@
 FH::FPSCounter::FPSCounter(GameObject* pOwner)
 	: Component(pOwner)
 {
-	int idx = pOwner->AddComponent(std::make_unique<FH::TextComponent>(pOwner, "FPS:", 10.f, 10.f));
+	ComponentData textComponentData{ pOwner->AddComponent(std::make_unique<FH::TextComponent>(pOwner, "FPS:", 10.f, 10.f)) };
 
-	//Keep raw ptr to instruct text, this is safe (for now)
-	//We delete both this and the text comp when the object is destroyed
-	m_pTextComponent = dynamic_cast<TextComponent*>(pOwner->GetComponentWithIdx(idx));
+	m_pTextComponent = dynamic_cast<TextComponent*>(textComponentData.pComponent);
+}
+
+FH::FPSCounter::FPSCounter(GameObject* pOwner, int fontSize)
+	: Component(pOwner)
+{
+	ComponentData textComponentData{ pOwner->AddComponent(std::make_unique<FH::TextComponent>(pOwner, "FPS:", 10.f, 10.f, fontSize)) };
+
+	//Keep raw ptr to instruct text, this is safe since both exist while the scene exists
+	m_pTextComponent = dynamic_cast<TextComponent*>(textComponentData.pComponent);
 }
 
 void FH::FPSCounter::Update()

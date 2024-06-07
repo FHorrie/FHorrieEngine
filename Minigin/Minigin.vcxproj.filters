@@ -45,9 +45,6 @@
     <ClInclude Include="Minigin.h">
       <Filter>Lib Files</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Lib Files</Filter>
-    </ClInclude>
     <ClInclude Include="Texture2D.h">
       <Filter>Lib Files</Filter>
     </ClInclude>
@@ -105,9 +102,6 @@
     <ClInclude Include="SceneManager.h">
       <Filter>Lib Files\Singletons</Filter>
     </ClInclude>
-    <ClInclude Include="Event.h">
-      <Filter>Lib Files\Event Handling</Filter>
-    </ClInclude>
     <ClInclude Include="GeoStructs.h">
       <Filter>Engine Files\Math</Filter>
     </ClInclude>
@@ -132,15 +126,15 @@
     <ClInclude Include="Singleton.h">
       <Filter>Lib Files\Singletons</Filter>
     </ClInclude>
+    <ClInclude Include="LiveTextureComponent.h">
+      <Filter>Lib Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Texture2D.cpp">
       <Filter>Lib Files</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
-      <Filter>Lib Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
       <Filter>Lib Files</Filter>
     </ClCompile>
     <ClCompile Include="Font.cpp">
@@ -208,6 +202,9 @@
     </ClCompile>
     <ClCompile Include="LoggedSoundSystem.cpp">
       <Filter>Lib Files\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="LiveTextureComponent.cpp">
+      <Filter>Lib Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -11,6 +11,7 @@
 #include "Minigin.h"
 #include "InputManager.h"
 #include "SceneManager.h"
+#include "Scene.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "FHTime.h"

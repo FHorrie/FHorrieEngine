@@ -16,7 +16,8 @@ namespace FH
 		void Run();
 
 	private:
-		void LoadAll();
+		void MakeDiggerScene();
+		void LoadTextures();
 		void LoadSounds();
 	};
 }

@@ -10,13 +10,13 @@ namespace FH
 {
 	struct Cell
 	{
-		utils::Rect m_Rect;
-		glm::vec2 m_Center;
+		utils::Rect m_Rect{};
+		glm::vec2 m_Center{};
 
 		bool m_HasGem = false;
 		bool m_HasBag = false;
+		bool m_HasPlayer = false;
 		bool m_IsVisited = false;
-		bool m_ContainsBag = false;
 	};
 
 	class GridMapComponent final : public Component
@@ -25,6 +25,8 @@ namespace FH
 		void Render() const override;
 
 		GridMapComponent(GameObject* pOwner, int rows, int cols,
+			float leftGrace = 0.f, float rightGrace = 0.f, float topGrace = 0.f, float bottomGrace = 0.f);
+		GridMapComponent(GameObject* pOwner, int rows, int cols, utils::Color4f gridColor,
 			float leftGrace = 0.f, float rightGrace = 0.f, float topGrace = 0.f, float bottomGrace = 0.f);
 		virtual ~GridMapComponent() = default;
 		GridMapComponent(const GridMapComponent& other) = delete;
@@ -35,10 +37,10 @@ namespace FH
 		int GetAmtRows() const { return m_CellRows; }
 		int GetAmtCols() const { return m_CellCols; }
 
-		std::vector<Cell> GetCells() const { return m_Cells; }
-		Cell GetCell(int idx) const { return m_Cells[idx]; }
-		void SetCellVisited(int idx) { m_Cells[idx].m_IsVisited = true; }
-		void SetCellContainsBag(int idx, bool state) { m_Cells[idx].m_ContainsBag = state; }
+		Cell* GetCell(int idx) const 
+			{ return m_Cells[idx].get(); }
+		void SetCellVisited(int idx) 
+			{ m_Cells[idx]->m_IsVisited = true; }
 
 	private:
 		int m_CellRows{};
@@ -54,10 +56,9 @@ namespace FH
 
 		SDL_Renderer* m_Renderer{};
 
-		std::vector<Cell> m_Cells{};
+		std::vector<std::unique_ptr<Cell>> m_Cells{};
 
-		inline static const utils::Color4f ORANGE {200, 100, 0};
-		inline static const utils::Color4f BLACK {0, 0, 0};
+		utils::Color4f m_GridColor {200, 100, 0};
 	};
 }
 

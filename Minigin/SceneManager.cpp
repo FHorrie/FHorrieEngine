@@ -1,5 +1,7 @@
 #include "SceneManager.h"
-#include "Scene.h"
+#include "GameObject.h"
+
+#include <algorithm>
 
 void FH::SceneManager::Update()
 {
@@ -25,9 +27,52 @@ void FH::SceneManager::RenderUI()
 	}
 }
 
-FH::Scene& FH::SceneManager::CreateScene(const std::string& name)
+FH::SceneManager::Scene* FH::SceneManager::CreateScene(const std::string& name)
 {
-	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
-	m_scenes.push_back(scene);
-	return *scene;
+	auto scene = std::make_unique<Scene>(name);
+	auto* rawPtr = scene.get();
+
+	m_scenes.push_back(std::move(scene));
+
+
+	return rawPtr;
+}
+
+void FH::SceneManager::Scene::Add(std::unique_ptr<GameObject> pObject)
+{
+	m_pObjects.emplace_back(std::move(pObject));
+}
+
+void FH::SceneManager::Scene::Remove(std::unique_ptr<GameObject> pObject)
+{
+	m_pObjects.erase(std::remove(m_pObjects.begin(), m_pObjects.end(), pObject), m_pObjects.end());
+}
+
+void FH::SceneManager::Scene::RemoveAll()
+{
+	m_pObjects.clear();
+}
+
+void FH::SceneManager::Scene::Update()
+{
+	for (auto& object : m_pObjects)
+	{
+		object->Update();
+	}
+}
+
+void FH::SceneManager::Scene::Render() const
+{
+	for (const auto& object : m_pObjects)
+	{
+		object->Render();
+	}
+}
+
+void FH::SceneManager::Scene::RenderUI()
+{
+	for (const auto& object : m_pObjects)
+	{
+		object->RenderUI();
+	}
 }

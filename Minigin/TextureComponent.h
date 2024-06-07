@@ -1,32 +1,37 @@
 #pragma once
 #include "Component.h"
-#include "Texture2D.h"
 #include "Transform.h"
 
 #include <string>
 
 namespace FH 
 {
+	class Texture2D;
 	class TextureComponent final : public Component
 	{
 	public:
-		void Render() const override;
-
-		void SetTexture(const std::string& filename);
-		void SetPosition(float x, float y);
-
-		TextureComponent(GameObject* pOwner);
-		TextureComponent(GameObject* pOwner, const std::string& filename);
-		TextureComponent(GameObject* pOwner, const std::string& filename, float x, float y);
+		TextureComponent(GameObject* pOwner, bool hide = false);
+		TextureComponent(
+			GameObject* pOwner, const std::string& mapIdentifier, bool hide = false);
+		TextureComponent(
+			GameObject* pOwner, const std::string& mapIdentifier,
+			float x, float y, bool hide = false);
 		virtual ~TextureComponent() = default;
 		TextureComponent(const TextureComponent& other) = delete;
 		TextureComponent(TextureComponent&& other) = delete;
 		TextureComponent& operator=(const TextureComponent& other) = delete;
 		TextureComponent& operator=(TextureComponent&& other) = delete;
 
+		void Render() const override;
+
+		void SetTexture(const std::string& mapIdentifier);
+		void SetPosition(float x, float y) { m_Translate = glm::vec3(x, y, 0.0f); }
+		void SetHidden(bool hidden) { m_Hidden = hidden; }
+
 	private:
 		glm::vec3 m_Translate{};
-		std::shared_ptr<Texture2D> m_Texture{ nullptr };
+		Texture2D* m_Texture{ nullptr };
+
+		bool m_Hidden{};
 	};
 }
-

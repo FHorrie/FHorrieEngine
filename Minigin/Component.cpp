@@ -19,7 +19,7 @@ void FH::Component::AttachToNewObject(GameObject* gameObject)
 		m_pOwner->ClearComponentWithIdx(m_ComponentIdx);
 	}
 	
-	m_ComponentIdx = gameObject->AddComponent(this);
+	m_ComponentIdx = gameObject->AddComponent(this).idx;
 }
 
 FH::Transform FH::Component::GetParentTransform() const

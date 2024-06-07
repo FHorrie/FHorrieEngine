@@ -116,8 +116,7 @@
       <Command>xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
-xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
-xcopy "$(SolutionDir)Data\*.*" "$(OutputPath)Data\" /y /d /s</Command>
+xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>xinput.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -145,8 +144,7 @@ xcopy "$(SolutionDir)Data\*.*" "$(OutputPath)Data\" /y /d /s</Command>
       <Command>xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
-xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
-xcopy "$(SolutionDir)Data\*.*" "$(OutputPath)Data\" /y /d /s</Command>
+xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>xinput.lib;opengl32.lib%(AdditionalDependencies)</AdditionalDependencies>
@@ -178,8 +176,7 @@ xcopy "$(SolutionDir)Data\*.*" "$(OutputPath)Data\" /y /d /s</Command>
       <Command>xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
-xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
-xcopy "$(SolutionDir)Data\*.*" "$(OutputPath)Data\" /y /d /s</Command>
+xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>xinput.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -211,8 +208,7 @@ xcopy "$(SolutionDir)Data\*.*" "$(OutputPath)Data\" /y /d /s</Command>
       <Command>xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
-xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
-xcopy "$(SolutionDir)Data\*.*" "$(OutputPath)Data\" /y /d /s</Command>
+xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>xinput.lib;opengl32.lib%(AdditionalDependencies)</AdditionalDependencies>
@@ -223,7 +219,6 @@ xcopy "$(SolutionDir)Data\*.*" "$(OutputPath)Data\" /y /d /s</Command>
     <ClInclude Include="BaseInputDevice.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Controller.h" />
-    <ClInclude Include="Event.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSCounter.h" />
     <ClInclude Include="GameObject.h" />
@@ -231,6 +226,7 @@ xcopy "$(SolutionDir)Data\*.*" "$(OutputPath)Data\" /y /d /s</Command>
     <ClInclude Include="GeoUtils.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="InputMapping.h" />
+    <ClInclude Include="LiveTextureComponent.h" />
     <ClInclude Include="LoggedSoundSystem.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="Observer.h" />
@@ -242,7 +238,6 @@ xcopy "$(SolutionDir)Data\*.*" "$(OutputPath)Data\" /y /d /s</Command>
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="RotationComponent.h" />
-    <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="TextComponent.h" />
@@ -262,6 +257,7 @@ xcopy "$(SolutionDir)Data\*.*" "$(OutputPath)Data\" /y /d /s</Command>
     <ClCompile Include="GeoUtils.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InputMapping.cpp" />
+    <ClCompile Include="LiveTextureComponent.cpp" />
     <ClCompile Include="LoggedSoundSystem.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="SoundLocator.cpp" />
@@ -270,7 +266,6 @@ xcopy "$(SolutionDir)Data\*.*" "$(OutputPath)Data\" /y /d /s</Command>
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="RotationComponent.cpp" />
-    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />

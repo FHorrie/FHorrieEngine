@@ -9,8 +9,10 @@ namespace FH
 	public:
 		virtual ~SoundBase() = default;
 		virtual void Play(soundId id, float volume) = 0;
-		//virtual void PlayLooped(soundId id, float volume) = 0;
-		virtual void TryStop(soundId id) = 0;
+		virtual void PlaySong(soundId id, float volume, bool loop) = 0;
+		virtual void StopSong() = 0;
+		virtual void PauseSong() = 0;
+		virtual void ResumeSong() = 0;
 		virtual void StopAll() = 0;
 	};
 
@@ -18,8 +20,10 @@ namespace FH
 	{
 	public:
 		virtual void Play(soundId id, float volume) override { id; volume; }
-		//virtual void PlayLooped(soundId id, float volume) override {}
-		virtual void TryStop(soundId id) override { id; }
+		virtual void PlaySong(soundId id, float volume, bool loop) override { id; volume; loop; }
+		virtual void StopSong() override {}
+		virtual void PauseSong() override {}
+		virtual void ResumeSong() override {}
 		virtual void StopAll() override	{}
 	};
 }

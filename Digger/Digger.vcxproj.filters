@@ -16,11 +16,20 @@
     <Filter Include="Game Files\Commands">
       <UniqueIdentifier>{ae052dcd-9514-40eb-9ccd-3ac13552c18b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Files\Components">
+    <Filter Include="Game Files\Events">
+      <UniqueIdentifier>{2a2d0c4e-bd6d-4299-81e3-2d3ebcf680a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Player">
+      <UniqueIdentifier>{89930e57-ce39-44fc-b861-ebb2f470eb97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\GridMap">
       <UniqueIdentifier>{43447b1f-3030-47f9-84b6-6120ceadfb89}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Files\MoneyBag">
+    <Filter Include="Game Files\CoinBag">
       <UniqueIdentifier>{390c3a0f-084d-4497-822b-4826afb6a0a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Gems">
+      <UniqueIdentifier>{19852d66-6b63-4f7d-8c60-60a1d71df1cf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,20 +42,26 @@
     <ClCompile Include="DiggerCommands.cpp">
       <Filter>Game Files\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="..\Minigin\PlayerComponent.cpp">
-      <Filter>Game Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\PlayerHUD.cpp">
-      <Filter>Game Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="GridMapComponent.cpp">
-      <Filter>Game Files\Components</Filter>
+      <Filter>Game Files\GridMap</Filter>
     </ClCompile>
-    <ClCompile Include="MoneyBagComponent.cpp">
-      <Filter>Game Files\MoneyBag</Filter>
+    <ClCompile Include="CoinBagComponent.cpp">
+      <Filter>Game Files\CoinBag</Filter>
     </ClCompile>
-    <ClCompile Include="MoneyBagStates.cpp">
-      <Filter>Game Files\MoneyBag</Filter>
+    <ClCompile Include="CoinBagStates.cpp">
+      <Filter>Game Files\CoinBag</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\PlayerComponent.cpp">
+      <Filter>Game Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerTextureComponent.cpp">
+      <Filter>Game Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CoinBagTextureComponent.cpp">
+      <Filter>Game Files\CoinBag</Filter>
+    </ClCompile>
+    <ClCompile Include="GemComponent.cpp">
+      <Filter>Game Files\Gems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,20 +71,29 @@
     <ClInclude Include="DiggerCommands.h">
       <Filter>Game Files\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="..\Minigin\PlayerComponent.h">
-      <Filter>Game Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\PlayerHUD.h">
-      <Filter>Game Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="GridMapComponent.h">
-      <Filter>Game Files\Components</Filter>
+      <Filter>Game Files\GridMap</Filter>
     </ClInclude>
-    <ClInclude Include="MoneyBagComponent.h">
-      <Filter>Game Files\MoneyBag</Filter>
+    <ClInclude Include="CoinBagComponent.h">
+      <Filter>Game Files\CoinBag</Filter>
     </ClInclude>
-    <ClInclude Include="MoneyBagStates.h">
-      <Filter>Game Files\MoneyBag</Filter>
+    <ClInclude Include="CoinBagStates.h">
+      <Filter>Game Files\CoinBag</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\Event.h">
+      <Filter>Game Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\PlayerComponent.h">
+      <Filter>Game Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerTextureComponent.h">
+      <Filter>Game Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CoinBagTextureComponent.h">
+      <Filter>Game Files\CoinBag</Filter>
+    </ClInclude>
+    <ClInclude Include="GemComponent.h">
+      <Filter>Game Files\Gems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

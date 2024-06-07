@@ -107,6 +107,13 @@
       <AdditionalDependencies>$(OutputDir)..\Minigin\Minigin.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)Data\*.*" "$(OutputPath)..\Data\" /y /d /s</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -129,6 +136,13 @@
       <AdditionalDependencies>$(OutputDir)..\Minigin\Minigin.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)Data\*.*" "$(OutputPath)..\Data\" /y /d /s</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -147,6 +161,13 @@
       <AdditionalDependencies>$(OutputDir)..\Minigin\Minigin.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)Data\*.*" "$(OutputPath)..\Data\" /y /d /s</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -169,25 +190,37 @@
       <AdditionalDependencies>$(OutputDir)..\Minigin\Minigin.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)Data\*.*" "$(OutputPath)..\Data\" /y /d /s</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Minigin\PlayerComponent.cpp" />
-    <ClCompile Include="..\Minigin\PlayerHUD.cpp" />
     <ClCompile Include="DiggerApp.cpp" />
     <ClCompile Include="DiggerCommands.cpp" />
+    <ClCompile Include="GemComponent.cpp" />
     <ClCompile Include="GridMapComponent.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MoneyBagComponent.cpp" />
-    <ClCompile Include="MoneyBagStates.cpp" />
+    <ClCompile Include="CoinBagComponent.cpp" />
+    <ClCompile Include="CoinBagStates.cpp" />
+    <ClCompile Include="CoinBagTextureComponent.cpp" />
+    <ClCompile Include="PlayerTextureComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Minigin\Event.h" />
     <ClInclude Include="..\Minigin\PlayerComponent.h" />
-    <ClInclude Include="..\Minigin\PlayerHUD.h" />
     <ClInclude Include="DiggerApp.h" />
     <ClInclude Include="DiggerCommands.h" />
+    <ClInclude Include="GemComponent.h" />
     <ClInclude Include="GridMapComponent.h" />
-    <ClInclude Include="MoneyBagComponent.h" />
-    <ClInclude Include="MoneyBagStates.h" />
+    <ClInclude Include="CoinBagComponent.h" />
+    <ClInclude Include="CoinBagStates.h" />
+    <ClInclude Include="CoinBagTextureComponent.h" />
+    <ClInclude Include="PlayerTextureComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

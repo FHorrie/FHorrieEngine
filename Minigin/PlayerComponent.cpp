@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "PlayerComponent.h"
 #include "GeoUtils.h"
 #include "GameObject.h"
@@ -5,6 +7,7 @@
 #include "Renderer.h"
 #include "../Digger/GridMapComponent.h"
 #include "FHTime.h"
+#include "SoundLocator.h"
 
 FH::PlayerComponent::PlayerComponent(GameObject* pOwner, int col, int row, 
 	GridMapComponent* pGridMap)
@@ -22,7 +25,7 @@ FH::PlayerComponent::PlayerComponent(GameObject* pOwner, int col, int row,
 
 	m_pGridMap->SetCellVisited(m_CurrentRow * m_pGridMap->GetAmtCols() + m_CurrentCol);
 
-	const auto cellPos{ m_pGridMap->GetCell(m_CurrentRow * m_pGridMap->GetAmtCols() + m_CurrentCol).m_Center };
+	const auto cellPos{ m_pGridMap->GetCell(m_CurrentRow * m_pGridMap->GetAmtCols() + m_CurrentCol)->m_Center };
 
 	m_PreviousPos = cellPos;
 	m_CurrentPos = cellPos;
@@ -46,6 +49,7 @@ FH::PlayerComponent::PlayerComponent(GameObject* pOwner, int col, int row, int l
 void FH::PlayerComponent::Update()
 {
 	UpdatePos();
+	UpdateGemReward();
 }
 
 void FH::PlayerComponent::Render() const
@@ -81,35 +85,98 @@ void FH::PlayerComponent::UpdatePos()
 	m_HitBox.m_Bottom = relPos.y;
 }
 
+FH::Cell* FH::PlayerComponent::GetCurrentCell()
+{
+	return m_pGridMap->GetCell(m_CurrentRow * m_pGridMap->GetAmtCols() + m_CurrentCol);
+}
+
 void FH::PlayerComponent::SetNewCellTarget(int col, int row)
 {
+	auto* newCell{ m_pGridMap->GetCell(row * m_pGridMap->GetAmtCols() + col) };
+
+
+	const int colDiff{ col - m_CurrentCol };
+	const int rowDiff{ row - m_CurrentRow };
+
+	if (colDiff > 0)
+		Notify(GetOwner(), GameEvent::EVENT_PLAYER_MOVED_RIGHT);
+	else if(colDiff < 0)
+		Notify(GetOwner(), GameEvent::EVENT_PLAYER_MOVED_LEFT);
+	else if (rowDiff > 0)
+		Notify(GetOwner(), GameEvent::EVENT_PLAYER_MOVED_DOWN);
+	else if (rowDiff < 0)
+		Notify(GetOwner(), GameEvent::EVENT_PLAYER_MOVED_UP);
+
+	if (newCell->m_HasBag && rowDiff != 0)
+		return;
+
+	GetCurrentCell()->m_HasPlayer = false;
+
 	m_PreviousCol = m_CurrentCol;
 	m_PreviousRow = m_CurrentRow;
 
 	m_CurrentCol = col;
 	m_CurrentRow = row;
 
-	auto newCell{ m_pGridMap->GetCell(m_CurrentRow * m_pGridMap->GetAmtCols() + m_CurrentCol) };
 
-	m_DesiredPos = newCell.m_Center;
-	if (newCell.m_IsVisited)
-		m_LerpSpeed = 3.f;
+	m_DesiredPos = newCell->m_Center;
+	if (newCell->m_IsVisited)
+		m_LerpSpeed = 2.4f;
 	else
-		m_LerpSpeed = 2.f;
+		m_LerpSpeed = 1.8f;
 
-	m_pGridMap->SetCellVisited(m_CurrentRow * m_pGridMap->GetAmtCols() + m_CurrentCol);
+	newCell->m_HasPlayer = true;
+	newCell->m_IsVisited = true;
 }
 
-void FH::PlayerComponent::GainPoints(bool bigReward)
+void FH::PlayerComponent::GainPoints(PointType type)
 {
-	if (bigReward)
-		m_Score += 100;
-	else
-		m_Score += 10;
-	Notify(GetOwner(), GameEvent::EVENT_INCREASE_SCORE);
+	auto& service{ SoundLocator::GetSoundService() };
+	
+	switch (type)
+	{
+	case FH::PointType::GemType:
+		service.Play("GemGrabBase", 0.4f);
+		GainGemReward();
+		service.Play("GemGrab" + std::to_string(m_GemStreak), 0.45f);
+		break;
+	case FH::PointType::CoinType:
+		m_Score += 500;
+		service.Play("CoinGrab", 0.3f);
+		break;
+	case FH::PointType::EnemyKillType:
+		m_Score += 250;
+		break;
+	default:
+		break;
+	}
 
-	if (m_Score >= 500)
-		Notify(GetOwner(), GameEvent::EVENT_SCORE_500);
+
+	std::cout << "NEW PLAYER SCORE: " + std::to_string(m_Score) << std::endl;
+}
+
+void FH::PlayerComponent::GainGemReward()
+{
+	m_AccuGemTime = 0;
+	++m_GemStreak;
+	if (m_GemStreak == 8)
+		m_Score += 250;
+	else
+		m_Score += 25;
+}
+
+void FH::PlayerComponent::UpdateGemReward()
+{
+	if (m_GemStreak == 8)
+		m_GemStreak = 0;
+
+	if (m_GemStreak == 0)
+		return;
+
+	m_AccuGemTime += Time::GetDeltaTime();
+
+	if (m_AccuGemTime >= m_GemTime)
+		m_GemStreak = 0;
 }
 
 void FH::PlayerComponent::DefaultAttack(GameObject* Target)
@@ -135,7 +202,6 @@ void FH::PlayerComponent::TakeDamage(int damage)
 		{
 			m_Lives = 0;
 			m_IsDead = true;
-			Notify(GetOwner(), GameEvent::EVENT_ACTOR_HIT);
 		}
 	}
 }

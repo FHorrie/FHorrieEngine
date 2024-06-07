@@ -9,10 +9,15 @@ FH::TextComponent::TextComponent(GameObject* pOwner, const std::string& text, fl
 	: Component(pOwner)
 	, m_Text{ text }
 	, m_Color{ 255,255,255,255 }
-	, m_Font{ ResourceManager::GetInstance().LoadFont("Lingua.otf", fontSize) }
 	, m_TextTexture{ nullptr }
 {
 	m_Translate = glm::vec3(left, top, 0.f); //z = 0 for now, 2D view 
+
+	auto& resources = ResourceManager::GetInstance();
+
+	m_Font = resources.GetFont("Lingua" + std::to_string(fontSize));                     
+	if(m_Font == nullptr)
+		m_Font = resources.LoadFont("Lingua.otf", fontSize, "Lingua" + std::to_string(fontSize));
 }
 
 void FH::TextComponent::SetText(const std::string& text)
@@ -28,7 +33,7 @@ void FH::TextComponent::Update()
 {
 	if (m_NeedsUpdate)
 	{
-		const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), m_Color);
+		const auto surf{ TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), m_Color) };
 		if (surf == nullptr)
 		{
 			throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());

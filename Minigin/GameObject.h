@@ -18,6 +18,12 @@ namespace FH
 		std::derived_from<T, Component>;
 	};
 
+	struct ComponentData
+	{
+		Component* pComponent{};
+		int idx{};
+	};
+
 	class GameObject final
 	{
 	public:
@@ -30,8 +36,8 @@ namespace FH
 		Transform GetTransform() const { return m_LocalTransform; }
 		Transform GetWorldTransform();
 
-		int AddComponent(Component* pComponent);
-		int AddComponent(std::unique_ptr<Component> pComponent);
+		ComponentData AddComponent(Component* pComponent);
+		ComponentData AddComponent(std::unique_ptr<Component> pComponent);
 
 		bool CheckComponent(std::unique_ptr<Component> pComponent);
 		bool CheckComponent(int idx);

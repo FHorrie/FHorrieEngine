@@ -3,8 +3,6 @@
 #include <SDL_ttf.h>
 #include "ResourceManager.h"
 #include "Renderer.h"
-#include "Texture2D.h"
-#include "Font.h"
 
 void FH::ResourceManager::Init(const std::string& dataPath)
 {
@@ -16,7 +14,8 @@ void FH::ResourceManager::Init(const std::string& dataPath)
 	}
 }
 
-std::shared_ptr<FH::Texture2D> FH::ResourceManager::LoadTexture(const std::string& file) const
+FH::Texture2D* FH::ResourceManager::LoadTexture(
+	const std::string& file, const std::string& mapIdentifier)
 {
 	const auto fullPath = m_dataPath + file;
 	auto texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
@@ -24,10 +23,41 @@ std::shared_ptr<FH::Texture2D> FH::ResourceManager::LoadTexture(const std::strin
 	{
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
 	}
-	return std::make_shared<Texture2D>(texture);
+
+	auto textureUPtr = std::make_unique<Texture2D>(texture);
+	auto rawPtr = textureUPtr.get();
+	
+	m_TextureMap.insert(std::pair(mapIdentifier, std::move(textureUPtr)));
+
+	return rawPtr;
 }
 
-std::shared_ptr<FH::Font> FH::ResourceManager::LoadFont(const std::string& file, unsigned int size) const
+FH::Font* FH::ResourceManager::LoadFont(
+	const std::string& file, unsigned int size, const std::string& mapIdentifier)
 {
-	return std::make_shared<Font>(m_dataPath + file, size);
+	auto font = std::make_unique<Font>(m_dataPath + file, size);
+	auto rawPtr = font.get();
+
+	m_FontMap.insert(std::pair(mapIdentifier, std::move(font)));
+
+	return rawPtr;
 }
+
+FH::Texture2D* FH::ResourceManager::GetTexture(const std::string& mapIdentifier)
+{
+	auto pos = m_TextureMap.find(mapIdentifier);
+	if (pos == m_TextureMap.cend())
+		return nullptr;
+	else
+		return pos->second.get();
+}
+
+FH::Font* FH::ResourceManager::GetFont(const std::string& mapIdentifier)
+{
+	auto pos = m_FontMap.find(mapIdentifier);
+	if (pos == m_FontMap.cend())
+		return nullptr;
+	else
+		return pos->second.get();
+}
+
