@@ -30,6 +30,8 @@ namespace FH
 		void LoadTextures();
 		void LoadSounds();
 
+		void PrintControls();
+
 		int m_LevelIdx{};
 
 		static constexpr int COLORAMOUNT{ 4 };

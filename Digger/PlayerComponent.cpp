@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "PlayerComponent.h"
 #include "GeoUtils.h"
 #include "GameObject.h"
@@ -170,8 +168,6 @@ void FH::PlayerComponent::GainPoints(PointType type)
 	}
 
 	Notify(GetOwner(), GameEvent::EVENT_PLAYER_GAINED_POINTS);
-
-	std::cout << "NEW PLAYER SCORE: " + std::to_string(m_Score) << std::endl;
 }
 
 void FH::PlayerComponent::GainGemReward()

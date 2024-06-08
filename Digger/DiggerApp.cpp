@@ -36,6 +36,8 @@ void FH::DiggerApp::MakeDiggerGame()
 	CreateLevel("Level3Data");
 	CreateLevel("Level4Data");
 
+	PrintControls();
+
 	SoundLocator::GetSoundService().PlaySong("MainBGM", 0.4f, true);
 }
 
@@ -314,4 +316,18 @@ void FH::DiggerApp::LoadSounds()
 
 	service.LoadSound("BallShot", data + "Sounds/BallShot.ogg");
 	service.LoadSound("BallBreak", data + "Sounds/BallBreak.ogg");
+}
+
+void FH::DiggerApp::PrintControls()
+{
+	std::cout << "\n--------------------------\n"
+		<< "---- DIGGER (Classic) ----\n\n"
+		<< "Arrow Keys / WASD / D-PAD = Move\n"
+		<< "Space = Launch Projectile\n"
+		<< "--------------------------\n"
+		<< "----- Extra Controls -----\n\n"
+		<< "F1 = Go To Next Level\n"
+		<< "F2 = Mute Game\n"
+		<< "F3 = Go To First Level\n"
+		<< "--------------------------\n\n";
 }
