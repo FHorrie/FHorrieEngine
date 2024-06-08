@@ -1,18 +1,17 @@
-# Minigin
+# FiniGin (Finian Horrie Engine)
 
-Minigin is a very small project using [SDL2](https://www.libsdl.org/) and [glm](https://github.com/g-truc/glm) for 2D c++ game projects. It is in no way a game engine, only a barebone start project where everything sdl related has been set up. It contains glm for vector math, to aleviate the need to write custom vector and matrix classes.
-
-[![Build Status](https://github.com/avadae/minigin/actions/workflows/msbuild.yml/badge.svg)](https://github.com/avadae/msbuild/actions)
-[![GitHub Release](https://img.shields.io/github/v/release/avadae/minigin?logo=github&sort=semver)](https://github.com/avadae/minigin/releases/latest)
+FiniGin is a 2D engine using [SDL2](https://www.libsdl.org/) and [glm](https://github.com/g-truc/glm) for c++ game projects. It contains the building blocks to create and maintain a 2D game. As an example, I made a version of Digger included with the engine
 
 # Goal
 
-Minigin can/may be used as a start project for the exam assignment in the course 'Programming 4' at DAE. In that assignment students need to recreate a popular 80's arcade game with a game engine they need to program themselves. During the course we discuss several game programming patterns, using the book '[Game Programming Patterns](https://gameprogrammingpatterns.com/)' by Robert Nystrom as reading material. 
+FiniGin is my engine containing my self developed game as a submission to the course "Programming 4" at DAE. This project lasted an entire semester where the engine was built from a small template. Over the weeks, improvements were done and features were added untill the engine was at a point of usability to create a game as a demonstration.
 
-# Disclaimer
+# Design
 
-Minigin is, despite perhaps the suggestion in its name, not a game engine. It is just a very simple sdl2 ready project with some of the scaffolding in place to get started. None of the patterns discussed in the course are used yet (except singleton which use we challenge during the course). It is up to the students to implement their own vision for their engine, apply patterns as they see fit, create their game as efficient as possible.
+FiniGin is built with a GameObject - Component system. A GameObject is added to a scene when all required Components are attached. Textures and Sounds should be preloaded into the ResourceManager. This is done to prevent multiple texture/sound loading and allow the user to get a resource with only a key afterwards.
+
+Refer to the attached game, "Digger", to see how to use the engine features.
 
 # Use
 
-Download the latest release of this project and compile/run in visual studio. Since students need to have their work on github too, they can use this repository as a template.
+Download the latest release of this engine and compile/run in visual studio (.sln project).
