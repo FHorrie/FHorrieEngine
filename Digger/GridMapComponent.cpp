@@ -80,3 +80,11 @@ void FH::GridMapComponent::Render() const
 			utils::RectFunctions::DrawFillRect(m_Renderer, cell->m_Rect, BLACK);
 	}
 }
+
+FH::Cell* FH::GridMapComponent::GetCell(int idx) const
+{
+	if (idx >= 0 && idx < static_cast<int>(m_Cells.size()))
+		return m_Cells[idx].get();
+	else
+		return nullptr;
+}

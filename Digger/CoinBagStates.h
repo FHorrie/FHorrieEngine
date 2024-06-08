@@ -28,9 +28,6 @@ namespace FH
 		MovingBagState(int prevCol, CoinBagComponent* component);
 		virtual ~MovingBagState() = default;
 		virtual void Update(CoinBagComponent* component) override;
-
-	private:
-		int m_PrevPlayerCol{};
 	};
 
 	class FallingBagState : public CoinBagState
@@ -41,7 +38,7 @@ namespace FH
 		virtual void Update(CoinBagComponent* component) override;
 
 	private:
-		float m_FallTime{1.8f};
+		float m_FallTime{1.2f};
 		float m_AccuFallTime{};
 
 		bool m_Notified{};

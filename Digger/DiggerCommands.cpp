@@ -39,11 +39,13 @@ void FH::MoveCommand::Execute()
 	m_pPlayer->SetNewCellTarget(col, row);
 }
 
-FH::AcceptCommand::AcceptCommand(GameObject* pGameObject)
+FH::AttackCommand::AttackCommand(GameObject* pGameObject)
 	: Command(pGameObject)
-{}
-
-void FH::AcceptCommand::Execute()
 {
-	
+	m_pPlayer = pGameObject->GetComponentOfType<PlayerComponent>();
+}
+
+void FH::AttackCommand::Execute()
+{
+	m_pPlayer->DefaultAttack();
 }

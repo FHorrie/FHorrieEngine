@@ -8,6 +8,8 @@ namespace FH
 	{
 	public:
 		virtual ~SoundBase() = default;
+		virtual void LoadSound(soundId newId, const std::string& path) = 0;
+		virtual void LoadSong(soundId newId, const std::string& path) = 0;
 		virtual void Play(soundId id, float volume) = 0;
 		virtual void PlaySong(soundId id, float volume, bool loop) = 0;
 		virtual void StopSong() = 0;
@@ -19,6 +21,8 @@ namespace FH
 	class NullSoundSystem : public SoundBase
 	{
 	public:
+		virtual void LoadSound(soundId newId, const std::string& path) { newId; path; }
+		virtual void LoadSong(soundId newId, const std::string& path) { newId; path; }
 		virtual void Play(soundId id, float volume) override { id; volume; }
 		virtual void PlaySong(soundId id, float volume, bool loop) override { id; volume; loop; }
 		virtual void StopSong() override {}

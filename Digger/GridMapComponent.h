@@ -46,10 +46,7 @@ namespace FH
 		int GetAmtRows() const { return m_CellRows; }
 		int GetAmtCols() const { return m_CellCols; }
 
-		Cell* GetCell(int idx) const 
-			{ return m_Cells[idx].get(); }
-		void SetCellVisited(int idx) 
-			{ m_Cells[idx]->m_IsVisited = true; }
+		Cell* GetCell(int idx) const;
 
 	private:
 		int m_CellRows{};
@@ -71,7 +68,7 @@ namespace FH
 		std::vector<std::unique_ptr<Cell>> m_Cells{};
 
 		utils::Color4f m_GridColor {200, 100, 0};
-		const utils::Color4f BLACK {0, 0, 0};
+		const utils::Color4f BLACK {10, 10, 0};
 	};
 }
 

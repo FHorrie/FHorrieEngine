@@ -24,7 +24,8 @@ namespace FH
 
 		GenData ParseLevelFile(std::string levelPath);
 
-		void MapControls(GameObject* controlledObj, GridMapComponent* pMap);
+		void MapControls(GameObject* controlledObj, GridMapComponent* pMap, 
+			bool useKeyboard = false, int controllerIdx = 0);
 
 		void LoadTextures();
 		void LoadSounds();

@@ -31,6 +31,12 @@
     <Filter Include="Game Files\Gems">
       <UniqueIdentifier>{19852d66-6b63-4f7d-8c60-60a1d71df1cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\Projectile">
+      <UniqueIdentifier>{b3007bd2-9934-4ee6-87ad-3bdb220f4a9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Display">
+      <UniqueIdentifier>{5ec21715-ef00-4c75-9f73-6bc5f5d847f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,9 +57,6 @@
     <ClCompile Include="CoinBagStates.cpp">
       <Filter>Game Files\CoinBag</Filter>
     </ClCompile>
-    <ClCompile Include="..\Minigin\PlayerComponent.cpp">
-      <Filter>Game Files\Player</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerTextureComponent.cpp">
       <Filter>Game Files\Player</Filter>
     </ClCompile>
@@ -62,6 +65,18 @@
     </ClCompile>
     <ClCompile Include="GemComponent.cpp">
       <Filter>Game Files\Gems</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectileComponent.cpp">
+      <Filter>Game Files\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreComponent.cpp">
+      <Filter>Game Files\Display</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerComponent.cpp">
+      <Filter>Game Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="LivesComponent.cpp">
+      <Filter>Game Files\Display</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,9 +98,6 @@
     <ClInclude Include="..\Minigin\Event.h">
       <Filter>Game Files\Events</Filter>
     </ClInclude>
-    <ClInclude Include="..\Minigin\PlayerComponent.h">
-      <Filter>Game Files\Player</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerTextureComponent.h">
       <Filter>Game Files\Player</Filter>
     </ClInclude>
@@ -94,6 +106,18 @@
     </ClInclude>
     <ClInclude Include="GemComponent.h">
       <Filter>Game Files\Gems</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileComponent.h">
+      <Filter>Game Files\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreComponent.h">
+      <Filter>Game Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerComponent.h">
+      <Filter>Game Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="LivesComponent.h">
+      <Filter>Game Files\Display</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

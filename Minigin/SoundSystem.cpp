@@ -42,25 +42,6 @@ private:
 
 FH::SoundSystem::SoundSystemImpl::SoundSystemImpl()
 {
-	const std::string data{ "../Data/" };
-
-	LoadSong("MainBGM", data + "Songs/Popcorn.mp3");
-
-	LoadSound("BagWiggle", data + "Sounds/BagWiggle.ogg");
-	LoadSound("BagBreak", data + "Sounds/BagBreak.ogg");
-	LoadSound("BagFall", data + "Sounds/BagFall.ogg");
-	LoadSound("CoinGrab", data + "Sounds/CoinGrab.ogg");
-
-	LoadSound("GemGrabBase", data + "Sounds/GemGrabBase.ogg");
-	LoadSound("GemGrab1", data + "Sounds/GemGrab1.ogg");
-	LoadSound("GemGrab2", data + "Sounds/GemGrab2.ogg");
-	LoadSound("GemGrab3", data + "Sounds/GemGrab3.ogg");
-	LoadSound("GemGrab4", data + "Sounds/GemGrab4.ogg");
-	LoadSound("GemGrab5", data + "Sounds/GemGrab5.ogg");
-	LoadSound("GemGrab6", data + "Sounds/GemGrab6.ogg");
-	LoadSound("GemGrab7", data + "Sounds/GemGrab7.ogg");
-	LoadSound("GemGrab8", data + "Sounds/GemGrab8.ogg");
-
 	m_SoundThread = std::jthread(&SoundSystemImpl::PlaySoundQueue, this);
 }
 
@@ -147,10 +128,10 @@ void FH::SoundSystem::SoundSystemImpl::PlaySoundQueue()
 			std::this_thread::yield();
 		else
 		{
-			std::lock_guard<std::mutex> lock{m_PlayMutex};
+			std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
 			auto soundInfo{ m_SoundEventQueue.front() };
 			m_SoundEventQueue.pop_front();
-
 			const auto sound{ m_SoundBible.find(soundInfo.first) };
 
 			Mix_VolumeChunk(sound->second, soundInfo.second);
@@ -169,6 +150,16 @@ FH::SoundSystem::~SoundSystem()
 {
 	delete m_pImpl;
 	m_pImpl = nullptr;
+}
+
+void FH::SoundSystem::LoadSound(soundId newId, const std::string& path)
+{
+	m_pImpl->LoadSound(newId, path);
+}
+
+void FH::SoundSystem::LoadSong(soundId newId, const std::string& path)
+{
+	m_pImpl->LoadSong(newId, path);
 }
 
 void FH::SoundSystem::Play(soundId id, float volume)

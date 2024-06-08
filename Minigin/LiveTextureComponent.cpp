@@ -21,23 +21,25 @@ void FH::LiveTextureComponent::Update()
 	if (m_Hidden || !m_WillLoop)
 		return;
 
-	m_AccuTime += Time::GetDeltaTime();
-	if (m_AccuTime > m_MaxTime)
+	if (m_AccuTime < m_MaxTime)
 	{
-		++m_CurrentSpriteIndex;
-		if (m_CurrentSpriteIndex >= m_MaxSpriteIndex)
-		{
-			if (!m_ShouldLoop)
-			{
-				m_WillLoop = false;
-				m_CurrentSpriteIndex = m_MaxSpriteIndex - 1;
-			}
-			else
-				m_CurrentSpriteIndex = 0;
-		}
-
-		m_AccuTime = 0.f;
+		m_AccuTime += Time::GetDeltaTime();
+		return;
 	}
+
+	++m_CurrentSpriteIndex;
+	if (m_CurrentSpriteIndex >= m_MaxSpriteIndex)
+	{
+		if (!m_ShouldLoop)
+		{
+			m_WillLoop = false;
+			m_CurrentSpriteIndex = m_MaxSpriteIndex - 1;
+		}
+		else
+			m_CurrentSpriteIndex = 0;
+	}
+
+	m_AccuTime = 0.f;
 }
 
 void FH::LiveTextureComponent::Render() const
@@ -60,8 +62,14 @@ void FH::LiveTextureComponent::AddSprite(const std::string& mapIdentifier)
 
 void FH::LiveTextureComponent::AddSprites(const std::vector<std::string>& mapIdentifiers)
 {
-	for (auto& mapIdentifier : mapIdentifiers)
-	{
+	for (const auto& mapIdentifier : mapIdentifiers)
 		AddSprite(mapIdentifier);
-	}
+}
+
+void FH::LiveTextureComponent::SetHidden(bool hidden)
+{
+	m_Hidden = hidden;
+	m_CurrentSpriteIndex = 0;
+	m_AccuTime = 0.f;
+	m_WillLoop = true;
 }

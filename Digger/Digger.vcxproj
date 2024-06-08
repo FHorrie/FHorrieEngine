@@ -199,20 +199,22 @@ xcopy "$(SolutionDir)Data\*.*" "$(OutputPath)..\Data\" /y /d /s</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Minigin\PlayerComponent.cpp" />
     <ClCompile Include="DiggerApp.cpp" />
     <ClCompile Include="DiggerCommands.cpp" />
     <ClCompile Include="GemComponent.cpp" />
     <ClCompile Include="GridMapComponent.cpp" />
+    <ClCompile Include="LivesComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CoinBagComponent.cpp" />
     <ClCompile Include="CoinBagStates.cpp" />
     <ClCompile Include="CoinBagTextureComponent.cpp" />
+    <ClCompile Include="PlayerComponent.cpp" />
     <ClCompile Include="PlayerTextureComponent.cpp" />
+    <ClCompile Include="ProjectileComponent.cpp" />
+    <ClCompile Include="ScoreComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\Event.h" />
-    <ClInclude Include="..\Minigin\PlayerComponent.h" />
     <ClInclude Include="DiggerApp.h" />
     <ClInclude Include="DiggerCommands.h" />
     <ClInclude Include="GemComponent.h" />
@@ -220,7 +222,11 @@ xcopy "$(SolutionDir)Data\*.*" "$(OutputPath)..\Data\" /y /d /s</Command>
     <ClInclude Include="CoinBagComponent.h" />
     <ClInclude Include="CoinBagStates.h" />
     <ClInclude Include="CoinBagTextureComponent.h" />
+    <ClInclude Include="LivesComponent.h" />
+    <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="PlayerTextureComponent.h" />
+    <ClInclude Include="ProjectileComponent.h" />
+    <ClInclude Include="ScoreComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

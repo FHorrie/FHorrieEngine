@@ -5,14 +5,15 @@
 #include "GameObject.h"
 #include "Subject.h"
 #include "Renderer.h"
-#include "../Digger/GridMapComponent.h"
 #include "FHTime.h"
 #include "SoundLocator.h"
+#include "GridMapComponent.h"
+#include "ProjectileComponent.h"
+#include "SceneManager.h"
 
 FH::PlayerComponent::PlayerComponent(GameObject* pOwner, GridMapComponent* pGridMap)
 	: Component{ pOwner }
 	, m_pGridMap{ pGridMap }
-	, m_pRenderer{ Renderer::GetInstance().GetSDLRenderer() }
 {}
 
 FH::PlayerComponent::PlayerComponent(GameObject* pOwner, int col, int row, 
@@ -33,24 +34,20 @@ void FH::PlayerComponent::Update()
 {
 	UpdatePos();
 	UpdateGemReward();
-}
-
-void FH::PlayerComponent::Render() const
-{
-	utils::RectFunctions::DrawRect(m_pRenderer, m_HitBox);
+	UpdateAttackTime();
+	Respawn();
 }
 
 void FH::PlayerComponent::UpdatePos()
 {
-	if (m_PreviousPos == m_DesiredPos)
+	if (m_PreviousPos == m_DesiredPos || m_IsDead)
 		return;
 
 	m_LerpFactor += (float)Time::GetDeltaTime() * m_LerpSpeed;
 
-	if (m_LerpFactor <= 1.f)
+	if (m_LerpFactor < 1.f)
 	{
 		m_CurrentPos = m_PreviousPos * (1 - m_LerpFactor) + m_DesiredPos * m_LerpFactor;
-		m_IsMoving = true;
 	}
 	else
 	{
@@ -75,27 +72,33 @@ FH::Cell* FH::PlayerComponent::GetCurrentCell()
 
 void FH::PlayerComponent::SetNewCellTarget(int col, int row)
 {
+	if (m_IsDead)
+		return;
+
+	m_ColDir = col - m_CurrentCol;
+	m_RowDir = row - m_CurrentRow;
+
+	if (!m_ColDir && !m_RowDir)
+		return;
+
 	auto* newCell{ m_pGridMap->GetCell(row * m_pGridMap->GetAmtCols() + col) };
 
-	const int colDiff{ col - m_CurrentCol };
-	const int rowDiff{ row - m_CurrentRow };
+	if (newCell == nullptr)
+		return;
 
-	if (colDiff > 0)
+	if (m_ColDir > 0)
 		Notify(GetOwner(), GameEvent::EVENT_PLAYER_MOVED_RIGHT);
-	else if(colDiff < 0)
+	else if(m_ColDir < 0)
 		Notify(GetOwner(), GameEvent::EVENT_PLAYER_MOVED_LEFT);
-	else if (rowDiff > 0)
+	else if (m_RowDir > 0)
 		Notify(GetOwner(), GameEvent::EVENT_PLAYER_MOVED_DOWN);
-	else if (rowDiff < 0)
+	else if (m_RowDir < 0)
 		Notify(GetOwner(), GameEvent::EVENT_PLAYER_MOVED_UP);
 
-	if (newCell->m_HasBag && rowDiff != 0)
+	if (newCell->m_HasBag && m_RowDir != 0)
 		return;
 
 	GetCurrentCell()->m_HasPlayer = false;
-
-	m_PreviousCol = m_CurrentCol;
-	m_PreviousRow = m_CurrentRow;
 
 	m_CurrentCol = col;
 	m_CurrentRow = row;
@@ -109,6 +112,39 @@ void FH::PlayerComponent::SetNewCellTarget(int col, int row)
 
 	newCell->m_HasPlayer = true;
 	newCell->m_IsVisited = true;
+
+	m_IsMoving = true;
+}
+
+void FH::PlayerComponent::SetCellPos(int col, int row)
+{
+	if (col < 0 || col > m_pGridMap->GetAmtCols() - 1)
+		throw std::exception("col out of range");
+	if (row < 0 || row > m_pGridMap->GetAmtRows() - 1)
+		throw std::exception("row out of range");
+
+	m_RespawnCol = col;
+	m_RespawnRow = row;
+
+	m_CurrentCol = col;
+	m_CurrentRow = row;
+
+	auto* cell{ m_pGridMap->GetCell(row * m_pGridMap->GetAmtCols() + col) };
+
+	const auto cellPos{ cell->m_Center };
+
+	m_PreviousPos = cellPos;
+	m_CurrentPos = cellPos;
+	m_DesiredPos = cellPos;
+
+	const glm::vec2 playerPos{ cellPos.x - m_HitBox.m_Width / 2,  cellPos.y - m_HitBox.m_Height / 2 };
+
+	m_HitBox.m_Left = playerPos.x;
+	m_HitBox.m_Bottom = playerPos.y;
+
+	GetOwner()->SetLocalPosition({ playerPos, 0 });
+
+	cell->m_IsVisited = true;
 }
 
 void FH::PlayerComponent::GainPoints(PointType type)
@@ -124,7 +160,7 @@ void FH::PlayerComponent::GainPoints(PointType type)
 		break;
 	case FH::PointType::CoinType:
 		m_Score += 500;
-		service.Play("CoinGrab", 0.3f);
+		service.Play("CoinGrab", 0.2f);
 		break;
 	case FH::PointType::EnemyKillType:
 		m_Score += 250;
@@ -133,6 +169,7 @@ void FH::PlayerComponent::GainPoints(PointType type)
 		break;
 	}
 
+	Notify(GetOwner(), GameEvent::EVENT_PLAYER_GAINED_POINTS);
 
 	std::cout << "NEW PLAYER SCORE: " + std::to_string(m_Score) << std::endl;
 }
@@ -161,56 +198,59 @@ void FH::PlayerComponent::UpdateGemReward()
 		m_GemStreak = 0;
 }
 
-void FH::PlayerComponent::DefaultAttack(GameObject* Target)
+void FH::PlayerComponent::UpdateAttackTime()
 {
-	if (!m_IsDead)
-	{
-		auto targetAttackComp = Target->GetComponentOfType<PlayerComponent>();
-
-		if (utils::RectFunctions::IsOverlapping(m_HitBox, targetAttackComp->GetHitBox()))
-		{
-			targetAttackComp->TakeDamage(1);
-		}
-	}
+	if(m_AccuAttackTime < m_AttackTime)
+		m_AccuAttackTime += Time::GetDeltaTime();
 }
 
-void FH::PlayerComponent::SetCellPos(int col, int row)
+void FH::PlayerComponent::DefaultAttack()
 {
-	if (col < 0 || col > m_pGridMap->GetAmtCols() - 1)
-		throw std::exception("col out of range");
-	if (row < 0 || row > m_pGridMap->GetAmtRows() - 1)
-		throw std::exception("row out of range");
+	if (m_AccuAttackTime < m_AttackTime || m_IsDead)
+		return;
 
-	m_CurrentCol = col;
-	m_CurrentRow = row;
+	auto fireObj = std::make_unique<FH::GameObject>();
+	fireObj->AddComponent(
+		std::make_unique<ProjectileComponent>(
+			fireObj.get(), m_CurrentCol, m_CurrentRow, glm::vec2(m_ColDir, m_RowDir), m_pGridMap, this));
 
-	const auto cellPos{ m_pGridMap->GetCell(row * m_pGridMap->GetAmtCols() + col)->m_Center };
+	SceneManager::GetInstance().GetCurrentScene()->Add(std::move(fireObj));
 
-	m_PreviousPos = cellPos;
-	m_CurrentPos = cellPos;
-	m_DesiredPos = cellPos;
+	SoundLocator::GetSoundService().Play("BallShot", 0.3f);
 
-	const glm::vec2 playerPos{ cellPos.x - m_HitBox.m_Width / 2,  cellPos.y - m_HitBox.m_Height / 2 };
-
-	m_HitBox.m_Left = playerPos.x;
-	m_HitBox.m_Bottom = playerPos.y;
-
-	GetOwner()->SetLocalPosition({ playerPos, 0 });
-
-	m_pGridMap->SetCellVisited(m_CurrentRow * m_pGridMap->GetAmtCols() + m_CurrentCol);
+	m_AccuAttackTime = 0;
 }
 
-void FH::PlayerComponent::TakeDamage(int damage)
+void FH::PlayerComponent::Die()
 {
-	if (!m_IsDead)
-	{
-		m_Lives -= damage;
+	m_IsDead = true;
+	--m_Lives;
 
-		if (m_Lives <= 0)
-		{
-			m_Lives = 0;
-			m_IsDead = true;
-		}
+	Notify(GetOwner(), GameEvent::EVENT_PLAYER_DIED);
+	SoundLocator::GetSoundService().Play("PlayerDied", 0.3f);
+	SoundLocator::GetSoundService().PlaySong("DeathBGM", 0.3f, false);
+}
+
+void FH::PlayerComponent::Respawn()
+{
+	if (!m_IsDead || m_Lives <= 0)
+		return;
+
+	if (m_AccuRespawnTime < m_RespawnTime)
+	{
+		m_AccuRespawnTime += Time::GetDeltaTime();
+		return;
 	}
+
+	SetCellPos(m_RespawnCol, m_RespawnRow);
+	Notify(GetOwner(), GameEvent::EVENT_PLAYER_MOVED_LEFT);
+	m_IsDead = false;
+	m_IsMoving = false;
+	m_LerpFactor = 0;
+	m_ColDir = -1;
+	m_RowDir = 0;
+	m_AccuRespawnTime = 0;
+
+	SoundLocator::GetSoundService().PlaySong("MainBGM", 0.4f, true);
 }
 

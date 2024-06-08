@@ -9,10 +9,16 @@ namespace FH
 	public:
 		static void RegisterSystem(std::unique_ptr<SoundBase> service);
 
-		static SoundBase& GetSoundService() { return *SERVICE.get(); }
+		static SoundBase& GetSoundService();
+
+		static void ToggleMute();
 
 	private:
+		inline static bool MUTED{};
+
 		inline static std::unique_ptr<SoundBase> SERVICE 
+			= std::make_unique<NullSoundSystem>();
+		inline static std::unique_ptr<SoundBase> MUTE_SERVICE
 			= std::make_unique<NullSoundSystem>();
 	};
 }

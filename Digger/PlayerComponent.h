@@ -1,5 +1,4 @@
 #pragma once
-#include <SDL.h>
 #include <glm/vec2.hpp>
 
 #include "Component.h"
@@ -30,7 +29,6 @@ namespace FH
 		PlayerComponent& operator=(PlayerComponent&& other) = delete;
 
 		void Update() override;
-		void Render() const override;
 
 		void UpdatePos();
 		void SetNewCellTarget(int col, int row);
@@ -39,21 +37,22 @@ namespace FH
 		void GainPoints(PointType type);
 		void GainGemReward();
 		void UpdateGemReward();
-		void DefaultAttack(GameObject* Target);
-		void TakeDamage(int damage);
+		void DefaultAttack();
+		void UpdateAttackTime();
+		void Die();
+		void Respawn();
 
 		utils::Rect GetHitBox() const { return m_HitBox; }
 		int GetCurrentCol() const { return m_CurrentCol; }
 		int GetCurrentRow() const { return m_CurrentRow; }
-		int GetPreviousCol() const { return m_PreviousCol; }
-		int GetPreviousRow() const { return m_PreviousRow; }
+		int GetColDirection() const { return m_ColDir; }
+		int GetRowDirection() const { return m_RowDir; }
 		Cell* GetCurrentCell();
 
 		int GetScore() const { return m_Score; }
 		int GetLives() const { return m_Lives; }
-		bool IsDead() const { return m_IsDead; }
 		bool IsMoving() const { return m_IsMoving; }
-
+		bool IsDead() const { return m_IsDead; }
 
 	private:
 		glm::vec2 m_PreviousPos{};
@@ -65,20 +64,30 @@ namespace FH
 
 		utils::Rect m_HitBox{ 0,0,16,16 };
 
-		int m_PreviousCol{};
-		int m_PreviousRow{};
+		int m_RespawnCol{};
+		int m_RespawnRow{};
+
 		int m_CurrentCol{};
 		int m_CurrentRow{};
 
-		int m_Score{};
+		int m_ColDir{-1};
+		int m_RowDir{};
+
+		inline static int m_Score{};
+
 		int m_GemStreak{};
 		float m_GemTime{ 2.f };
 		float m_AccuGemTime{};
 
-		int m_Lives{ 3 };
+		const float m_AttackTime{ 2.f };
+		float m_AccuAttackTime{};
+
+		const float m_RespawnTime{ 5.f };
+		float m_AccuRespawnTime{};
+
+		inline static int m_Lives{ 4 };
 		bool m_IsDead{};
 	
-		SDL_Renderer* m_pRenderer{};
 		GridMapComponent* m_pGridMap{};
 	};
 }

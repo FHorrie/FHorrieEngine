@@ -4,6 +4,7 @@
 
 #include "InputManager.h"
 #include "SceneManager.h"
+#include "SoundLocator.h"
 
 bool FH::InputManager::ProcessInput()
 {
@@ -13,8 +14,18 @@ bool FH::InputManager::ProcessInput()
 			return false;
 		}
 		if (e.type == SDL_KEYUP) {
-			if(e.key.keysym.sym == SDLK_F1)
+			if (e.key.keysym.sym == SDLK_F1)
+			{
+				SoundLocator::GetSoundService().PlaySong("MainBGM", 0.4f, true);
 				SceneManager::GetInstance().GoToNextScene();
+			}
+			if (e.key.keysym.sym == SDLK_F2)
+				SoundLocator::ToggleMute();
+			if (e.key.keysym.sym == SDLK_F3)
+			{
+				SoundLocator::GetSoundService().PlaySong("MainBGM", 0.4f, true);
+				SceneManager::GetInstance().GoToStartScene();
+			}
 		}
 		if (e.type == SDL_MOUSEBUTTONDOWN) {
 			

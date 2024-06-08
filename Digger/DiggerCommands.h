@@ -25,13 +25,16 @@ namespace FH
 		const int m_MaxRow{};
 	};
 
-	class AcceptCommand final : public Command
+	class AttackCommand final : public Command
 	{
 	public:
-		AcceptCommand(GameObject* pGameObject);
-		~AcceptCommand() = default;
+		AttackCommand(GameObject* pGameObject);
+		~AttackCommand() = default;
 
 		void Execute() override;
+	
+	private:
+		PlayerComponent* m_pPlayer{};
 	};
 }
 

@@ -39,8 +39,10 @@ namespace FH
 		Scene* CreateScene(const std::string& name);
 		void SwitchScenes(int idx);
 		void GoToNextScene();
+		void GoToStartScene();
 		int GetSceneCount() { return static_cast<int>(m_Scenes.size()); }
 		int GetCurrentSceneIdx() { return m_ActiveSceneIdx; }
+		Scene* GetCurrentScene() { return m_Scenes[m_ActiveSceneIdx].get(); }
 
 		void Update();
 		void Render();

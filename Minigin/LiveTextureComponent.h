@@ -26,8 +26,8 @@ namespace FH
 		void AddSprites(const std::vector<std::string>& mapIdentifiers);
 		void SetSpriteDisplayTime(float maxDisplayTime) { m_MaxTime = maxDisplayTime; }
 		void SetPosition(float x, float y) { m_Translate = glm::vec3(x, y, 0.0f); }
-		void SetHidden(bool hidden) { m_Hidden = hidden; }
 		void SetLoop(bool loop) { m_ShouldLoop = loop; }
+		void SetHidden(bool hidden);
 
 	private:
 		glm::vec3 m_Translate{};

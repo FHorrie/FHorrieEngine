@@ -27,5 +27,6 @@ namespace FH
 		LiveTextureComponent* m_MoveDownTex{};
 
 		TextureComponent* m_DeadTex{};
+		LiveTextureComponent* m_GraveStoneTex{};
 	};
 }

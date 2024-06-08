@@ -6,6 +6,18 @@ FH::LoggedSoundSystem::LoggedSoundSystem(SoundBase& wrappedSystem)
 	: m_WrappedSystem{ wrappedSystem }
 {}
 
+void FH::LoggedSoundSystem::LoadSound(soundId newId, const std::string& path)
+{
+	LogConsole("Loaded sound: " + path);
+	m_WrappedSystem.LoadSound(newId, path);
+}
+
+void FH::LoggedSoundSystem::LoadSong(soundId newId, const std::string& path)
+{
+	LogConsole("Loaded song: " + path);
+	m_WrappedSystem.LoadSong(newId, path);
+}
+
 void FH::LoggedSoundSystem::Play(soundId id, float volume)
 {
 	LogConsole(std::format("Playing single sound with id {} at {} volume", id, volume));

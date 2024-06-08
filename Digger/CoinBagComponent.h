@@ -1,5 +1,4 @@
 #pragma once
-#include <SDL.h>
 #include <glm/vec2.hpp>
 
 #include "CoinBagStates.h"
@@ -24,15 +23,14 @@ namespace FH
 		CoinBagComponent& operator=(CoinBagComponent&& other) = delete;
 
 		void Update() override;
-		void Render() const override;
+		void UpdatePos();
 
 		void SetState(std::unique_ptr<CoinBagState> state) { m_State = std::move(state); };
 		void StateNotify(GameEvent e) { Notify(GetOwner(), e); }
 
-		void UpdatePos();
-		void SetNewCellTarget(int col, int row);
 		Cell* GetCurrentCell();
 		Cell* GetNextCellDown();
+		void SetNewCellTarget(int col, int row);
 
 		utils::Rect GetHitBox() const { return m_HitBox; }
 		PlayerComponent* GetPlayer() const { return m_pPlayer; }
@@ -40,10 +38,9 @@ namespace FH
 		int GetCurrentRow() const { return m_CurrentRow; }
 
 		bool IsMoving() const { return m_IsMoving; }
-		void DestroyBag();
-
 
 	private:
+
 		glm::vec2 m_PreviousPos{};
 		glm::vec2 m_CurrentPos{};
 		glm::vec2 m_DesiredPos{};
@@ -57,7 +54,6 @@ namespace FH
 
 		std::unique_ptr<CoinBagState> m_State{ std::make_unique<IdleBagState>() };
 
-		SDL_Renderer* m_pRenderer{};
 		GridMapComponent* m_pGridMap{};
 		PlayerComponent* m_pPlayer{};
 	};

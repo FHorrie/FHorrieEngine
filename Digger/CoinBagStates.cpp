@@ -8,11 +8,10 @@
 
 void FH::IdleBagState::Update(CoinBagComponent* component)
 {
-	if (component->GetCurrentCell()->m_HasPlayer && 
-		component->GetCurrentRow() == component->GetPlayer()->GetPreviousRow())
+	if (component->GetCurrentCell()->m_HasPlayer && !component->GetPlayer()->GetRowDirection())
 	{
 		component->SetState(std::make_unique<MovingBagState>(
-			component->GetPlayer()->GetPreviousCol(), component));
+			component->GetPlayer()->GetColDirection(), component));
 		return;
 	}
 	else if (component->GetNextCellDown()->m_IsVisited)
@@ -22,10 +21,9 @@ void FH::IdleBagState::Update(CoinBagComponent* component)
 	}
 }
 
-FH::MovingBagState::MovingBagState(int prevCol, CoinBagComponent* component)
-	: m_PrevPlayerCol{ prevCol }
+FH::MovingBagState::MovingBagState(int colDir, CoinBagComponent* component)
 {
-	const int newCol{ component->GetCurrentCol() + (component->GetCurrentCol() - prevCol) };
+	const int newCol{ component->GetCurrentCol() + colDir };
 	component->SetNewCellTarget(newCol, component->GetCurrentRow());
 }
 
@@ -68,15 +66,18 @@ void FH::FallingBagState::Update(CoinBagComponent* component)
 			return;
 		}
 
+		if (nextCell->m_HasPlayer)
+		{
+			component->GetPlayer()->Die();
+		}
+
 		if (nextCell->m_IsVisited)
 		{
 			SoundLocator::GetSoundService().Play("BagFall", 0.3f);
-			component->SetNewCellTarget(component->GetCurrentCol(), component->GetCurrentRow() + 1);
+			component->SetNewCellTarget(nextCell->m_Col, nextCell->m_Row);
 		}
 		else
-		{
 			component->SetState(std::make_unique<ExposedBagState>(component));
-		}
 	}
 
 }

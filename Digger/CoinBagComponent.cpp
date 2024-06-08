@@ -14,7 +14,6 @@ FH::CoinBagComponent::CoinBagComponent(GameObject* pOwner, int col, int row,
 	, m_CurrentRow{ row }
 	, m_pGridMap{ pGridMap }
 	, m_pPlayer{ pPlayer }
-	, m_pRenderer{ Renderer::GetInstance().GetSDLRenderer() }
 {
 	if (col < 0 || col > m_pGridMap->GetAmtCols() - 1)
 		throw std::exception("col out of range");
@@ -30,22 +29,17 @@ FH::CoinBagComponent::CoinBagComponent(GameObject* pOwner, int col, int row,
 	m_DesiredPos = cellPos;
 
 
-	const glm::vec2 playerPos{ cellPos.x - m_HitBox.m_Width / 2,  cellPos.y - m_HitBox.m_Height / 2 };
+	const glm::vec2 bagPos{ cellPos.x - m_HitBox.m_Width / 2,  cellPos.y - m_HitBox.m_Height / 2 };
 
-	m_HitBox.m_Left = playerPos.x;
-	m_HitBox.m_Bottom = playerPos.y;
+	m_HitBox.m_Left = bagPos.x;
+	m_HitBox.m_Bottom = bagPos.y;
 
-	GetOwner()->SetLocalPosition({ playerPos, 0 });
+	pOwner->SetLocalPosition({ bagPos, 0 });
 }
 
 void FH::CoinBagComponent::Update()
 {
 	m_State->Update(this);
-}
-
-void FH::CoinBagComponent::Render() const
-{
-	//utils::RectFunctions::DrawRect(m_pRenderer, m_HitBox);
 }
 
 void FH::CoinBagComponent::UpdatePos()
@@ -91,7 +85,6 @@ FH::Cell* FH::CoinBagComponent::GetNextCellDown()
 
 void FH::CoinBagComponent::SetNewCellTarget(int col, int row)
 {
-
 	GetCurrentCell()->m_HasBag = false;
 	
 	m_CurrentCol = col;

@@ -45,9 +45,13 @@ void FH::SceneManager::GoToNextScene()
 		++m_ActiveSceneIdx;
 	else
 	{
-		m_ActiveSceneIdx = 0;
-		std::cout << "Final scene reached" << std::endl;
+		std::cout << "Final scene reached, use 'F3' to go back to scene 1" << std::endl;
 	}
+}
+
+void FH::SceneManager::GoToStartScene()
+{
+	m_ActiveSceneIdx = 0;
 }
 
 void FH::SceneManager::Scene::Add(std::unique_ptr<GameObject> pObject)
