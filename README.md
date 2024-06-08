@@ -1,4 +1,4 @@
-# FiniGin (Finian Horrie Engine)
+# FiniGin (FHorrie Engine)
 
 FiniGin is a 2D engine using [SDL2](https://www.libsdl.org/) and [glm](https://github.com/g-truc/glm) for c++ game projects. It contains the building blocks to create and maintain a 2D game. As an example, I made a version of Digger included with the engine
 
