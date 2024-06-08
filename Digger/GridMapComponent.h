@@ -10,6 +10,8 @@ namespace FH
 {
 	struct Cell
 	{
+		int m_Row{};
+		int m_Col{};
 		utils::Rect m_Rect{};
 		glm::vec2 m_Center{};
 
@@ -19,14 +21,21 @@ namespace FH
 		bool m_IsVisited = false;
 	};
 
+	struct GenData
+	{
+		std::vector<int> mapData{};
+		int mapRows{};
+		int mapCols{};
+	};
+
 	class GridMapComponent final : public Component
 	{
 	public:
 		void Render() const override;
 
-		GridMapComponent(GameObject* pOwner, int rows, int cols,
+		GridMapComponent(GameObject* pOwner, GenData genData,
 			float leftGrace = 0.f, float rightGrace = 0.f, float topGrace = 0.f, float bottomGrace = 0.f);
-		GridMapComponent(GameObject* pOwner, int rows, int cols, utils::Color4f gridColor,
+		GridMapComponent(GameObject* pOwner, GenData genData, utils::Color4f gridColor,
 			float leftGrace = 0.f, float rightGrace = 0.f, float topGrace = 0.f, float bottomGrace = 0.f);
 		virtual ~GridMapComponent() = default;
 		GridMapComponent(const GridMapComponent& other) = delete;
@@ -54,11 +63,15 @@ namespace FH
 		float m_TopGrace{};
 		float m_BottomGrace{};
 
+		float m_FullWidth{};
+		float m_FullHeight{};
+
 		SDL_Renderer* m_Renderer{};
 
 		std::vector<std::unique_ptr<Cell>> m_Cells{};
 
 		utils::Color4f m_GridColor {200, 100, 0};
+		const utils::Color4f BLACK {0, 0, 0};
 	};
 }
 

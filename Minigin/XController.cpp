@@ -2,6 +2,7 @@
 #pragma comment(lib, "Xinput.lib")
 #include <Xinput.h>
 #include "XController.h"
+#include <glm/exponential.hpp>
 
 class FH::XInputController::XInputControllerImpl
 {
@@ -27,6 +28,12 @@ private:
 
 	unsigned int m_ButtonsPressedThisFrame{};
 	unsigned int m_ButtonsReleasedThisFrame{};
+
+	float m_NormalizedLX{};
+	float m_NormalizedLY{};
+	float m_NormalizedRX{};
+	float m_NormalizedRY{};
+
 	int m_PlayerIdx;
 };
 
@@ -39,6 +46,20 @@ void FH::XInputController::XInputControllerImpl::CheckForInput()
 	CopyMemory(&m_PrevState, &m_CurrentState, sizeof(XINPUT_STATE));
 	ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
 	XInputGetState(m_PlayerIdx, &m_CurrentState);
+
+	float LX = m_CurrentState.Gamepad.sThumbLX;
+	float LY = m_CurrentState.Gamepad.sThumbLX;
+
+	float RX = m_CurrentState.Gamepad.sThumbRX;
+	float RY = m_CurrentState.Gamepad.sThumbRY;
+
+	float magnitudeL = glm::sqrt(LX*LX + LY+LY);
+	float magnitudeR = glm::sqrt(RX*RX + RY+RY);
+
+	m_NormalizedLX = LX / magnitudeL;
+	m_NormalizedLY = LY / magnitudeL;
+	m_NormalizedRX = RX / magnitudeR;
+	m_NormalizedRY = RY / magnitudeR;
 
 	auto buttonChanges = m_CurrentState.Gamepad.wButtons ^ m_PrevState.Gamepad.wButtons;
 	m_ButtonsPressedThisFrame = buttonChanges& m_CurrentState.Gamepad.wButtons;

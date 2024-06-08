@@ -2,29 +2,22 @@
 #include "GameObject.h"
 
 #include <algorithm>
+#include <iostream>
+#include <format>
 
 void FH::SceneManager::Update()
 {
-	for(auto& scene : m_scenes)
-	{
-		scene->Update();
-	}
+	m_Scenes[m_ActiveSceneIdx]->Update();
 }
 
 void FH::SceneManager::Render()
 {
-	for (const auto& scene : m_scenes)
-	{
-		scene->Render();
-	}
+	m_Scenes[m_ActiveSceneIdx]->Render();
 }
 
 void FH::SceneManager::RenderUI()
 {
-	for (const auto& scene : m_scenes)
-	{
-		scene->RenderUI();
-	}
+	m_Scenes[m_ActiveSceneIdx]->RenderUI();
 }
 
 FH::SceneManager::Scene* FH::SceneManager::CreateScene(const std::string& name)
@@ -32,10 +25,29 @@ FH::SceneManager::Scene* FH::SceneManager::CreateScene(const std::string& name)
 	auto scene = std::make_unique<Scene>(name);
 	auto* rawPtr = scene.get();
 
-	m_scenes.push_back(std::move(scene));
+	m_Scenes.push_back(std::move(scene));
 
 
 	return rawPtr;
+}
+
+void FH::SceneManager::SwitchScenes(int idx)
+{
+	if (idx >= 0 && idx < GetSceneCount())
+		m_ActiveSceneIdx = idx;
+	else
+		std::cerr << std::format("Scene with index {} does not exist", idx) << std::endl;
+}
+
+void FH::SceneManager::GoToNextScene()
+{
+	if (m_ActiveSceneIdx < GetSceneCount() - 1)
+		++m_ActiveSceneIdx;
+	else
+	{
+		m_ActiveSceneIdx = 0;
+		std::cout << "Final scene reached" << std::endl;
+	}
 }
 
 void FH::SceneManager::Scene::Add(std::unique_ptr<GameObject> pObject)

@@ -1,3 +1,6 @@
+#include <iostream>
+#include <fstream>
+
 #include "DiggerApp.h"
 #include "Minigin.h"
 #include "ResourceManager.h"
@@ -11,7 +14,6 @@
 #include "PlayerHUD.h"
 #include "SoundLocator.h"
 #include "SoundSystem.h"
-#include "GridMapComponent.h"
 #include "CoinBagComponent.h"
 #include "CoinBagTextureComponent.h"
 #include "GemComponent.h"
@@ -19,106 +21,175 @@
 void FH::DiggerApp::Run()
 {
 	FH::Minigin engine("../Data/");
-	engine.Run([this]() { this->MakeDiggerScene(); });
+	engine.Run([this]() { this->MakeDiggerGame(); });
 }
 
-void FH::DiggerApp::MakeDiggerScene()
+void FH::DiggerApp::MakeDiggerGame()
 {
 	LoadTextures();
 	LoadSounds();
 
-	auto* scene = FH::SceneManager::GetInstance().CreateScene("Demo");
-
-	auto backgroundObj = std::make_unique<FH::GameObject>();
-	const auto pMap{ backgroundObj->AddComponent(std::make_unique<FH::GridMapComponent>(backgroundObj.get(),
-		10, 15, 10.f, 10.f, 20.f, 0.f)).pComponent };
-
-	auto fpsObj = std::make_unique<FH::GameObject>();
-	fpsObj->AddComponent(std::make_unique<FH::FPSCounter>(fpsObj.get(), 12));
-
-
-	auto digger{ std::make_unique<FH::GameObject>() };
-	auto* pPlayerComp{ static_cast<PlayerComponent*>(
-		digger->AddComponent(std::make_unique<FH::PlayerComponent>(digger.get(), 1, 1, pMap)).pComponent) };
-
-	digger->AddComponent(std::make_unique<FH::PlayerTextureComponent>(digger.get(), pPlayerComp));
-
-
-	auto moveUpController{ std::make_unique<FH::Action>(
-		std::make_unique<FH::MoveCommand>(digger.get(), glm::vec2(0.f, -1.f), pMap)) };
-	auto moveDownController{ std::make_unique<FH::Action>(
-		std::make_unique<FH::MoveCommand>(digger.get(), glm::vec2(0.f, 1.f), pMap)) };
-	auto moveLeftController{ std::make_unique<FH::Action>(
-		std::make_unique<FH::MoveCommand>(digger.get(), glm::vec2(-1.f, 0.f), pMap)) };
-	auto moveRightController{ std::make_unique<FH::Action>(
-		std::make_unique<FH::MoveCommand>(digger.get(), glm::vec2(1.f, 0.f), pMap)) };
-	auto acceptController{ std::make_unique<FH::Action>(
-		std::make_unique<FH::AcceptCommand>(digger.get())) };
-
-	auto controllerActionMapping{ std::make_unique<FH::InputMapping>() };
-	controllerActionMapping->BindAction(moveUpController, 
-		{ std::make_pair(FH::Inputs::dPadUp, FH::InputType::buttonPressed) }, { SDL_SCANCODE_UP });
-	controllerActionMapping->BindAction(moveDownController, 
-		{ std::make_pair(FH::Inputs::dPadDown, FH::InputType::buttonPressed) }, { SDL_SCANCODE_DOWN });
-	controllerActionMapping->BindAction(moveLeftController, 
-		{ std::make_pair(FH::Inputs::dPadLeft, FH::InputType::buttonPressed) }, { SDL_SCANCODE_LEFT });
-	controllerActionMapping->BindAction(moveRightController, 
-		{ std::make_pair(FH::Inputs::dPadRight, FH::InputType::buttonPressed) }, { SDL_SCANCODE_RIGHT });
-	controllerActionMapping->BindAction(acceptController, 
-		{ std::make_pair(FH::Inputs::startButton, FH::InputType::buttonReleased) }, {});
-
-	auto controller{ std::make_unique<FH::Controller>() };
-	controller->StoreInputMapping(controllerActionMapping);
-	controller->BindToControllerDevice(0);
-
-	FH::InputManager::GetInstance().AddController(controller);
-
-	auto moneyBag{ std::make_unique<FH::GameObject>() };
-	auto* pCoinBagComp{ static_cast<CoinBagComponent*>(
-		moneyBag->AddComponent(std::make_unique<FH::CoinBagComponent>(moneyBag.get(), 2, 3, pMap, pPlayerComp)).pComponent) };
-	moneyBag->AddComponent(std::make_unique<FH::CoinBagTextureComponent>(moneyBag.get(), pCoinBagComp));
-
-	auto gems{ std::make_unique<FH::GameObject>() };
-	gems->AddComponent(std::make_unique<FH::GemComponent>(gems.get(), 4, 3, pMap, pPlayerComp));
-	gems->AddComponent(std::make_unique<FH::GemComponent>(gems.get(), 5, 3, pMap, pPlayerComp));
-	gems->AddComponent(std::make_unique<FH::GemComponent>(gems.get(), 6, 3, pMap, pPlayerComp));
-	gems->AddComponent(std::make_unique<FH::GemComponent>(gems.get(), 7, 3, pMap, pPlayerComp));
-	gems->AddComponent(std::make_unique<FH::GemComponent>(gems.get(), 8, 3, pMap, pPlayerComp));
-	gems->AddComponent(std::make_unique<FH::GemComponent>(gems.get(), 9, 3, pMap, pPlayerComp));
-	gems->AddComponent(std::make_unique<FH::GemComponent>(gems.get(), 10, 3, pMap, pPlayerComp));
-	gems->AddComponent(std::make_unique<FH::GemComponent>(gems.get(), 11, 3, pMap, pPlayerComp));
-	gems->AddComponent(std::make_unique<FH::GemComponent>(gems.get(), 4, 4, pMap, pPlayerComp));
-	gems->AddComponent(std::make_unique<FH::GemComponent>(gems.get(), 5, 4, pMap, pPlayerComp));
-	gems->AddComponent(std::make_unique<FH::GemComponent>(gems.get(), 6, 4, pMap, pPlayerComp));
-	gems->AddComponent(std::make_unique<FH::GemComponent>(gems.get(), 7, 4, pMap, pPlayerComp));
-	gems->AddComponent(std::make_unique<FH::GemComponent>(gems.get(), 8, 4, pMap, pPlayerComp));
-	gems->AddComponent(std::make_unique<FH::GemComponent>(gems.get(), 9, 4, pMap, pPlayerComp));
-	gems->AddComponent(std::make_unique<FH::GemComponent>(gems.get(), 10, 4, pMap, pPlayerComp));
-	gems->AddComponent(std::make_unique<FH::GemComponent>(gems.get(), 11, 4, pMap, pPlayerComp));
-
-
-	//auto controlsHelp{ std::make_unique<FH::GameObject>() };
-	//controlsHelp->SetLocalPosition(glm::vec3(10.f, 50.f, 0.f));
-	//controlsHelp->AddComponent(std::make_unique<FH::TextComponent>(controlsHelp.get(), "Use the D-Pad to move", 0.f, 0.f, 18));
-	//controlsHelp->AddComponent(std::make_unique<FH::TextComponent>(controlsHelp.get(), "Press START for teleport sound effect", 0.f, 20.f, 18));
-	//
-	//auto diggerHUD{ std::make_unique<FH::GameObject>() };
-	//diggerHUD->SetLocalPosition(glm::vec3(10.f, 300.f, 0.f));
-	//diggerHUD->AddComponent(std::make_unique<FH::PlayerHUD>(diggerHUD.get()));
-
-	scene->Add(std::move(fpsObj));
-	scene->Add(std::move(backgroundObj));
-	scene->Add(std::move(digger));
-	scene->Add(std::move(moneyBag));
-	scene->Add(std::move(gems));
+	CreateLevel("Level1Data");
+	CreateLevel("Level2Data");
+	CreateLevel("Level3Data");
+	CreateLevel("Level4Data");
 
 	auto& service{ SoundLocator::GetSoundService() };
 	service.PlaySong("MainBGM", 0.4f, true);
 }
 
+void FH::DiggerApp::CreateLevel(std::string levelPath)
+{
+	auto gridData = ParseLevelFile(levelPath);
+
+	auto* levelScene = FH::SceneManager::GetInstance().CreateScene("Level" + std::to_string(m_LevelIdx + 1));
+
+	auto mapObj = std::make_unique<FH::GameObject>();
+	auto* pMap{ 
+		static_cast<GridMapComponent*>(
+		mapObj->AddComponent(std::make_unique<FH::GridMapComponent>(mapObj.get(), gridData, mapColors[m_LevelIdx % COLORAMOUNT],
+		10.f, 10.f, 20.f, 0.f)).pComponent) 
+	};
+
+	auto digger{ std::make_unique<FH::GameObject>() };
+	auto* pPlayerComp{ 
+		static_cast<PlayerComponent*>(
+		digger->AddComponent(std::make_unique<FH::PlayerComponent>(digger.get(), pMap)).pComponent) 
+	};
+	digger->AddComponent(std::make_unique<FH::PlayerTextureComponent>(digger.get(), pPlayerComp));
+
+	MapControls(digger.get(), pMap);
+
+	levelScene->Add(std::move(mapObj));
+	levelScene->Add(std::move(digger));
+
+	for (int i{}; i < static_cast<int>(gridData.mapData.size()); ++i)
+	{
+		auto* cell = pMap->GetCell(i);
+
+		if (cell->m_HasBag)
+		{
+			auto moneyBag{ std::make_unique<FH::GameObject>() };
+			auto* pCoinBagComp{ 
+				static_cast<CoinBagComponent*>(moneyBag->AddComponent(std::make_unique<FH::CoinBagComponent>(
+					moneyBag.get(), cell->m_Col, cell->m_Row, pMap, pPlayerComp)).pComponent)
+			};
+			moneyBag->AddComponent(std::make_unique<FH::CoinBagTextureComponent>(moneyBag.get(), pCoinBagComp));
+
+			levelScene->Add(std::move(moneyBag));
+			continue;
+		}
+
+		if (cell->m_HasGem)
+		{
+			auto gem{ std::make_unique<FH::GameObject>() };
+			gem->AddComponent(std::make_unique<FH::GemComponent>(gem.get(), cell->m_Col, cell->m_Row, pMap, pPlayerComp));
+
+			levelScene->Add(std::move(gem));
+			continue;
+		}
+
+		if (cell->m_HasPlayer)
+		{
+			pPlayerComp->SetCellPos(cell->m_Col, cell->m_Row);
+			continue;
+		}
+	}
+	++m_LevelIdx;
+}
+
+FH::GenData FH::DiggerApp::ParseLevelFile(std::string levelPath)
+{
+	std::ifstream dataFile{ "../Data/Levels/" + levelPath + ".txt" };
+
+	if (!dataFile)
+		throw std::runtime_error("Could not find level file!");
+
+	std::vector<int> mapGen{};
+	int cols{};
+	int rows{};
+
+	while (!dataFile.eof())
+	{
+		std::string rowData{};
+		std::getline(dataFile, rowData, '\n');
+
+		//Skip Comment or empty line
+		if (rowData.find('#') != std::string::npos || rowData.empty())
+			continue;
+
+		for (int i{}; i < static_cast<int>(rowData.size()); ++i)
+		{
+			char rowChar = rowData[i];
+
+			switch (rowChar)
+			{
+			case 'E':
+				mapGen.push_back(0);
+				break;
+			case 'V':
+				mapGen.push_back(1);
+				break;
+			case 'M':
+				mapGen.push_back(2);
+				break;
+			case 'G':
+				mapGen.push_back(3);
+				break;
+			case 'P':
+				mapGen.push_back(4);
+				break;
+			default:
+				break;
+			}
+		}
+
+		++rows;
+		cols = static_cast<int>(rowData.size());
+	}
+
+	if (rows * cols == static_cast<int>(mapGen.size()))
+		return { mapGen, rows, cols };
+	else
+		throw std::runtime_error("Level file had a faulty format!");
+}
+
+void FH::DiggerApp::MapControls(GameObject* controlledObj, GridMapComponent* pMap)
+{
+	auto moveUpController{ std::make_unique<FH::Action>(
+		std::make_unique<FH::MoveCommand>(controlledObj, glm::vec2(0.f, -1.f), pMap)) };
+	auto moveDownController{ std::make_unique<FH::Action>(
+		std::make_unique<FH::MoveCommand>(controlledObj, glm::vec2(0.f, 1.f), pMap)) };
+	auto moveLeftController{ std::make_unique<FH::Action>(
+		std::make_unique<FH::MoveCommand>(controlledObj, glm::vec2(-1.f, 0.f), pMap)) };
+	auto moveRightController{ std::make_unique<FH::Action>(
+		std::make_unique<FH::MoveCommand>(controlledObj, glm::vec2(1.f, 0.f), pMap)) };
+	auto acceptController{ std::make_unique<FH::Action>(
+		std::make_unique<FH::AcceptCommand>(controlledObj)) };
+
+	auto controllerActionMapping{ std::make_unique<FH::InputMapping>() };
+	controllerActionMapping->BindAction(moveUpController,
+		{ std::make_pair(FH::Inputs::dPadUp, FH::InputType::buttonPressed) }, { SDL_SCANCODE_UP });
+	controllerActionMapping->BindAction(moveDownController,
+		{ std::make_pair(FH::Inputs::dPadDown, FH::InputType::buttonPressed) }, { SDL_SCANCODE_DOWN });
+	controllerActionMapping->BindAction(moveLeftController,
+		{ std::make_pair(FH::Inputs::dPadLeft, FH::InputType::buttonPressed) }, { SDL_SCANCODE_LEFT });
+	controllerActionMapping->BindAction(moveRightController,
+		{ std::make_pair(FH::Inputs::dPadRight, FH::InputType::buttonPressed) }, { SDL_SCANCODE_RIGHT });
+	controllerActionMapping->BindAction(acceptController,
+		{ std::make_pair(FH::Inputs::startButton, FH::InputType::buttonReleased) }, { });
+
+	auto controller{ std::make_unique<FH::Controller>() };
+	controller->StoreInputMapping(controllerActionMapping);
+	controller->BindToControllerDevice(0);
+
+	InputManager::GetInstance().AddController(controller);
+}
+
 void FH::DiggerApp::LoadTextures()
 {
 	auto& resourceManager{ FH::ResourceManager::GetInstance() };
+
 	/////////////////////
 	// Digger Textures //
 	resourceManager.LoadTexture("DiggerSprites/LEFTDIG1.png", "LeftDig1");

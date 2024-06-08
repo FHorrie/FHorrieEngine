@@ -9,34 +9,17 @@
 #include "FHTime.h"
 #include "SoundLocator.h"
 
+FH::PlayerComponent::PlayerComponent(GameObject* pOwner, GridMapComponent* pGridMap)
+	: Component{ pOwner }
+	, m_pGridMap{ pGridMap }
+	, m_pRenderer{ Renderer::GetInstance().GetSDLRenderer() }
+{}
+
 FH::PlayerComponent::PlayerComponent(GameObject* pOwner, int col, int row, 
 	GridMapComponent* pGridMap)
-	: Component{ pOwner }
-	, m_CurrentCol{ col }
-	, m_CurrentRow{ row }
-	, m_pGridMap{ pGridMap }
+	: PlayerComponent(pOwner, pGridMap)
 {
-	m_pRenderer = Renderer::GetInstance().GetSDLRenderer();
-
-	if (col < 0 || col > m_pGridMap->GetAmtCols() - 1)
-		throw std::exception("col out of range");
-	if (row < 0 || row > m_pGridMap->GetAmtRows() - 1)
-		throw std::exception("row out of range");
-
-	m_pGridMap->SetCellVisited(m_CurrentRow * m_pGridMap->GetAmtCols() + m_CurrentCol);
-
-	const auto cellPos{ m_pGridMap->GetCell(m_CurrentRow * m_pGridMap->GetAmtCols() + m_CurrentCol)->m_Center };
-
-	m_PreviousPos = cellPos;
-	m_CurrentPos = cellPos;
-	m_DesiredPos = cellPos;
-
-	const glm::vec2 playerPos{ cellPos.x - m_HitBox.m_Width / 2,  cellPos.y - m_HitBox.m_Height / 2 };
-
-	m_HitBox.m_Left = playerPos.x;
-	m_HitBox.m_Bottom = playerPos.y;
-
-	GetOwner()->SetLocalPosition({ playerPos, 0 });
+	SetCellPos(col, row);
 }
 
 FH::PlayerComponent::PlayerComponent(GameObject* pOwner, int col, int row, int lives,
@@ -93,7 +76,6 @@ FH::Cell* FH::PlayerComponent::GetCurrentCell()
 void FH::PlayerComponent::SetNewCellTarget(int col, int row)
 {
 	auto* newCell{ m_pGridMap->GetCell(row * m_pGridMap->GetAmtCols() + col) };
-
 
 	const int colDiff{ col - m_CurrentCol };
 	const int rowDiff{ row - m_CurrentRow };
@@ -190,6 +172,32 @@ void FH::PlayerComponent::DefaultAttack(GameObject* Target)
 			targetAttackComp->TakeDamage(1);
 		}
 	}
+}
+
+void FH::PlayerComponent::SetCellPos(int col, int row)
+{
+	if (col < 0 || col > m_pGridMap->GetAmtCols() - 1)
+		throw std::exception("col out of range");
+	if (row < 0 || row > m_pGridMap->GetAmtRows() - 1)
+		throw std::exception("row out of range");
+
+	m_CurrentCol = col;
+	m_CurrentRow = row;
+
+	const auto cellPos{ m_pGridMap->GetCell(row * m_pGridMap->GetAmtCols() + col)->m_Center };
+
+	m_PreviousPos = cellPos;
+	m_CurrentPos = cellPos;
+	m_DesiredPos = cellPos;
+
+	const glm::vec2 playerPos{ cellPos.x - m_HitBox.m_Width / 2,  cellPos.y - m_HitBox.m_Height / 2 };
+
+	m_HitBox.m_Left = playerPos.x;
+	m_HitBox.m_Bottom = playerPos.y;
+
+	GetOwner()->SetLocalPosition({ playerPos, 0 });
+
+	m_pGridMap->SetCellVisited(m_CurrentRow * m_pGridMap->GetAmtCols() + m_CurrentCol);
 }
 
 void FH::PlayerComponent::TakeDamage(int damage)

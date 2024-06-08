@@ -12,18 +12,27 @@ namespace FH
 		rightBumper,
 		stickLeft,
 		stickRight,
+		dPadUp,
 		dPadDown,
 		dPadRight,
 		dPadLeft,
-		dPadUp,
-		startButton
+		startButton,
+		leftStickUp,
+		leftStickDown,
+		leftStickRight,
+		leftStickLeft,
+		rightStickUp,
+		rightStickDown,
+		rightStickRight,
+		rightStickLeft,
 	};
 
 	enum class InputType
 	{
 		buttonPressed,
 		buttonDown,
-		buttonReleased
+		buttonReleased,
+		stick
 	};
 
 	class BaseInputDevice abstract

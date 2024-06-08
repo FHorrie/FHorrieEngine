@@ -3,6 +3,7 @@
 #include <Xinput.h>
 
 #include "InputManager.h"
+#include "SceneManager.h"
 
 bool FH::InputManager::ProcessInput()
 {
@@ -11,8 +12,9 @@ bool FH::InputManager::ProcessInput()
 		if (e.type == SDL_QUIT) {
 			return false;
 		}
-		if (e.type == SDL_KEYDOWN) {
-			
+		if (e.type == SDL_KEYUP) {
+			if(e.key.keysym.sym == SDLK_F1)
+				SceneManager::GetInstance().GoToNextScene();
 		}
 		if (e.type == SDL_MOUSEBUTTONDOWN) {
 			
@@ -21,11 +23,10 @@ bool FH::InputManager::ProcessInput()
 		//ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
-	for (auto& controller : m_Controllers)
-		controller->ProcessKeyboardInput();
+	int sceneIdx{ SceneManager::GetInstance().GetCurrentSceneIdx() };
 
-	for (auto& controller : m_Controllers)
-		controller->ProcessControllerInput();
+	m_Controllers[sceneIdx]->ProcessKeyboardInput();
+	m_Controllers[sceneIdx]->ProcessControllerInput();
 
 	return true;
 }

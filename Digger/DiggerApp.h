@@ -1,8 +1,11 @@
 #pragma once
 #include "Scene.h"
+#include "GridMapComponent.h"
+#include "GeoStructs.h"
 
 namespace FH
 {
+	class GameObject;
 	class DiggerApp final
 	{
 	public:
@@ -16,9 +19,27 @@ namespace FH
 		void Run();
 
 	private:
-		void MakeDiggerScene();
+		void MakeDiggerGame();
+		void CreateLevel(std::string levelPath);
+
+		GenData ParseLevelFile(std::string levelPath);
+
+		void MapControls(GameObject* controlledObj, GridMapComponent* pMap);
+
 		void LoadTextures();
 		void LoadSounds();
+
+		int m_LevelIdx{};
+
+		static constexpr int COLORAMOUNT{ 4 };
+
+		const utils::Color4f mapColors[COLORAMOUNT]{
+			utils::Color4f(255, 200, 50), 
+			utils::Color4f(100, 200, 100),
+			utils::Color4f(200, 50, 50),
+			utils::Color4f(100, 200, 50)
+		};
+
 	};
 }
 

@@ -29,20 +29,18 @@ namespace FH
 			void Render() const;
 			void RenderUI();
 
-			void ActivateScene() { m_IsActive = true; }
-			void DeactivateScene() { m_IsActive = false; }
-
-			bool GetScene() { return m_IsActive; }
-
 		private:
 			std::string m_Name;
 			std::vector<std::unique_ptr<GameObject>> m_pObjects{};
 			
-			bool m_IsActive{ false };
 		};
 
 	public:
 		Scene* CreateScene(const std::string& name);
+		void SwitchScenes(int idx);
+		void GoToNextScene();
+		int GetSceneCount() { return static_cast<int>(m_Scenes.size()); }
+		int GetCurrentSceneIdx() { return m_ActiveSceneIdx; }
 
 		void Update();
 		void Render();
@@ -51,6 +49,7 @@ namespace FH
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
-		std::vector<std::unique_ptr<Scene>> m_scenes;
+		std::vector<std::unique_ptr<Scene>> m_Scenes;
+		int m_ActiveSceneIdx{};
 	};
 }

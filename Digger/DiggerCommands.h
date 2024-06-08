@@ -1,4 +1,6 @@
 #pragma once
+#include <glm/vec2.hpp>
+
 #include "Command.h"
 #include "PlayerComponent.h"
 

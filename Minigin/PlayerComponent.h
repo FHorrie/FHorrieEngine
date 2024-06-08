@@ -20,6 +20,7 @@ namespace FH
 	class PlayerComponent : public Component, public Subject
 	{
 	public:
+		PlayerComponent(GameObject* pOwner, GridMapComponent* gridMap);
 		PlayerComponent(GameObject* pOwner, int col, int row, GridMapComponent* gridMap);
 		PlayerComponent(GameObject* pOwner, int col, int row, int lives, GridMapComponent* gridMap);
 		virtual ~PlayerComponent() = default;
@@ -33,6 +34,7 @@ namespace FH
 
 		void UpdatePos();
 		void SetNewCellTarget(int col, int row);
+		void SetCellPos(int col, int row);
 
 		void GainPoints(PointType type);
 		void GainGemReward();

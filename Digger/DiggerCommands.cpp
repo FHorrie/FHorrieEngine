@@ -45,6 +45,5 @@ FH::AcceptCommand::AcceptCommand(GameObject* pGameObject)
 
 void FH::AcceptCommand::Execute()
 {
-	auto& service{ SoundLocator::GetSoundService() };
-	service.Play("Teleport", 0.3f);
+	
 }
